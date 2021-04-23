@@ -15,6 +15,8 @@ for dname in os.listdir(p):
 
 def join(path):
     dirres = path + "res/"
+    for fname in os.listdir(dirres):
+        os.remove(dirres+fname)
 
     for dname in os.listdir(path):
 	    if dname[:4].lower() == "data":
@@ -28,3 +30,4 @@ def join(path):
 
 def test():
     print(os.getcwd() + "/")
+    
