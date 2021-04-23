@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.univtln.univTlnLPS">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.type.watch" />
+    <!--
+          Permissions requises pour effectuer un scan de wifi,
+          d'après https://developer.android.com/guide/topics/connectivity/wifi-scan
+    -->
+    <!-- todo: ajout demande permission localisation pour l'utilisateur -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/logo_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ProjetM1GPS"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ihm.AjoutDataOrConsulterData"></activity>
+        <activity android:name=".ihm.SeConnecter" />
+        <activity android:name=".ihm.AjoutDataPourSalle" />
+        <activity
+            android:name=".ihm.MainActivity"
+            android:label="@string/title_activity_main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ihm.AffichageDonneesSalle" />
+        <activity android:name=".ihm.SeLocaliser" />
+        <activity android:name=".ihm.AffichageSalles" />
+        <activity android:name=".ihm.AjoutData" />
+    </application>
+
+</manifest>
