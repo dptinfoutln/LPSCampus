@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(staticName = "of")
 @Getter
 @Setter
 @SuperBuilder

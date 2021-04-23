@@ -1,6 +1,6 @@
 package com.univtln.univTlnLPS.Administration.resources;
 
-import com.univtln.univTlnLPS.Carte.Campus;
+import com.univtln.univTlnLPS.Carte.model.Campus;
 import org.apache.tapestry5.annotations.Path;
 
 import javax.xml.bind.annotation.XmlRootElement;

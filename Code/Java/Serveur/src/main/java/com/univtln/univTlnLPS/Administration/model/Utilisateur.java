@@ -1,6 +1,6 @@
 package com.univtln.univTlnLPS.Administration.model;
 
-import com.univtln.univTlnLPS.Scan.ScanData;
+import com.univtln.univTlnLPS.Scan.model.ScanData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(staticName = "of")
 @Getter
 @Setter
 @SuperBuilder
