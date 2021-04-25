@@ -242,7 +242,7 @@ def create_RandomForestClassifier(x_train, x_test, y_train, y_test):
 
 def get_efficiency(model):
     somme = 0
-    nb = 1
+    nb = 20
 
     for i in range(nb):
         somme += model.score(x_test, y_test)
@@ -284,7 +284,13 @@ def init():
     
     model_data_csv = data_organizer(scanMan)['level']
     x_train, x_test, y_train, y_test = data_separator(model_data_csv)
-    print("Test Modele RandomForest :")
+    
+    print("Test Knn :")
+    model = create_KNeighborsClassifier(x_train, x_test, y_train, y_test)
+    get_efficiency(model)
+    
+    
+    print("Test random forest :")
     model = create_RandomForestClassifier(x_train, x_test, y_train, y_test)
     get_efficiency(model)
     
