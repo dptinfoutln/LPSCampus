@@ -5,7 +5,7 @@ import jakarta.ws.rs.NotFoundException;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 
-public class WifiData {
+public class WifiDataResources {
 
 
     private static long lastId = 0;

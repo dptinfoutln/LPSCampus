@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.Image;
 
 @AllArgsConstructor
-@NoArgsConstructor(staticName = "of")
+@NoArgsConstructor
 @Getter
 @Setter
 @Builder

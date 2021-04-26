@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @AllArgsConstructor
-@NoArgsConstructor(staticName = "of")
+@NoArgsConstructor
 @Getter
 @Setter
 @SuperBuilder
@@ -24,4 +24,6 @@ public class Utilisateur {
     private ScanData scan = null;
     //@Id @GeneratedValue
     private long id;
+
+
 }

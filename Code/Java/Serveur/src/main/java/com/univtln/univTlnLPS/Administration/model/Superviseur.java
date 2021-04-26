@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @AllArgsConstructor
-@NoArgsConstructor(staticName = "of")
+@NoArgsConstructor
 @Getter
 @Setter
 @SuperBuilder
@@ -20,6 +20,4 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Superviseur extends Utilisateur {
     private String loginHash;
     private String passwordHash;
-    //@Id @GeneratedValue
-    private long id;
 }
