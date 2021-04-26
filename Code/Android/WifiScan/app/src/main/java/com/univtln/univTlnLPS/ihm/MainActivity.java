@@ -26,4 +26,9 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, SeConnecter.class);
         startActivity(i);
     }
+
+    public void onClickDevenirSuperviseur(View V) {
+        Intent i = new Intent(this, DevenirSuperviseur.class);
+        startActivity(i);
+    }
 }
