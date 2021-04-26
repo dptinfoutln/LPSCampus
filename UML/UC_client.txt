@@ -1,0 +1,40 @@
+@startuml
+
+title Local Positioning System (LPS) - Use Case Diagram Client
+left to right direction
+
+actor :Admin:
+
+actor :Utilisateur: as User
+'                    se connecte
+
+actor :Superviseur: as Super
+
+Admin -> Super
+Super -> User
+
+Admin -- (Visualiser une donnée)
+(Visualiser une donnée) -- [ServeurSGBD]
+
+Admin -- (Supprimer une donnée d'un superviseur)
+(Supprimer une donnée d'un superviseur) -- [ServeurSGBD]
+
+Super -- (Ajouter une donnée pour une salle)
+(Ajouter une donnée pour une salle) -- [ServeurSGBD]
+
+Super -- (Supprimer une de ses données)
+(Supprimer une de ses données) -- [ServeurSGBD]
+
+Super -- (Se connecter)
+(Se connecter) -- [ServeurSGBD]
+
+User -- (Se localiser)
+(Se localiser) -- [ServeurModele]
+
+User -- (Reporter un problème) 
+(Reporter un problème)  -- [ServeurSGBD]
+
+User -- (Choisir le mode d'affichage)
+(Choisir le mode d'affichage) -- [ServeurSGBD]
+
+@enduml
