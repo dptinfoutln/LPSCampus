@@ -1,0 +1,25 @@
+@startuml
+
+title Local Positioning System (LPS) - Use Case Diagram Serveur
+left to right direction
+
+(Ajouter la position) -- [BDD]
+
+[ServeurModele] -- (Récupérer les données d'entrainement)
+(Récupérer les données d'entrainement) -- [BDD]
+
+[ServeurModele] -- (Entrainer le modele)
+
+[ServeurModele] -- (Calculer la position)
+
+(Calculer la position) .> (Ajouter la position) : extends
+
+
+
+[ServeurSGBD] -- (Authentification)
+(Authentification) -- [BDD]
+
+[ServeurSGBD] -- (Méthodes CRUD)
+(Méthodes CRUD) -- [BDD]
+
+@enduml

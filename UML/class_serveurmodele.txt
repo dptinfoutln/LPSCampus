@@ -1,0 +1,40 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Serveur Modele
+
+package "Administration" {
+    class Utilisateur {
+    +CaracteristiquesMachine
+    }
+
+}
+
+package Scan{ 
+    
+    class ScanData{
+    + InfoScan
+    }
+
+}
+
+package "Carte" {
+
+    class Piece{
+    +Position sur la carte
+    }
+}
+
+package Localisation {
+    'classe Position = position que l'algo retourne
+    class Position {} 
+    class Modele {}
+    class ModeleControleur {}
+    
+    Utilisateur "1" -- "1" Position : Demande localisation
+    Position "*" -- "1" Piece : détection dans
+    Position "*"-- "1" Modele
+    ModeleControleur "1"--"1..*" Modele
+    ScanData "1"--"1" ModeleControleur
+}
+
+@enduml
