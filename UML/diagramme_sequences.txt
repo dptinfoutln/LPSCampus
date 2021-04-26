@@ -1,0 +1,13 @@
+@startuml
+
+title "Sequence Diagram - Authentification"
+
+actor Superviseur as Super
+
+Super -> ServeurSGBD : envoi du login / mot de passe
+ServeurSGBD -> ServeurSGBD : calcul du hashé du mot de passe
+ServeurSGBD -> BDD : vérification de la validité du login / mot de passe
+BDD -> ServeurSGBD : envoi du succès ou de l'échec de la vérification
+ServeurSGBD -> Super : envoi du succès ou de l'échec de la vérification
+
+@enduml
