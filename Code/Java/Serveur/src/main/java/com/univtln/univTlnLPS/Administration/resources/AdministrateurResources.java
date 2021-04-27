@@ -2,17 +2,15 @@ package com.univtln.univTlnLPS.Administration.resources;
 
 import com.univtln.univTlnLPS.Administration.model.Administrateur;
 import com.univtln.univTlnLPS.Carte.model.Campus;
-import org.apache.tapestry5.annotations.Path;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-//@Path("admin")
-@XmlRootElement
-//@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Path("LaGarde")
 public class AdministrateurResources {
 
-    //@PUT
-    //@Path("initAdmin")
+    @PUT
+    @Path("admin/init")
     public void init() throws IllegalArgumentException {
         Administrateur.builder().campus(new Campus()).loginHash("").passwordHash("").build();
     }

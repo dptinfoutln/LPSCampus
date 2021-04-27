@@ -1,31 +1,33 @@
 package com.univtln.univTlnLPS.Carte.resources;
 
-import com.univtln.univTlnLPS.Carte.model.Batiment;
 import com.univtln.univTlnLPS.Carte.model.Etage;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
+import jakarta.ws.rs.*;
 
-import java.util.List;
-
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Path("LaGarde")
 public class EtageResources {
 
 
     private static long lastId = 0;
 
-    private static final Etage modelEtage = new Etage();
-
     final MutableLongObjectMap<Etage> etages = LongObjectMaps.mutable.empty();
 
 
-    //@PUT
-    //@Path("initEtage")
+    @PUT
+    @Path("etages/init")
     public void init() throws IllegalArgumentException {
         Etage.builder().build();
     }
 
     // add delete update
 
+    @PUT
+    @Path("etages")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Etage addEtage(Etage etage) throws IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
         etage.setId(++lastId);
@@ -33,7 +35,10 @@ public class EtageResources {
         return etage;
     }
 
-    public Etage updateEtage(long id, Etage etage) throws NotFoundException, IllegalArgumentException {
+    @POST
+    @Path("etages/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Etage updateEtage(@PathParam("id") long id, Etage etage) throws NotFoundException, IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
         etage.setId(id);;
         if (!etages.containsKey(id)) throw new NotFoundException();
@@ -41,20 +46,28 @@ public class EtageResources {
         return etage;
     }
 
-    public void removeEtage(long id) throws NotFoundException {
+    @DELETE
+    @Path("etages/{id}")
+    public void removeEtage(@PathParam("id") long id) throws NotFoundException {
         if (!etages.containsKey(id)) throw new NotFoundException();
         etages.remove(id);
     }
 
-    public Etage getEtage(long id) throws NotFoundException {
+    @GET
+    @Path("etages/{id}")
+    public Etage getEtage(@PathParam("id") long id) throws NotFoundException {
         if (!etages.containsKey(id)) throw new NotFoundException();
         return etages.get(id);
     }
 
+    @GET
+    @Path("etages/size")
     public int getEtageSize() {
         return etages.size();
     }
 
+    @DELETE
+    @Path("etages")
     public void deleteBatiments() {
         etages.clear();
         lastId = 0;

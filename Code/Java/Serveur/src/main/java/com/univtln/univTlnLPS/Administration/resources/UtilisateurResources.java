@@ -1,25 +1,23 @@
 package com.univtln.univTlnLPS.Administration.resources;
 
-import com.univtln.univTlnLPS.Administration.model.Superviseur;
 import com.univtln.univTlnLPS.Administration.model.Utilisateur;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
+import jakarta.ws.rs.*;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
-//@Path("utilisateur")
-@XmlRootElement
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Path("LaGarde")
 public class UtilisateurResources {
 
     private static long lastId = 0;
 
-    private static final Utilisateur modelUtilisateur = new Utilisateur();
-
     final MutableLongObjectMap<Utilisateur> utilisateurs = LongObjectMaps.mutable.empty();
 
-    //@PUT
-    //@Path("initUtilisateur")
+    @PUT
+    @Path("utilisateurs/init")
     public void init() throws IllegalArgumentException {
         Utilisateur.builder().CaracteristiquesMachine("").build();
     }
@@ -27,6 +25,9 @@ public class UtilisateurResources {
 
     // add delete update
 
+    @PUT
+    @Path("utilisateurs")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Utilisateur addUtilisateur(Utilisateur utilisateur) throws IllegalArgumentException {
         if (utilisateur.getId() != 0) throw new IllegalArgumentException();
         utilisateur.setId(++lastId);
@@ -34,7 +35,10 @@ public class UtilisateurResources {
         return utilisateur;
     }
 
-    public Utilisateur updateUtilisateur(long id, Utilisateur utilisateur) throws NotFoundException, IllegalArgumentException {
+    @POST
+    @Path("utilisateurs/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Utilisateur updateUtilisateur(@PathParam("id") long id, Utilisateur utilisateur) throws NotFoundException, IllegalArgumentException {
         if (utilisateur.getId() != 0) throw new IllegalArgumentException();
         utilisateur.setId(id);;
         if (!utilisateurs.containsKey(id)) throw new NotFoundException();
@@ -42,7 +46,9 @@ public class UtilisateurResources {
         return utilisateur;
     }
 
-    public void removeUtilisateur(long id) throws NotFoundException {
+    @DELETE
+    @Path("utilisateurs/{id}")
+    public void removeUtilisateur(@PathParam("id") long id) throws NotFoundException {
         if (!utilisateurs.containsKey(id)) throw new NotFoundException();
         utilisateurs.remove(id);
     }

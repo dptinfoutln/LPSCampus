@@ -1,17 +1,16 @@
 package com.univtln.univTlnLPS.Carte.resources;
 
-import com.univtln.univTlnLPS.Carte.model.Batiment;
 import com.univtln.univTlnLPS.Carte.model.Campus;
-import jakarta.ws.rs.NotFoundException;
-
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Path("LaGarde")
 public class CampusResources {
 
-    //@PUT
-    //@Path("initCampus")
+    @PUT
+    @Path("campus/init")
     public void init() throws IllegalArgumentException {
         Campus.builder().batimentList(new ArrayList<>()).build();
     }

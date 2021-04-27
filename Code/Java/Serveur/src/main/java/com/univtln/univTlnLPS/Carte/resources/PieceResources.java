@@ -2,35 +2,44 @@ package com.univtln.univTlnLPS.Carte.resources;
 
 import com.univtln.univTlnLPS.Carte.model.Piece;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
+import jakarta.ws.rs.*;
 
+
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Path("LaGarde")
 public class PieceResources {
 
 
     private static long lastId = 0;
 
-    private static final Piece modelPiece = new Piece();
-
     final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
 
-    //@PUT
-    //@Path("initPiece")
+    @PUT
+    @Path("pieces/init")
     public void init() throws IllegalArgumentException {
         Piece.builder().build();
     }
 
     // add delete update
 
-    public Piece addPiece(com.univtln.univTlnLPS.Carte.model.Piece piece) throws IllegalArgumentException {
+    @PUT
+    @Path("pieces")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Piece addPiece(Piece piece) throws IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
         piece.setId(++lastId);
         pieces.put(piece.getId(), piece);
         return piece;
     }
 
-    public Piece updatePiece(long id, Piece piece) throws NotFoundException, IllegalArgumentException {
+    @POST
+    @Path("pieces/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Piece updatePiece(@PathParam("id") long id, Piece piece) throws NotFoundException, IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
         piece.setId(id);;
         if (!pieces.containsKey(id)) throw new NotFoundException();
@@ -38,20 +47,28 @@ public class PieceResources {
         return piece;
     }
 
-    public void removePiece(long id) throws NotFoundException {
+    @DELETE
+    @Path("pieces/{id}")
+    public void removePiece(@PathParam("id") long id) throws NotFoundException {
         if (!pieces.containsKey(id)) throw new NotFoundException();
         pieces.remove(id);
     }
 
-    public Piece getPiece(long id) throws NotFoundException {
+    @GET
+    @Path("pieces/{id}")
+    public Piece getPiece(@PathParam("id") long id) throws NotFoundException {
         if (!pieces.containsKey(id)) throw new NotFoundException();
         return pieces.get(id);
     }
 
+    @GET
+    @Path("pieces/size")
     public int getPieceSize() {
         return pieces.size();
     }
 
+    @DELETE
+    @Path("pieces")
     public void deletePieces() {
         pieces.clear();
         lastId = 0;

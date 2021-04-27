@@ -2,28 +2,33 @@ package com.univtln.univTlnLPS.Carte.resources;
 
 import com.univtln.univTlnLPS.Carte.model.Batiment;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
+import jakarta.ws.rs.*;
 
 import java.util.ArrayList;
 
+@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
+@Path("LaGarde")
 public class BatimentResources {
 
     private static long lastId = 0;
 
-    private static final Batiment modelBatiment = new Batiment();
-
     final MutableLongObjectMap<Batiment> batiments = LongObjectMaps.mutable.empty();
 
 
-    //@PUT
-    //@Path("initBatiment")
+    @PUT
+    @Path("batiments/init")
     public void init() throws IllegalArgumentException {
         Batiment.builder().etageList(new ArrayList<>()).build();
     }
 
     // add delete update
 
+    @PUT
+    @Path("batiments")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Batiment addBatiment(Batiment batiment) throws IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
         batiment.setId(++lastId);
@@ -31,7 +36,10 @@ public class BatimentResources {
         return batiment;
     }
 
-    public Batiment updateBatiment(long id, Batiment batiment) throws NotFoundException, IllegalArgumentException {
+    @POST
+    @Path("batiments/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Batiment updateBatiment(@PathParam("id") long id, Batiment batiment) throws NotFoundException, IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
         batiment.setId(id);;
         if (!batiments.containsKey(id)) throw new NotFoundException();
@@ -39,20 +47,28 @@ public class BatimentResources {
         return batiment;
     }
 
-    public void removeBatiment(long id) throws NotFoundException {
+    @DELETE
+    @Path("batiments/{id}")
+    public void removeBatiment(@PathParam("id") long id) throws NotFoundException {
         if (!batiments.containsKey(id)) throw new NotFoundException();
         batiments.remove(id);
     }
 
-    public com.univtln.univTlnLPS.Carte.model.Batiment getBatiment(long id) throws NotFoundException {
+    @GET
+    @Path("batiments/{id}")
+    public Batiment getBatiment(@PathParam("id") long id) throws NotFoundException {
         if (!batiments.containsKey(id)) throw new NotFoundException();
         return batiments.get(id);
     }
 
+    @GET
+    @Path("batiments/size")
     public int getBatimentSize() {
         return batiments.size();
     }
 
+    @DELETE
+    @Path("batiments")
     public void deleteBatiments() {
         batiments.clear();
         lastId = 0;
