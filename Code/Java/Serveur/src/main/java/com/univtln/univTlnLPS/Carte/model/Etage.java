@@ -1,5 +1,8 @@
 package com.univtln.univTlnLPS.Carte.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
@@ -17,14 +20,15 @@ import java.awt.Image;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-//@Entity
+@Entity
 public class Etage {
 
     @XmlElement
-    private Image plan;
+    private String plan;
 
     @XmlAttribute
     @EqualsAndHashCode.Include
-    //@Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private long id;
 }
