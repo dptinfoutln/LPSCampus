@@ -25,14 +25,12 @@ package Scan{
     }
     
     Superviseur --> Utilisateur 
-    Superviseur "1" -- "*" ScanData : Récupération données
     
     Administrateur --> Superviseur
     
     WifiData "*" -- "1" ScanData
 
     }
-Utilisateur "1"--"1" ScanData
 
 package "Carte" {
 
@@ -63,13 +61,41 @@ package Localisation {
     class Position {} 
     class ModeleControleur {}
     
-    Utilisateur "1" -- "1" Position : Demande localisation
     Position "*" -- "1" Piece : détection dans
     ScanData "1"--"1" ModeleControleur
 }
 
+Position -- ModeleControleur
+
+package Interface {
+    class HomeActivity
+    class AffichageDonneesSalleActivity
+    class AffichageSalleActivity
+    class AjoutDataouConsulterActivity
+    class DevenirSuperviseurActivity
+    class SeConnecterActivity
+    class SeLocaliserActivity
+    class AjoutDataActivity
+}
+
+Superviseur -- SeConnecterActivity
+HomeActivity -- SeLocaliserActivity
+HomeActivity -- DevenirSuperviseurActivity
+
+SeConnecterActivity -- AjoutDataouConsulterActivity
+
+AjoutDataouConsulterActivity -- AffichageSalleActivity
+AjoutDataouConsulterActivity -- AjoutDataActivity
+
+AffichageSalleActivity -- AffichageDonneesSalleActivity
 
 
+Utilisateur -- HomeActivity
+
+ScanData -- AjoutDataActivity
+
+
+SeLocaliserActivity -- ScanData
 
 
 @enduml
