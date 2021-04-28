@@ -31,7 +31,7 @@
         <activity android:name=".ihm.SeConnecter" />
         <activity android:name=".ihm.AjoutDataPourSalle" />
         <activity
-            android:name=".ihm.MainActivity"
+            android:name=".ihm.HomeActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
