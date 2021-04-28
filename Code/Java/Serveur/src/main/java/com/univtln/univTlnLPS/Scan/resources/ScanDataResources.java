@@ -7,6 +7,8 @@ import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
@@ -22,10 +24,8 @@ public class ScanDataResources {
     @PUT
     @Path("scans/init")
     public void init() throws IllegalArgumentException {
-        ScanData.builder().infoScan("").wifiList(new ArrayList<>()).build();
+        ScanData.builder().infoScan("").wifiList(new HashSet<>()).build();
     }
-
-    // add delete update
 
     @PUT
     @Path("scans")
