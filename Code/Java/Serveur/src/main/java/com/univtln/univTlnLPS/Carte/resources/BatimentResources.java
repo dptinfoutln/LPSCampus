@@ -8,6 +8,7 @@ import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
@@ -21,7 +22,7 @@ public class BatimentResources {
     @PUT
     @Path("batiments/init")
     public void init() throws IllegalArgumentException {
-        Batiment.builder().etageList(new ArrayList<>()).build();
+        Batiment.builder().etageList(new HashSet<>()).build();
     }
 
     // add delete update
