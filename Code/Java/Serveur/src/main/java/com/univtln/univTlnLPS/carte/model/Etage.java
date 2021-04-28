@@ -1,4 +1,4 @@
-package com.univtln.univTlnLPS.Carte.model;
+package com.univtln.univTlnLPS.carte.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,12 +20,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Piece {
+public class Etage {
 
     @XmlElement
-    public int position_x;
-    @XmlElement
-    public int position_y;
+    private String plan;
 
     @XmlAttribute
     @EqualsAndHashCode.Include

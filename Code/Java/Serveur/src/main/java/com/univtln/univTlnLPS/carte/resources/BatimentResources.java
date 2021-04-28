@@ -1,13 +1,12 @@
-package com.univtln.univTlnLPS.Carte.resources;
+package com.univtln.univTlnLPS.carte.resources;
 
-import com.univtln.univTlnLPS.Carte.model.Batiment;
+import com.univtln.univTlnLPS.carte.model.Batiment;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})

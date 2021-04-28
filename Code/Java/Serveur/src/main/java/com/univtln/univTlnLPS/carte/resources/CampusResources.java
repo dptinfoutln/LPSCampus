@@ -1,7 +1,7 @@
-package com.univtln.univTlnLPS.Carte.resources;
+package com.univtln.univTlnLPS.carte.resources;
 
-import com.univtln.univTlnLPS.Carte.model.Campus;
-import java.util.ArrayList;
+import com.univtln.univTlnLPS.carte.model.Campus;
+
 import java.util.HashSet;
 
 import jakarta.ws.rs.*;

@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.Carte.resources;
+package com.univtln.univTlnLPS.carte.resources;
 
-import com.univtln.univTlnLPS.Carte.model.Piece;
+import com.univtln.univTlnLPS.carte.model.Piece;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;

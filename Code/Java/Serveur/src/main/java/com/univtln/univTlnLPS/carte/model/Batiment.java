@@ -1,16 +1,15 @@
-package com.univtln.univTlnLPS.Carte.model;
+package com.univtln.univTlnLPS.carte.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.awt.Image;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,10 +20,12 @@ import java.awt.Image;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Etage {
+public class Batiment {
 
-    @XmlElement
-    private String plan;
+    @XmlElement(name = "Etage")
+    @XmlElementWrapper(name = "Etages")
+    @OneToMany
+    private Set<Etage> etageList;
 
     @XmlAttribute
     @EqualsAndHashCode.Include

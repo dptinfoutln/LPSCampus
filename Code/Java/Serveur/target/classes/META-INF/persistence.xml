@@ -6,9 +6,18 @@
 
     <persistence-unit name="mypu" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>com.univtln.univTlnLPS.Scan.model.WifiData</class>
-        <class>com.univtln.univTlnLPS.Scan.model.ScanData</class>
-        <class>com.univtln.univTlnLPS.Administration.model.Utilisateur</class>
+        <class>com.univtln.univTlnLPS.administration.model.Administrateur</class>
+        <class>com.univtln.univTlnLPS.administration.model.Superviseur</class>
+        <class>com.univtln.univTlnLPS.administration.model.Utilisateur</class>
+
+        <class>com.univtln.univTlnLPS.carte.model.Batiment</class>
+        <class>com.univtln.univTlnLPS.carte.model.Campus</class>
+        <class>com.univtln.univTlnLPS.carte.model.Etage</class>
+        <class>com.univtln.univTlnLPS.carte.model.Piece</class>
+
+        <class>com.univtln.univTlnLPS.scan.model.WifiData</class>
+        <class>com.univtln.univTlnLPS.scan.model.ScanData</class>
+
         <properties>
             <!-- Les paramètres de connexions -->
             <property name="javax.persistence.target-database" value="h2"/>

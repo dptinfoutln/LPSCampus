@@ -1,8 +1,9 @@
-package com.univtln.univTlnLPS.Administration.model;
+package com.univtln.univTlnLPS.administration.model;
 
-import com.univtln.univTlnLPS.Carte.model.Campus;
-import jakarta.persistence.*;
-import jakarta.ws.rs.Path;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,8 +25,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Administrateur extends Superviseur {
+
+public class Superviseur extends Utilisateur {
     @XmlElement
-    @OneToOne
-    private Campus campus;
+    @NotNull
+    private String email;
+
+    @XmlElement
+    @NotNull
+    private String passwordHash;
 }

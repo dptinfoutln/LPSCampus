@@ -1,15 +1,10 @@
-package com.univtln.univTlnLPS.Administration.model;
+package com.univtln.univTlnLPS.scan.model;
 
-import com.univtln.univTlnLPS.Scan.model.ScanData;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
-
-import org.eclipse.persistence.annotations.PrimaryKey;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,14 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @Getter
 @Setter
-@SuperBuilder
+@Builder
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
-
-public class Utilisateur {
+public class WifiData {
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id
@@ -34,11 +28,40 @@ public class Utilisateur {
     private long id;
 
     @XmlElement
-    @NotNull
-    //@Size(min = 2, max = 10)
-    private String CaracteristiquesMachine;
+    @Size(max = 20)
+    private String BSSID;
 
     @XmlElement
-    @OneToOne
-    private ScanData scan;
+    @Size(max = 60)
+    private String Capabilities;
+
+    @XmlElement
+    private int centerFreq0;
+
+    @XmlElement
+    private int centerFreq1;
+
+    @XmlElement
+    private int channelWidth;
+
+    @XmlElement
+    private int frequency;
+
+    @XmlElement
+    private int level;
+
+    @XmlElement
+    private long timestamp;
+
+    @XmlElement
+    @Size(max = 20)
+    private String operatorFriendlyName;
+
+    @XmlElement
+    @Size(max = 30)
+    private String SSID;
+
+    @XmlElement
+    @Size(max = 20)
+    private String venueName;
 }

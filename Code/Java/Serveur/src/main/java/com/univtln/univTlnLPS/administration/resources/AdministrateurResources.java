@@ -1,7 +1,7 @@
-package com.univtln.univTlnLPS.Administration.resources;
+package com.univtln.univTlnLPS.administration.resources;
 
-import com.univtln.univTlnLPS.Administration.model.Administrateur;
-import com.univtln.univTlnLPS.Carte.model.Campus;
+import com.univtln.univTlnLPS.administration.model.Administrateur;
+import com.univtln.univTlnLPS.carte.model.Campus;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
@@ -12,7 +12,7 @@ public class AdministrateurResources {
     @PUT
     @Path("admin/init")
     public void init() throws IllegalArgumentException {
-        Administrateur.builder().campus(new Campus()).loginHash("").passwordHash("").build();
+        Administrateur.builder().campus(new Campus()).email("").passwordHash("").build();
     }
 
 }

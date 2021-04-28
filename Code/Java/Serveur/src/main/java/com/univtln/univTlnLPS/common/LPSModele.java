@@ -1,7 +1,5 @@
 package com.univtln.univTlnLPS.common;
 
-import com.univtln.univTlnLPS.Administration.model.Administrateur;
-import com.univtln.univTlnLPS.Carte.model.Campus;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;

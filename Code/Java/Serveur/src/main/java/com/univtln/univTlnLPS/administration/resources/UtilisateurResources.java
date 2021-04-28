@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.Administration.resources;
+package com.univtln.univTlnLPS.administration.resources;
 
-import com.univtln.univTlnLPS.Administration.model.Utilisateur;
+import com.univtln.univTlnLPS.administration.model.Utilisateur;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;

@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.Administration.resources;
+package com.univtln.univTlnLPS.administration.resources;
 
-import com.univtln.univTlnLPS.Administration.model.Superviseur;
+import com.univtln.univTlnLPS.administration.model.Superviseur;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -18,7 +18,7 @@ public class SuperviseurResources {
     @PUT
     @Path("superviseurs/init")
     public void init() throws IllegalArgumentException {
-        Superviseur.builder().loginHash("").passwordHash("").build();
+        Superviseur.builder().email("").passwordHash("").build();
     }
 
     // add delete update

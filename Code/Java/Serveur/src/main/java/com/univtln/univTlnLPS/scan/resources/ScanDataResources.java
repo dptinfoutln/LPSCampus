@@ -1,14 +1,13 @@
-package com.univtln.univTlnLPS.Scan.resources;
+package com.univtln.univTlnLPS.scan.resources;
 
-import com.univtln.univTlnLPS.Scan.model.ScanData;
+import com.univtln.univTlnLPS.scan.model.ScanData;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
-import java.util.ArrayList;
+
 import java.util.HashSet;
-import java.util.Set;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
