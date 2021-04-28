@@ -6,6 +6,7 @@ import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +23,15 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
     private WifiScan wifiScan;
     private Button btn;
 
+    private EditText ipTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_se_localiser);
 
         wifiScan = new WifiScan(this);
+        ipTxt = findViewById(R.id.ip);
     }
 
     public void seLocaliser(View v){
@@ -76,7 +80,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         String position = "";
         try {
             res = Client.convertScan(wifiScan.getResults());
-            position = Client.get(Client.uri, res);
+            position = Client.get(Client.uri1 + ipTxt.getText().toString() + Client.uri2, res);
         } catch (JSONException e) {
             e.printStackTrace();
         }
