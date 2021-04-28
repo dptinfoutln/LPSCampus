@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 
 public class Utilisateur {
     @XmlAttribute

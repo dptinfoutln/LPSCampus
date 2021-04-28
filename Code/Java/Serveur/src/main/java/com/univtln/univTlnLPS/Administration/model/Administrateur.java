@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.Administration.model;
 
 import com.univtln.univTlnLPS.Carte.model.Campus;
+import jakarta.persistence.*;
 import jakarta.ws.rs.Path;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @SuperBuilder
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-//@Entity
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Administrateur extends Superviseur {
     @XmlElement
+    @OneToOne
     private Campus campus;
 }
