@@ -2,6 +2,7 @@ package com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.client.Client;
+import com.univtln.univTlnLPS.client.Position;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.common.WriteFile;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
@@ -26,11 +28,12 @@ import java.util.Date;
 import java.util.List;
 
 public class AjoutData extends AppCompatActivity implements Runnable{
+
+    private SSGBDControleur ssgbdControleur;
     private WifiScan wifiScan;
     private ScanListAdapter adapter;
 
     private EditText editTxt, editTxtInfo;
-    private EditText ipTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,10 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
         editTxt = findViewById(R.id.nomDeLaSalle);
         editTxtInfo = findViewById(R.id.motDePasse);
-        ipTxt = findViewById(R.id.ip2);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
     Button btn;
@@ -135,9 +141,9 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         JSONObject res = null;
         String mess = "";
         try {
-            res = Client.convertScan(wifiScan.getResults());
+            res = Position.convertScan(wifiScan.getResults());
             mess = res.toString();
-            Client.get(Client.uri1 + ipTxt.getText().toString() + Client.uri2, res);
+            Position.get(Position.uri1 + ssgbdControleur.getIp() + Position.uri2, res);
         } catch (JSONException e) {
             e.printStackTrace();
         }

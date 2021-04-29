@@ -2,6 +2,7 @@ package com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.client.Client;
+import com.univtln.univTlnLPS.client.Position;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.scan.WifiScan;
 
 import org.json.JSONException;
@@ -20,10 +22,11 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class SeLocaliser extends AppCompatActivity implements Runnable{
+
+    private SSGBDControleur ssgbdControleur;
     private WifiScan wifiScan;
     private Button btn;
 
-    private EditText ipTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,10 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_se_localiser);
 
         wifiScan = new WifiScan(this);
-        ipTxt = findViewById(R.id.ip);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
     public void seLocaliser(View v){
@@ -79,8 +85,8 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         JSONObject res = null;
         String position = "";
         try {
-            res = Client.convertScan(wifiScan.getResults());
-            position = Client.get(Client.uri1 + ipTxt.getText().toString() + Client.uri2, res);
+            res = Position.convertScan(wifiScan.getResults());
+            position = Position.get(Position.uri1 + ssgbdControleur.getIp() + Position.uri2, res);
         } catch (JSONException e) {
             e.printStackTrace();
         }

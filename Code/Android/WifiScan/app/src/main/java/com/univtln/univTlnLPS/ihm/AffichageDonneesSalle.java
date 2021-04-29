@@ -2,24 +2,31 @@ package com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.univtln.univTlnLPS.R;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.ihm.Adapter.AdapterSalles;
 
 import java.util.ArrayList;
 
 public class AffichageDonneesSalle extends AppCompatActivity {
 
+    private SSGBDControleur ssgbdControleur;
     ListView ListeDonneesSalle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_donnees_salle);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
     public void affichageSalle(View v) {

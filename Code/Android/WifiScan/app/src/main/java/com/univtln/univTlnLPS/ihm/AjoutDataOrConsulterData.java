@@ -7,13 +7,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.univtln.univTlnLPS.R;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 
 public class AjoutDataOrConsulterData extends AppCompatActivity {
+
+    private SSGBDControleur ssgbdControleur;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajout_data_or_consulter_data);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
     public void onClickAjouterDonnees(View v) {
