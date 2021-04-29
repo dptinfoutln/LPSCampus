@@ -1,4 +1,4 @@
-package com.univtln.univTlnLPS.scan.model;
+package com.univtln.univTlnLPS.model.scan;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;

@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.administration.resources;
+package com.univtln.univTlnLPS.ressources.administration;
 
-import com.univtln.univTlnLPS.administration.model.Utilisateur;
+import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -40,7 +40,7 @@ public class UtilisateurResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Utilisateur updateUtilisateur(@PathParam("id") long id, Utilisateur utilisateur) throws NotFoundException, IllegalArgumentException {
         if (utilisateur.getId() != 0) throw new IllegalArgumentException();
-        utilisateur.setId(id);;
+        utilisateur.setId(id);
         if (!utilisateurs.containsKey(id)) throw new NotFoundException();
         utilisateurs.put(id, utilisateur);
         return utilisateur;

@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.carte.resources;
+package com.univtln.univTlnLPS.ressources.carte;
 
-import com.univtln.univTlnLPS.carte.model.Piece;
+import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -41,7 +41,7 @@ public class PieceResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Piece updatePiece(@PathParam("id") long id, Piece piece) throws NotFoundException, IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
-        piece.setId(id);;
+        piece.setId(id);
         if (!pieces.containsKey(id)) throw new NotFoundException();
         pieces.put(id, piece);
         return piece;

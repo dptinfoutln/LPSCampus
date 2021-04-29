@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.scan.resources;
+package com.univtln.univTlnLPS.ressources.scan;
 
-import com.univtln.univTlnLPS.scan.model.ScanData;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;

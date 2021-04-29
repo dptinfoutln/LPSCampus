@@ -1,9 +1,7 @@
-package com.univtln.univTlnLPS.carte.model;
+package com.univtln.univTlnLPS.model.scan;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
@@ -22,19 +20,21 @@ import java.util.Set;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 @Entity
-public class Campus {
-    @XmlElement
-    private String plan;
-
-    @XmlElement(name = "Batiment")
-    @XmlElementWrapper(name = "Batiments")
-    @OneToMany
-    private Set<Batiment> batimentList;
-
+public class ScanData {
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
+
+    @XmlElement
+    @Size(max = 30)
+    private String infoScan;
+
+    @XmlElement(name = "Wifi")
+    @XmlElementWrapper(name = "Wifis")
+    @OneToMany
+    Set<WifiData> wifiList;
 }

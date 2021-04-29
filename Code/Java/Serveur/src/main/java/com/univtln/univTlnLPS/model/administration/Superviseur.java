@@ -1,4 +1,4 @@
-package com.univtln.univTlnLPS.administration.model;
+package com.univtln.univTlnLPS.model.administration;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Inheritance;

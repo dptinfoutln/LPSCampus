@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.carte.resources;
+package com.univtln.univTlnLPS.ressources.carte;
 
-import com.univtln.univTlnLPS.carte.model.Batiment;
+import com.univtln.univTlnLPS.model.carte.Batiment;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -41,7 +41,7 @@ public class BatimentResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Batiment updateBatiment(@PathParam("id") long id, Batiment batiment) throws NotFoundException, IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
-        batiment.setId(id);;
+        batiment.setId(id);
         if (!batiments.containsKey(id)) throw new NotFoundException();
         batiments.put(id, batiment);
         return batiment;

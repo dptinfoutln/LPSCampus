@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.administration.model;
+package com.univtln.univTlnLPS.model.administration;
 
-import com.univtln.univTlnLPS.scan.model.ScanData;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAttribute;

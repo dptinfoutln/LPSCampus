@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.scan.resources;
+package com.univtln.univTlnLPS.ressources.scan;
 
-import com.univtln.univTlnLPS.scan.model.WifiData;
+import com.univtln.univTlnLPS.model.scan.WifiData;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -14,7 +14,7 @@ public class WifiDataResources {
 
     private static long lastId = 0;
 
-    final MutableLongObjectMap<com.univtln.univTlnLPS.scan.model.WifiData> wifidatas =
+    final MutableLongObjectMap<WifiData> wifidatas =
             LongObjectMaps.mutable.empty();
 
 
@@ -41,7 +41,7 @@ public class WifiDataResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public WifiData updateWifiData(@PathParam("id") long id, WifiData wifidata) throws NotFoundException, IllegalArgumentException {
         if (wifidata.getId() != 0) throw new IllegalArgumentException();
-        wifidata.setId(id);;
+        wifidata.setId(id);
         if (!wifidatas.containsKey(id)) throw new NotFoundException();
         wifidatas.put(id, wifidata);
         return wifidata;

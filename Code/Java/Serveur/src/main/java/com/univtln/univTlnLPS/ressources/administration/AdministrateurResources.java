@@ -1,7 +1,7 @@
-package com.univtln.univTlnLPS.administration.resources;
+package com.univtln.univTlnLPS.ressources.administration;
 
-import com.univtln.univTlnLPS.administration.model.Administrateur;
-import com.univtln.univTlnLPS.carte.model.Campus;
+import com.univtln.univTlnLPS.model.administration.Administrateur;
+import com.univtln.univTlnLPS.model.carte.Campus;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 

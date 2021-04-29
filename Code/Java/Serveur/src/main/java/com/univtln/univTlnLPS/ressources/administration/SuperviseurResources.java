@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.administration.resources;
+package com.univtln.univTlnLPS.ressources.administration;
 
-import com.univtln.univTlnLPS.administration.model.Superviseur;
+import com.univtln.univTlnLPS.model.administration.Superviseur;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -38,7 +38,7 @@ public class SuperviseurResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Superviseur updateSuperviseur(@PathParam("id") long id, Superviseur superviseur) throws NotFoundException, IllegalArgumentException {
         if (superviseur.getId() != 0) throw new IllegalArgumentException();
-        superviseur.setId(id);;
+        superviseur.setId(id);
         if (!superviseurs.containsKey(id)) throw new NotFoundException();
         superviseurs.put(id, superviseur);
         return superviseur;

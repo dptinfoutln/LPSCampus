@@ -1,6 +1,9 @@
-package com.univtln.univTlnLPS.carte.model;
+package com.univtln.univTlnLPS.model.carte;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
@@ -20,12 +23,14 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Batiment {
+public class Campus {
+    @XmlElement
+    private String plan;
 
-    @XmlElement(name = "Etage")
-    @XmlElementWrapper(name = "Etages")
+    @XmlElement(name = "Batiment")
+    @XmlElementWrapper(name = "Batiments")
     @OneToMany
-    private Set<Etage> etageList;
+    private Set<Batiment> batimentList;
 
     @XmlAttribute
     @EqualsAndHashCode.Include

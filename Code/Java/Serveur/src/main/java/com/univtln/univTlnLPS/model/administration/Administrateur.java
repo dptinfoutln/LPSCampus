@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.administration.model;
+package com.univtln.univTlnLPS.model.administration;
 
-import com.univtln.univTlnLPS.carte.model.Campus;
+import com.univtln.univTlnLPS.model.carte.Campus;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.AllArgsConstructor;

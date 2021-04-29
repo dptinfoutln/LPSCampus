@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.carte.resources;
+package com.univtln.univTlnLPS.ressources.carte;
 
-import com.univtln.univTlnLPS.carte.model.Etage;
+import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -40,7 +40,7 @@ public class EtageResources {
     @Consumes(MediaType.APPLICATION_JSON)
     public Etage updateEtage(@PathParam("id") long id, Etage etage) throws NotFoundException, IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
-        etage.setId(id);;
+        etage.setId(id);
         if (!etages.containsKey(id)) throw new NotFoundException();
         etages.put(id, etage);
         return etage;

@@ -1,16 +1,15 @@
-package com.univtln.univTlnLPS.scan.model;
+package com.univtln.univTlnLPS.model.carte;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,21 +19,17 @@ import java.util.Set;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-
 @Entity
-public class ScanData {
+public class Piece {
+
+    @XmlElement
+    public int position_x;
+    @XmlElement
+    public int position_y;
+
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     private long id;
-
-    @XmlElement
-    @Size(max = 30)
-    private String infoScan;
-
-    @XmlElement(name = "Wifi")
-    @XmlElementWrapper(name = "Wifis")
-    @OneToMany
-    Set<WifiData> wifiList;
 }

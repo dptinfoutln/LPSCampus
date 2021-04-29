@@ -1,6 +1,6 @@
-package com.univtln.univTlnLPS.carte.resources;
+package com.univtln.univTlnLPS.ressources.carte;
 
-import com.univtln.univTlnLPS.carte.model.Campus;
+import com.univtln.univTlnLPS.model.carte.Campus;
 
 import java.util.HashSet;
 

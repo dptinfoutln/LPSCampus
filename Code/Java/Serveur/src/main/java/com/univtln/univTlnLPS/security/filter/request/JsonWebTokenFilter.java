@@ -1,7 +1,7 @@
 package com.univtln.univTlnLPS.security.filter.request;
 
 
-import com.univtln.univTlnLPS.administration.model.Utilisateur;
+import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.security.MySecurityContext;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import io.jsonwebtoken.Claims;
