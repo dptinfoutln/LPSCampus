@@ -1,34 +1,20 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
-        <modelVersion>4.0.0</modelVersion>
-    <groupId>com.univtln.univTlnLPS</groupId>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.univtln.univtlnLPS</groupId>
     <artifactId>univTlnLPS</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>LPS</name>
-	<properties>
-        <java.version>1.8</java.version>
-        <jackson-version>2.9.6</jackson-version>
-        <json-version>1.1.2</json-version>
-        <jersey.version>3.0.1</jersey.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <main.class>com.univtln.univTlnLPS.server.LPSServer</main.class>
-	</properties>
-    <repositories>
-        <repository>
-            <id>apache-staging</id>
-            <url>https://repository.apache.org/content/repositories/staging/</url>
-        </repository>
-    </repositories>
+    <packaging>jar</packaging>
+    <name>univTlnLPS</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://www.example.com</url>
+
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.18.14</version>
-                <scope>provided</scope>
-            </dependency>
-            <!--  Jakarta RESTful Web Services (JAXRS) https://jakarta.ee/specifications/restful-ws/3.0/  -->
+            <!-- Jakarta RESTful Web Services (JAXRS) https://jakarta.ee/specifications/restful-ws/3.0/ -->
             <dependency>
                 <groupId>org.glassfish.jersey</groupId>
                 <artifactId>jersey-bom</artifactId>
@@ -46,6 +32,86 @@
         </dependencies>
     </dependencyManagement>
     <dependencies>
+        <!-- JWT -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <scope>runtime</scope>
+            <version>0.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.2</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Javax Mail -->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
+        <!-- JPA -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+        <!--dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>4.0.1</version>
+        </dependency-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- YAML -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+        <!-- LocalDate for Jackson -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.12.1</version>
+        </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-grizzly2-http</artifactId>
@@ -67,6 +133,7 @@
             <artifactId>jaxb-impl</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
@@ -81,25 +148,23 @@
             <artifactId>jackson-datatype-eclipse-collections</artifactId>
             <version>2.12.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
         </dependency>
-        <!--  Eclipse Collections  -->
+
+        <!-- Eclipse Collections -->
         <dependency>
             <groupId>org.eclipse.collections</groupId>
             <artifactId>eclipse-collections</artifactId>
             <version>10.4.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
-            <scope>compile</scope>
-        </dependency>
-        <!--  Unit Tests  -->
-        <!--  Utilities test functions in unit tests  -->
-        <!--  Harmcrest Matchers http://hamcrest.org/JavaHamcrest/tutorial  -->
+
+
+        <!-- Unit Tests -->
+        <!-- Utilities test functions in unit tests -->
+        <!-- Harmcrest Matchers http://hamcrest.org/JavaHamcrest/tutorial -->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest</artifactId>
@@ -112,11 +177,22 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
-        <!--  https://mvnrepository.com/artifact/org.apache.commons/commons-lang3  -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -128,10 +204,11 @@
                 <version>3.8.1</version>
                 <inherited>true</inherited>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -147,16 +224,26 @@
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
-            <!--  Unit and Integration Tests & Code coverage  -->
+
+            <!-- Unit and Integration Tests & Code coverage -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
+                <configuration>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <argLine>${surefire.jacoco.args}</argLine>
+                </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>3.0.0-M4</version>
+                <configuration>
+                    <!--suppress MavenModelInspection -->
+                    <argLine>${failsafe.jacoco.args}</argLine>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -166,12 +253,13 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.6</version>
                 <executions>
-                    <!--  Surefire  -->
+                    <!-- Surefire -->
                     <execution>
                         <id>before-unit-test-execution</id>
                         <goals>
@@ -190,10 +278,12 @@
                         </goals>
                         <configuration>
                             <dataFile>${project.build.directory}/jacoco-output/jacoco-unit-tests.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report </outputDirectory>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-unit-test-coverage-report
+                            </outputDirectory>
                         </configuration>
                     </execution>
-                    <!--  Failsafe  -->
+
+                    <!-- Failsafe -->
                     <execution>
                         <id>before-integration-test-execution</id>
                         <phase>pre-integration-test</phase>
@@ -213,10 +303,13 @@
                         </goals>
                         <configuration>
                             <dataFile>${project.build.directory}/jacoco-output/jacoco-integration-tests.exec</dataFile>
-                            <outputDirectory> ${project.reporting.outputDirectory}/jacoco-integration-test-coverage-report </outputDirectory>
+                            <outputDirectory>
+                                ${project.reporting.outputDirectory}/jacoco-integration-test-coverage-report
+                            </outputDirectory>
                         </configuration>
                     </execution>
-                    <!--  Merged test coverage report  -->
+
+                    <!-- Merged test coverage report -->
                     <execution>
                         <id>merge-unit-and-integration</id>
                         <phase>post-integration-test</phase>
@@ -243,34 +336,144 @@
                         </goals>
                         <configuration>
                             <dataFile>${project.build.directory}/jacoco-output/merged.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-merged-coverage-report </outputDirectory>
+                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-merged-coverage-report
+                            </outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--      <plugin>-->
+            <!--        <groupId>org.apache.maven.plugins</groupId>-->
+            <!--        <artifactId>maven-enforcer-plugin</artifactId>-->
+            <!--        <version>3.0.0-M3</version>-->
+            <!--        <executions>-->
+            <!--          <execution>-->
+            <!--            <id>enforce-versions</id>-->
+            <!--            <goals>-->
+            <!--              <goal>enforce</goal>-->
+            <!--            </goals>-->
+            <!--            <configuration>-->
+            <!--              <rules>-->
+            <!--                <requireMavenVersion>-->
+            <!--                  <version>3.5.4</version>-->
+            <!--                </requireMavenVersion>-->
+            <!--                <requireJavaVersion>-->
+            <!--                  <version>11</version>-->
+            <!--                </requireJavaVersion>-->
+            <!--              </rules>-->
+            <!--            </configuration>-->
+            <!--          </execution>-->
+            <!--        </executions>-->
+            <!--      </plugin>-->
+
+            <!--Sonarquve -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.7.0.1746</version>
+            </plugin>
+            <plugin>
+                <groupId>io.github.r0bb3n</groupId>
+                <artifactId>sonar-quality-gate-maven-plugin</artifactId>
+                <version>1.0.2</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.9.1</version>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.3</version>
+                <configuration>
+                    <createDependencyReducedPom>true</createDependencyReducedPom>
+                    <!--minimizeJar>true</minimizeJar-->
+                    <!-- The shaded artifact is not the main artifact -->
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>withdependencies</shadedClassifierName>
+
+                    <transformers>
+                        <!-- merge services ressource for SPI -->
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+
+                        <!-- makes a default entry point in the shaded jar -->
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>${main.class}</Main-Class>
+                                <X-Compile-Source-JDK>${java.version}</X-Compile-Source-JDK>
+                                <X-Compile-Target-JDK>${java.version}</X-Compile-Target-JDK>
+                            </manifestEntries>
+                        </transformer>
+
+                        <!-- keep a default config file -->
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                            <resource>config.properties</resource>
+                            <resource>log4j.properties</resource>
+                        </transformer>
+                    </transformers>
+
+                    <!-- removes signatures in uberjar -->
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+
+                </configuration>
                 <executions>
                     <execution>
-                        <id>enforce-versions</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>enforce</goal>
+                            <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.5.4</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>11</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
-	</build>
+    </build>
+    <properties>
+        <jersey.version>3.0.1</jersey.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-merged-coverage-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <main.class>com.univtln.univtlnLPS.net.serveur.LPSServer</main.class>
+    </properties>
 </project>
