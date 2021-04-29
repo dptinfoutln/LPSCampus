@@ -1,4 +1,4 @@
-package com.univtln.univTlnLPS.ihm;
+rappackage com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
