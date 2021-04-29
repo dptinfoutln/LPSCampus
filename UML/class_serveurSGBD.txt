@@ -1,0 +1,63 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Serveur SGBD
+
+package "Administration" {
+    class Utilisateur {
+    +CaracteristiquesMachine
+    }
+    
+    class Superviseur{
+    +login
+    +password
+    }
+    
+    class Administrateur
+
+}
+
+
+    
+package Scan{ 
+    
+    class ScanData{
+    + InfoScan
+    }
+    
+    Superviseur --> Utilisateur 
+    Superviseur "1" -- "*" ScanData : Récupération données
+    
+    Administrateur --> Superviseur
+    
+    WifiData "*" -- "1" ScanData
+
+    }
+Utilisateur "1"--"1" ScanData
+
+
+package "Carte" {
+
+    class Campus{
+    +Plan
+    }
+    
+    class Batiment
+    
+    class Etage{
+    +Plan
+    }
+
+    class Piece{
+    +Position sur la carte
+    }
+    
+    ScanData "*" -- "1" Piece : Réalisé dans
+    Piece "*" --* "1" Etage
+
+    Etage "*" --* "1" Batiment
+    Campus "1" *-- "*" Batiment
+    Administrateur "*" -- "1" Campus : Gère
+}
+
+
+@enduml

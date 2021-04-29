@@ -8,12 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.univtln.univTlnLPS.R;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
     }
 
     public void onClickSeLocaliser(View v) {
@@ -24,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
     public void onClickSeConnecter(View v) {
         //Intent i = new Intent(this, AjoutData.class);
         Intent i = new Intent(this, SeConnecter.class);
+        startActivity(i);
+    }
+
+    public void onClickDevenirSuperviseur(View V) {
+        Intent i = new Intent(this, DevenirSuperviseur.class);
         startActivity(i);
     }
 }
