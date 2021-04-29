@@ -20,6 +20,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NamedQueries({
+        @NamedQuery(name = "utilisateur.findByID", query = "select utilisateur from Utilisateur utilisateur where utilisateur.id=:id"),
+        @NamedQuery(name = "utilisateur.findByCaract", query = "select utilisateur from Utilisateur utilisateur where utilisateur.caracteristiquesMachine=:caract")})
+
 
 @Entity
 
@@ -33,7 +37,7 @@ public class Utilisateur {
     @XmlElement
     @NotNull
     //@Size(min = 2, max = 10)
-    private String CaracteristiquesMachine;
+    private String caracteristiquesMachine;
 
     @XmlElement
     @OneToOne

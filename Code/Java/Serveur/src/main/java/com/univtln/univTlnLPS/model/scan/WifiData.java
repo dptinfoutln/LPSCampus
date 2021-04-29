@@ -1,5 +1,7 @@
 package com.univtln.univTlnLPS.model.scan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -18,6 +20,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
+@NamedQueries({
+        @NamedQuery(name = "wifiData.findById", query = "select wifiData from WifiData wifiData where wifiData.id=:id")})
 
 @Entity
 public class WifiData {
@@ -64,4 +69,8 @@ public class WifiData {
     @XmlElement
     @Size(max = 20)
     private String venueName;
+
+    @JsonIgnore
+    @ManyToOne
+    private ScanData scanData;
 }

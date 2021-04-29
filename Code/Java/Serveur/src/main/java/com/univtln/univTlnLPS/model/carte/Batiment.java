@@ -20,11 +20,19 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+
+
+@NamedQueries({
+        @NamedQuery(name = "batiment.findByName", query = "select batiment from Batiment batiment where batiment.name=:name")})
+
 public class Batiment {
+
+    @XmlElement
+    private String name;
 
     @XmlElement(name = "Etage")
     @XmlElementWrapper(name = "Etages")
-    @OneToMany
+    @OneToMany(mappedBy="bat")
     private Set<Etage> etageList;
 
     @XmlAttribute

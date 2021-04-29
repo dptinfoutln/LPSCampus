@@ -19,7 +19,7 @@ public class UtilisateurResources {
     @PUT
     @Path("utilisateurs/init")
     public void init() throws IllegalArgumentException {
-        Utilisateur.builder().CaracteristiquesMachine("").build();
+        Utilisateur.builder().caracteristiquesMachine("").build();
     }
 
 

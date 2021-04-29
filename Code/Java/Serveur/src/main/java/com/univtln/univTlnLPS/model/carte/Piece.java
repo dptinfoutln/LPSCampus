@@ -1,8 +1,7 @@
 package com.univtln.univTlnLPS.model.carte;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
@@ -20,6 +19,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+
+@NamedQueries({
+        @NamedQuery(name = "piece.findById", query = "select piece from Piece piece where piece.id=:id")})
+
 public class Piece {
 
     @XmlElement
@@ -32,4 +35,8 @@ public class Piece {
     @Id
     @GeneratedValue
     private long id;
+
+    @JsonIgnore
+    @ManyToOne
+    private Etage etage;
 }

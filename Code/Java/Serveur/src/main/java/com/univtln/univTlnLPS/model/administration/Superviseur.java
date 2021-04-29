@@ -1,8 +1,6 @@
 package com.univtln.univTlnLPS.model.administration;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
@@ -26,6 +24,9 @@ import java.util.Arrays;
 @SuperBuilder
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@NamedQueries({
+        @NamedQuery(name = "superviseur.findByEmail", query = "select superviseur from Superviseur superviseur where superviseur.email=:email"),
+        @NamedQuery(name = "superviseur.findByAccount", query = "select superviseur from Superviseur superviseur where (superviseur.email=:email) and (superviseur.passwordHash=:passwordhash)")})
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

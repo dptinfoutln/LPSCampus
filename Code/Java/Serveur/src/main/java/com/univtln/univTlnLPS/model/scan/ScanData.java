@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.scan;
 
+import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -21,6 +22,11 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
+
+@NamedQueries({
+        @NamedQuery(name = "scanData.findById", query = "select scanData from ScanData scanData where scanData.id=:id")})
+
+
 @Entity
 public class ScanData {
     @XmlAttribute
@@ -35,6 +41,8 @@ public class ScanData {
 
     @XmlElement(name = "Wifi")
     @XmlElementWrapper(name = "Wifis")
-    @OneToMany
+    @OneToMany(mappedBy="scanData")
     Set<WifiData> wifiList;
+
+
 }
