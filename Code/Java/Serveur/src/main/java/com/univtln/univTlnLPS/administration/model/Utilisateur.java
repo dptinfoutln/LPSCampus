@@ -38,4 +38,21 @@ public class Utilisateur {
     @XmlElement
     @OneToOne
     private ScanData scan;
+
+
+    public enum Role {
+        /**
+         * Admin role.
+         */
+        ADMIN,
+        /**
+         * User role.
+         */
+        USER,
+        /**
+         * Guest role.
+         */
+        GUEST
+    }
+
 }
