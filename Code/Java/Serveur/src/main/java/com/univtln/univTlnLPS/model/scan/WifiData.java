@@ -22,8 +22,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
-@NamedQueries({
-        @NamedQuery(name = "wifiData.findById", query = "select wifiData from WifiData wifiData where wifiData.id=:id")})
 
 @Entity
 public class WifiData implements SimpleEntity {

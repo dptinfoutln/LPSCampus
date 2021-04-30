@@ -27,5 +27,4 @@ public class SuperviseurDAO extends AbstractDAO<Superviseur> {
                 .getResultList();
     }
 
-
 }

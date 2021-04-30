@@ -13,9 +13,9 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")
 public class EtageDAO extends AbstractDAO<Etage> {
-    public List<Etage> findById(long id) {
-        return getEntityManager().createNamedQuery("etage.findById")
-                .setParameter("id", id)
+    public List<Etage> findByName(String name) {
+        return getEntityManager().createNamedQuery("etage.findByName")
+                .setParameter("name", name)
                 .getResultList();
     }
 }

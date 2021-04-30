@@ -1,8 +1,11 @@
 package com.univtln.univTlnLPS.model.administration;
 
+import com.univtln.univTlnLPS.model.carte.Piece;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -16,6 +19,7 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -47,6 +51,11 @@ public class Superviseur extends Utilisateur {
     @XmlElement
     @NotNull
     byte[] salt = new byte[16];
+
+    @XmlElement(name = "scan")
+    @XmlElementWrapper(name = "scans")
+    @OneToMany(mappedBy="scan")
+    private Set<ScanData> scanList;
 
     SecureRandom random = new SecureRandom();
 

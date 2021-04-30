@@ -25,12 +25,15 @@ import java.util.Set;
 
 
 @NamedQueries({
-        @NamedQuery(name = "etage.findById", query = "select etage from Etage etage where etage.id=:id")})
+        @NamedQuery(name = "etage.findByName", query = "select etage from Etage etage where etage.name=:name")})
 
 public class Etage implements SimpleEntity {
 
     @XmlElement
     private String plan;
+
+    @XmlElement
+    private String name;
 
     @XmlAttribute
     @EqualsAndHashCode.Include

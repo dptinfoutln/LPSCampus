@@ -2,6 +2,8 @@ package com.univtln.univTlnLPS.model.scan;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
+import com.univtln.univTlnLPS.model.administration.Superviseur;
+import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.persistence.*;
@@ -27,7 +29,9 @@ import java.util.Set;
 
 
 @NamedQueries({
-        @NamedQuery(name = "scanData.findById", query = "select scanData from ScanData scanData where scanData.id=:id")})
+        @NamedQuery(name = "scanData.findByPiece", query = "select scanData from ScanData scanData where scanData.piece=:piece"),
+        @NamedQuery(name = "scanData.findByUser", query = "select scanData from ScanData scanData where scanData.user=:user"),
+        @NamedQuery(name = "scanData.findBySuper", query = "select scanData from ScanData scanData where scanData.superviseur=:superviseur")})
 
 
 @Entity
@@ -51,5 +55,12 @@ public class ScanData implements SimpleEntity {
     @OneToMany(mappedBy="scanData")
     Set<WifiData> wifiList;
 
+    @XmlElement
+    @OneToOne
+    private Utilisateur user;
+
+    @JsonIgnore
+    @ManyToOne
+    private Superviseur superviseur;
 
 }

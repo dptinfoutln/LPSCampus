@@ -25,7 +25,7 @@ import java.util.Set;
 @Entity
 
 @NamedQueries({
-        @NamedQuery(name = "piece.findById", query = "select piece from Piece piece where piece.id=:id")})
+        @NamedQuery(name = "piece.findByName", query = "select piece from Piece piece where piece.name=:name")})
 
 public class Piece implements SimpleEntity {
 

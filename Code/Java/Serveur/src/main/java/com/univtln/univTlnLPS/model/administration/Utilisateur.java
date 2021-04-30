@@ -46,7 +46,7 @@ public class Utilisateur implements SimpleEntity {
 
     @XmlElement
     @OneToOne
-    private ScanData scan;
+    private ScanData lastScan;
 
 
     public enum Role {
