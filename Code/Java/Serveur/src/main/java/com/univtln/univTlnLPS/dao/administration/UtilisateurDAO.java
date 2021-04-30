@@ -23,4 +23,10 @@ public class UtilisateurDAO extends AbstractDAO<Utilisateur> {
                 .setParameter("caract", caract)
                 .getResultList();
     }
+
+    public List<Utilisateur> findByScanId(long idScan) {
+        return getEntityManager().createNamedQuery("utilisateur.findByScanId")
+                .setParameter("scan", idScan)
+                .getResultList();
+    }
 }

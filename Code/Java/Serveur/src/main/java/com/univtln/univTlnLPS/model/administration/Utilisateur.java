@@ -23,8 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NamedQueries({
         @NamedQuery(name = "utilisateur.findByID", query = "select utilisateur from Utilisateur utilisateur where utilisateur.id=:id"),
-        @NamedQuery(name = "utilisateur.findByCaract", query = "select utilisateur from Utilisateur utilisateur where utilisateur.caracteristiquesMachine=:caract")})
-
+        @NamedQuery(name = "utilisateur.findByCaract", query = "select utilisateur from Utilisateur utilisateur where utilisateur.caracteristiquesMachine=:caract"),
+        @NamedQuery(name = "utilisateur.findByScanId", query = "select utilisateur from Utilisateur utilisateur, in (utilisateur.scan) scan where scan.id=:idScan"),
+        @NamedQuery(name = "utilisateur.update", query = "update Utilisateur user set user.caracteristiquesMachine=:caract, user.scan=:scan where user.id=:id"),
+        @NamedQuery(name = "utilisateur.delete", query = "delete from Utilisateur utilisateur where utilisateur.id=:id")})
 
 @Entity
 

@@ -1,7 +1,9 @@
 package com.univtln.univTlnLPS.model.scan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.carte.Etage;
+import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -39,6 +41,10 @@ public class ScanData implements SimpleEntity {
     @XmlElement
     @Size(max = 30)
     private String infoScan;
+
+    @JsonIgnore
+    @ManyToOne
+    private Piece piece;
 
     @XmlElement(name = "Wifi")
     @XmlElementWrapper(name = "Wifis")

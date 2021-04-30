@@ -2,14 +2,17 @@ package com.univtln.univTlnLPS.model.carte;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,9 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Piece implements SimpleEntity {
 
     @XmlElement
-    public int position_x;
+    private int position_x;
     @XmlElement
-    public int position_y;
+    private int position_y;
 
     @XmlAttribute
     @EqualsAndHashCode.Include
@@ -40,4 +43,9 @@ public class Piece implements SimpleEntity {
     @JsonIgnore
     @ManyToOne
     private Etage etage;
+
+    @XmlElement(name = "scan")
+    @XmlElementWrapper(name = "scans")
+    @OneToMany(mappedBy="scan")
+    private Set<ScanData> scanList;
 }

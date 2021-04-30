@@ -25,8 +25,20 @@ import java.util.Arrays;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-        @NamedQuery(name = "superviseur.findByEmail", query = "select superviseur from Superviseur superviseur where superviseur.email=:email"),
-        @NamedQuery(name = "superviseur.findByAccount", query = "select superviseur from Superviseur superviseur where (superviseur.email=:email) and (superviseur.passwordHash=:passwordhash)")})
+        @NamedQuery(name = "superviseur.findByEmail",
+                query = "select superviseur from Superviseur superviseur" +
+                        " where superviseur.email=:email"),
+        @NamedQuery(name = "superviseur.findByAccount",
+                query = "select superviseur from Superviseur superviseur" +
+                        " where (superviseur.email=:email) and (superviseur.passwordHash=:passwordhash)"),
+        @NamedQuery(name = "superviseur.update",
+                query = "update Superviseur super" +
+                        " set super.email=:email," +
+                        " super.passwordHash=:pWH," +
+                        " super.caracteristiquesMachine=:caract," +
+                        " super.scan=:scan" +
+                        " where super.id=:id"),
+        @NamedQuery(name = "superviseur.delete", query = "delete from Superviseur superviseur where superviseur.id=:id")})
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
