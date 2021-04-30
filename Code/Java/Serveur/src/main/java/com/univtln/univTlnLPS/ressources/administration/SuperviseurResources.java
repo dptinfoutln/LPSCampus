@@ -14,6 +14,13 @@ public class SuperviseurResources {
 
     final MutableLongObjectMap<Superviseur> superviseurs = LongObjectMaps.mutable.empty();
 
+    @POST
+    @Path("connexion")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String connexion(String content) {
+        return "success";
+    }
+
 
     @PUT
     @Path("superviseurs/init")
