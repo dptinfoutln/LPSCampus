@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.carte;
 
+import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -25,7 +26,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "batiment.findByName", query = "select batiment from Batiment batiment where batiment.name=:name")})
 
-public class Batiment {
+public class Batiment implements SimpleEntity {
 
     @XmlElement
     private String name;

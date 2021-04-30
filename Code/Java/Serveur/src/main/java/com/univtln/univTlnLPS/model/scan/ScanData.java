@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.scan;
 
+import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -28,7 +29,7 @@ import java.util.Set;
 
 
 @Entity
-public class ScanData {
+public class ScanData implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id

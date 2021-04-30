@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.model.scan;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "wifiData.findById", query = "select wifiData from WifiData wifiData where wifiData.id=:id")})
 
 @Entity
-public class WifiData {
+public class WifiData implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id

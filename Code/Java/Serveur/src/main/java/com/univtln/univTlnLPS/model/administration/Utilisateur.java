@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.administration;
 
+import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 
-public class Utilisateur {
+public class Utilisateur implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id

@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.carte;
 
+import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -23,7 +24,7 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Campus {
+public class Campus implements SimpleEntity {
     @XmlElement
     private String plan;
 

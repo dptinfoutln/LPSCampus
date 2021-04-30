@@ -7,11 +7,18 @@ import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.net.URI;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Log
 public class LPSServer {
+
+    static final public Properties properties = new Properties();
+
+    static {
+        properties.setProperty("pu", "mypu");
+    }
 
     public static final String BASE_URI = "http://0.0.0.0:9998/LPS";
 

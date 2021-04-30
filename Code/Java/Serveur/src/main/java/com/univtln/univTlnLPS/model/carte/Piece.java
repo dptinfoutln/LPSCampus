@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.model.carte;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
         @NamedQuery(name = "piece.findById", query = "select piece from Piece piece where piece.id=:id")})
 
-public class Piece {
+public class Piece implements SimpleEntity {
 
     @XmlElement
     public int position_x;
