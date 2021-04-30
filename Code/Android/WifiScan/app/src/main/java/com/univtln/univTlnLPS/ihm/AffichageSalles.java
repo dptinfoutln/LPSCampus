@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,12 +22,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class AffichageSalles extends AppCompatActivity {
+public class AffichageSalles extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private SSGBDControleur ssgbdControleur;
     ListView ListeViewSalles;
     List<String> ListeSalles;
     ListAdapter ListeAdapter;
+
+    private String lastId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,16 @@ public class AffichageSalles extends AppCompatActivity {
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
+        lastId = "-1";
         affichageSalle();
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long id) {
+        String resultat = (String)parent.getItemAtPosition(position);
+        lastId = resultat.split(":")[0];
     }
 
 
@@ -56,7 +67,7 @@ public class AffichageSalles extends AppCompatActivity {
             public void run() {
                 String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("pieces", null, "GET", !true);
+                    chaine = ssgbdControleur.doRequest("GET", "pieces", null, !true);
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     Iterator<String> it = jchaine.keys();
@@ -72,6 +83,7 @@ public class AffichageSalles extends AppCompatActivity {
                         @Override
                         public void run() {
                             ListeViewSalles.setAdapter(ListeAdapter);
+                            ListeViewSalles.setOnItemClickListener(AffichageSalles.this);
                         }
                     });
 
@@ -83,8 +95,11 @@ public class AffichageSalles extends AppCompatActivity {
     }
 
     public void onClickChoisir(View v) {
-        Intent i = new Intent(this, AffichageDonneesSalle.class);
-        i.putExtra("ssgbdC", ssgbdControleur);
-        startActivity(i);
+        if (!"-1".equals(lastId)) {
+            Intent i = new Intent(this, AffichageDonneesSalle.class);
+            i.putExtra("ssgbdC", ssgbdControleur);
+            i.putExtra("salleId", lastId);
+            startActivity(i);
+        }
     }
 }

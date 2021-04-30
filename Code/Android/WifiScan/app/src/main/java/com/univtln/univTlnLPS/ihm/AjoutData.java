@@ -129,6 +129,22 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     data.append("VenueName:").append(scanRes.venueName).append("\n");
                     data.append("\n");
                 }
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String chaine = null;
+                        try {
+                            //String name;
+                            //name = (JSONObject)jchaine.get(name)).getString("name");
+                            //chaine = ssgbdControleur.doRequest("PUT", "pieces/" + name, null, !true); // ajout name
+                            //JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
                 data.append('\n');
 
                 WriteFile.createFile(directory, fileName);

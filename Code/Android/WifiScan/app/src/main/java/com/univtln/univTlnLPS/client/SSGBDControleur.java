@@ -32,7 +32,7 @@ public class SSGBDControleur implements Serializable {
         return new JSONObject(res);
     }
 
-    public String doRequest(String path, JSONObject param, String method, boolean secured) throws JSONException {
+    public String doRequest(String method, String path, JSONObject param, boolean secured) throws JSONException {
 
         HttpURLConnection urlConnection = null;
         String res = "";
@@ -98,7 +98,7 @@ public class SSGBDControleur implements Serializable {
                     }
                     else{
                         // sinon on réessaie en envoyant le token
-                        res =  doRequest(path, param, method, true);
+                        res =  doRequest(method, path, param,true);
                     }
                     break;
 
@@ -106,7 +106,7 @@ public class SSGBDControleur implements Serializable {
                 case 498:
                     // on récupère un nouveau token et on réessaie
                     c.seConnecter();
-                    res =  doRequest(path, param, method, true);
+                    res =  doRequest(method, path, param, true);
                     break;
 
             }

@@ -17,11 +17,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class AffichageDonneesSalle extends AppCompatActivity {
 
     private SSGBDControleur ssgbdControleur;
     ListView ListeDonneesSalle;
+    private ListAdapter listeAdapter;
+    private List<String> liste;
+
+    private String salleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,30 +36,49 @@ public class AffichageDonneesSalle extends AppCompatActivity {
 
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+        salleId = i.getStringExtra("salleId");
 
+        try {
+            affichageDonneedSalle();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void affichageDonneedSalle(View v) throws JSONException {
-        ListAdapter listeAdapter = new AdapterSalles(this, new ArrayList<>());
+    public void affichageDonneedSalle() throws JSONException {
+        listeAdapter = new AdapterSalles(this, new ArrayList<>());
         ListeDonneesSalle = (ListView) findViewById(R.id.listedonneessalle);
-        //Piece piece = new Piece();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("pieces/", null, "GET", !true);
+                    chaine = ssgbdControleur.doRequest("GET", "pieces/" + salleId + "/scans", null, !true);
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
+
+                    liste = new ArrayList<>();
+
+                    Iterator<String> it = jchaine.keys();
+                    String name;
+                    while (it.hasNext()) {
+                        name = it.next(); // id de l'objet piece
+                        name = ((JSONObject)jchaine.get(name)).toString(); // on récupère le nom associé
+                        liste.add(name);
+                    }
+                    listeAdapter = new AdapterSalles(AffichageDonneesSalle.this, liste);
+
+                    AffichageDonneesSalle.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ListeDonneesSalle.setAdapter(listeAdapter);
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
-        // remplir la listeAdapter avec la liste des salles grace à la BDD Java
-        // donner à la liste view la liste adpater
-        // rendre la liste view cliquable
     }
 
 }
