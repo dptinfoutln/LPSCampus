@@ -34,6 +34,9 @@ public class Piece implements SimpleEntity {
     @XmlElement
     private int position_y;
 
+    @XmlElement
+    private String name;
+
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id
