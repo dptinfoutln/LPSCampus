@@ -1,13 +1,21 @@
 package com.univtln.univTlnLPS.ressources.scan;
 
+import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
@@ -74,11 +82,18 @@ public class ScanDataResources {
         lastId = 0;
     }
 
-    /* TODO: finish get scans by piece_id
+    // TODO: finish get scans by piece_id
     @GET
     @Path("pieces/{id}/scans")
-    public ScanData getScanDataByPiece(@PathParam("id") long id) throws NotFoundException {
-        if (!scandatas.containsKey(id)) throw new NotFoundException();
-        return scandatas.get(id);
-    }*/
+    public Map<Long, ScanData> getScanDataByPiece(@PathParam("id") long id) throws NotFoundException {
+        Client client = ClientBuilder.newClient();
+        WebTarget webResource = client.target("http://localhost:9998/LPS");
+        Piece p = webResource.path("LaGarde/pieces/"+id)
+                .request().get(Piece.class);
+
+        Map<Long, ScanData> map = p.getScanList().stream()
+                .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+
+        return map;
+    }
 }

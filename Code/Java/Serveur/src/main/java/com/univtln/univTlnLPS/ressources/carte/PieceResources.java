@@ -2,11 +2,17 @@ package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
@@ -14,7 +20,7 @@ import jakarta.ws.rs.*;
 public class PieceResources {
     private static long lastId = 0;
 
-    final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
+    private static final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
     @PUT
     @Path("pieces/init")
@@ -22,8 +28,15 @@ public class PieceResources {
         long i;
         for(i = 0; i < 5; i++){
             Piece p = Piece.builder().build();
+
+            Set<ScanData> scanList = new HashSet<>();
+            scanList.add(ScanData.builder().id(i*2).piece(p).build());
+            scanList.add(ScanData.builder().id(i*2+1).piece(p).build());
+
             p.setId(i);
             p.setPosition_x((int)i);
+            p.setName("name"+i);
+            p.setScanList(scanList);
             pieces.put(i, p);
         }
         lastId = 5;
@@ -69,12 +82,6 @@ public class PieceResources {
     @GET
     @Path("pieces")
     public MutableLongObjectMap<Piece> getPieces() throws NotFoundException {
-        for(long i = 0; i < 5; i++){
-            Piece p = Piece.builder().build();
-            p.setId(i);
-            p.setPosition_x((int)i);
-            pieces.put(i, p);
-        }
         return pieces;
     }
 
