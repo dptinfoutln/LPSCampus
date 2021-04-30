@@ -27,7 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         String ip = ipTxt.getText().toString();
         if ("".equals(ip))
             return false;
-        ssgbdControleur = new SSGBDControleur("");
+        ssgbdControleur = new SSGBDControleur(ip);
         return true;
     }
 

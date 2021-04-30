@@ -25,11 +25,13 @@ public class AjoutDataOrConsulterData extends AppCompatActivity {
 
     public void onClickAjouterDonnees(View v) {
         Intent i = new Intent(this, AjoutData.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
     }
 
     public void onClickConsulterDonnees(View v) {
         Intent i = new Intent(this, AffichageSalles.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
     }
 }

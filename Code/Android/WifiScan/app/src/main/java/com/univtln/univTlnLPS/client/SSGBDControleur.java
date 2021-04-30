@@ -28,38 +28,55 @@ public class SSGBDControleur implements Serializable {
         return ip;
     }
 
-    public JSONObject getObjectFromJSONString(String res) throws JSONException {
+    public static JSONObject getJSONFromJSONString(String res) throws JSONException {
         return new JSONObject(res);
     }
 
     public String doRequest(String path, JSONObject param, String method, boolean secured) throws JSONException {
-        if (secured) {
-            if (c.getToken() == null)
-                if (!c.seConnecter())
-                    return ""; // échec de l'authentification
-            param.put("token", c.getToken());
-        }
 
         HttpURLConnection urlConnection = null;
         String res = "";
         try {
             URL url = new URL(baseUrl + path);
+
+            // on ouvre la connection (on paramètre la requete)
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setDoOutput(true);
+
+            // si on veut envoyer quelque chose (impossible pour GET/DELETE)
+            // note: utiliser GET avec param == null va exécuter un POST
+            urlConnection.setDoOutput(param != null);
+
+            if (secured) {
+                if (c.getToken() == null)
+                    if (!c.seConnecter()){
+                        urlConnection.disconnect();
+                        return ""; // échec de l'authentification
+                    }
+                // on met le token dans le header
+                urlConnection.setRequestProperty("Authorization", c.getToken());
+            }
+
             urlConnection.setDoInput(true);
-            urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             urlConnection.setRequestMethod(method);
 
-            DataOutputStream localDataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
-            localDataOutputStream.writeBytes(param.toString());
-            localDataOutputStream.flush();
-            localDataOutputStream.close();
+            if (param != null) {
+                // on indique dans l'header qu'on envoie du json
+                urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
+                // on envoie param
+                DataOutputStream localDataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
+                localDataOutputStream.writeBytes(param.toString());
+                localDataOutputStream.flush();
+                localDataOutputStream.close();
+            }
+
+            // on exécute la requete
             urlConnection.connect();
 
             int status = urlConnection.getResponseCode();
             if (status >= 200 && status <= 299)
                 status = 200;
+
             switch(status) {
                 case 200:
                     BufferedReader br = new BufferedReader((new InputStreamReader(urlConnection.getInputStream())));
@@ -74,15 +91,23 @@ public class SSGBDControleur implements Serializable {
 
                 case 401:
                 case 403:
+                    // si on a déjà envoyé le token
                     if (secured) {
-                        return "";
+                        // echec
+                        res =  "";
                     }
-                    return doRequest(path, param, method, true);
+                    else{
+                        // sinon on réessaie en envoyant le token
+                        res =  doRequest(path, param, method, true);
+                    }
+                    break;
 
                 // si le token est invalide ou a expiré
                 case 498:
+                    // on récupère un nouveau token et on réessaie
                     c.seConnecter();
-                    return doRequest(path, param, method, true);
+                    res =  doRequest(path, param, method, true);
+                    break;
 
             }
         } catch (IOException e) {
@@ -93,7 +118,7 @@ public class SSGBDControleur implements Serializable {
             }
         }
 
-        return "";
+        return res;
     }
 
 

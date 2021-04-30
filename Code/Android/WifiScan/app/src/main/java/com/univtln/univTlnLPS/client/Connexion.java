@@ -33,7 +33,7 @@ public class Connexion implements Serializable {
     }
 
 
-    public void setIdentifiants(String login, String mdp){
+    public void setIdentifiants(String login, String mdp) {
         this.login = login;
         this.mdp = mdp;
         this.token = null;
