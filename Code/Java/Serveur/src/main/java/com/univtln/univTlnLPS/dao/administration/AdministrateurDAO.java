@@ -14,29 +14,4 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")
 public class AdministrateurDAO extends AbstractDAO<Administrateur> {
-    public List<Administrateur> findById(long id) {
-        return getEntityManager().createNamedQuery("administrateur.findByID")
-                .setParameter("id", id)
-                .getResultList();
-    }
-
-    public List<Administrateur> update(Campus campus,
-                                       String email,
-                                       String pWH,
-                                       String caract,
-                                       ScanData scan) {
-        return getEntityManager().createNamedQuery("superviseur.update")
-                .setParameter("campus", campus)
-                .setParameter("email", email)
-                .setParameter("pWH", pWH)
-                .setParameter("caract", caract)
-                .setParameter("scan", scan)
-                .getResultList();
-    }
-
-    public void delete(long id) {
-        getEntityManager().createNamedQuery("administrateur.delete")
-                .setParameter("id", id);
-        return;
-    }
 }

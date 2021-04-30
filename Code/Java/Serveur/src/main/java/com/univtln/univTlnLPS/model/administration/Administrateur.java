@@ -21,22 +21,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@NamedQueries({
-        @NamedQuery(name = "administrateur.findByID",
-                query = "select Administrateur from Administrateur admin" +
-                        " where admin.id=:id"),
-        @NamedQuery(name = "administrateur.update",
-                query = "update Administrateur admin" +
-                        " set admin.campus=:campus," +
-                        " admin.email=:email," +
-                        " admin.passwordHash=:pWH," +
-                        " admin.caracteristiquesMachine=:caract," +
-                        " admin.scan=:scan" +
-                        " where admin.id=:id"),
-        @NamedQuery(name = "administrateur.delete",
-                query = "delete from Administrateur admin" +
-                        " where admin.id=:id")})
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Administrateur extends Superviseur {
