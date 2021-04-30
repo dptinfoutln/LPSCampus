@@ -1,0 +1,101 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client
+
+package "Administration" {
+    class Utilisateur {
+    +CaracteristiquesMachine
+    }
+    
+    class Superviseur{
+    +login
+    +password
+    }
+    
+    class Administrateur
+
+    }
+
+
+    
+package Scan{ 
+    
+    class ScanData{
+    + InfoScan
+    }
+    
+    Superviseur --> Utilisateur 
+    
+    Administrateur --> Superviseur
+    
+    WifiData "*" -- "1" ScanData
+
+    }
+
+package "Carte" {
+
+    class Campus{
+    +Plan
+    }
+    
+    class Batiment
+    
+    class Etage{
+    +Plan
+    }
+
+    class Piece{
+    +Position sur la carte
+    }
+    
+    ScanData "*" -- "1" Piece : Réalisé dans
+    Piece "*" --* "1" Etage
+
+    Etage "*" --* "1" Batiment
+    Campus "1" *-- "*" Batiment
+    Administrateur "*" -- "1" Campus : Gère
+}
+
+package Localisation {
+    'classe Position = position que l'algo retourne
+    class Position {} 
+    class ModeleControleur {}
+    
+    Position "*" -- "1" Piece : détection dans
+    ScanData "1"--"1" ModeleControleur
+}
+
+Position -- ModeleControleur
+
+package Interface {
+    class HomeActivity
+    class AffichageDonneesSalleActivity
+    class AffichageSalleActivity
+    class AjoutDataouConsulterActivity
+    class DevenirSuperviseurActivity
+    class SeConnecterActivity
+    class SeLocaliserActivity
+    class AjoutDataActivity
+}
+
+Superviseur -- SeConnecterActivity
+HomeActivity -- SeLocaliserActivity
+HomeActivity -- DevenirSuperviseurActivity
+
+SeConnecterActivity -- AjoutDataouConsulterActivity
+
+AjoutDataouConsulterActivity -- AffichageSalleActivity
+AjoutDataouConsulterActivity -- AjoutDataActivity
+
+AffichageSalleActivity -- AffichageDonneesSalleActivity
+
+
+Utilisateur -- HomeActivity
+
+ScanData -- AjoutDataActivity
+
+
+SeLocaliserActivity -- ScanData
+
+
+@enduml

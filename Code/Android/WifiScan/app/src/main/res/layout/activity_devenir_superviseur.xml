@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ihm.DevenirSuperviseur">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/imgTln"
+        android:background="@drawable/tln"
+        android:layout_marginBottom="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="Cette application est un projet de Machine learning réalisé par des étudiants du M1 info et nécessite de nombreuses données wifi. Pour participer à l'amélioration de l'application vous pouvez nous aider à récupérer des données en devenant Superviseur. Si vous êtes membre de l'université et que cela vous intéresse merci de remplir le formulaire suivant.">
+    </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Adresse email : ">
+
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/loginTxt"
+            android:hint="Entrez votre Adresse Universitaire">
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mot de passe (min 5 caractères): ">
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mdpTxt"
+            android:hint="Entrez votre Mot de passe">
+        </EditText>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/frameDevenirSuper"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btnEnvoyer"
+            android:text="Merci pour votre intérêt pour l'application. Une réponse par mail vous sera donnée dans les plus brefs délais en fonction de la demande et de la nécessité.">
+        </TextView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Envoyer la demande"
+            android:id="@+id/btnEnvoyer"
+            android:onClick="checkForm"
+            android:layout_alignBottom="@id/frameDevenirSuper"
+            android:layout_marginTop="10sp">
+        </Button>
+    </RelativeLayout>
+
+</LinearLayout>

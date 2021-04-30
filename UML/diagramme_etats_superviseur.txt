@@ -1,0 +1,31 @@
+@startuml
+
+title State Diagram - Superviseur
+
+left to right direction
+
+[*] -> NonConnecté
+NonConnecté --> NonConnecté : échec de l'authentification
+NonConnecté -> [*]
+
+state Connecté {
+    [*] --> DonnéesValidées
+    DonnéesValidées --> AttenteDeValidation : Ajout de données
+    AttenteDeValidation --> DonnéesValidées : Validation
+}
+
+NonConnecté --> Connecté : Authentification réussie
+Connecté --> NonConnecté :  Déconnexion
+
+'GlassEmpty --> [*]
+'GlassEmpty : Contents - void
+
+'GlassEmpty -> GlassFull
+'GlassFull : Water
+'GlassFull --> [*]
+
+'note right
+'this is a note
+'end note
+
+@enduml

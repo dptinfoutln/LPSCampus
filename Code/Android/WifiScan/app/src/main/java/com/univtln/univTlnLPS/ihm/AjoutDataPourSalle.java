@@ -30,6 +30,7 @@ public class AjoutDataPourSalle extends AppCompatActivity implements Runnable {
     private ScanListAdapter adapter;
 
     private EditText editTxt, editTxtInfo;
+    private EditText ipTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,8 @@ public class AjoutDataPourSalle extends AppCompatActivity implements Runnable {
 
         editTxt = findViewById(R.id.nomDeLaSalle);
         editTxtInfo = findViewById(R.id.motDePasse);
+
+        ipTxt = findViewById(R.id.ip3);
     }
 
     Button btn;
@@ -135,7 +138,7 @@ public class AjoutDataPourSalle extends AppCompatActivity implements Runnable {
         try {
             res = Client.convertScan(wifiScan.getResults());
             mess = res.toString();
-            Client.get(Client.uri, res);
+            Client.get(Client.uri1 + ipTxt.getText().toString() + Client.uri2, res);
         } catch (JSONException e) {
             e.printStackTrace();
         }
