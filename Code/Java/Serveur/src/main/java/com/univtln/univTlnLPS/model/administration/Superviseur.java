@@ -25,6 +25,9 @@ import java.util.Arrays;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
+        @NamedQuery(name = "superviseur.findByID",
+                query = "select Superviseur from Superviseur super" +
+                        " where super.id=:id"),
         @NamedQuery(name = "superviseur.findByEmail",
                 query = "select superviseur from Superviseur superviseur" +
                         " where superviseur.email=:email"),

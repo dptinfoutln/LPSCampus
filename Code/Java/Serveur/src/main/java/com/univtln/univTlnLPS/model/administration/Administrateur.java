@@ -26,7 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
                 query = "select Administrateur from Administrateur admin" +
                         " where admin.id=:id"),
         @NamedQuery(name = "administrateur.update",
-                query = "update Administrateur admin set admin.campus=:campus," +
+                query = "update Administrateur admin" +
+                        " set admin.campus=:campus," +
                         " admin.email=:email," +
                         " admin.passwordHash=:pWH," +
                         " admin.caracteristiquesMachine=:caract," +
