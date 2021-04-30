@@ -73,4 +73,11 @@ public class ScanDataResources {
         scandatas.clear();
         lastId = 0;
     }
+
+    @GET
+    @Path("pieces/{id}/scans")
+    public ScanData getScanDataByPiece(@PathParam("id") long id) throws NotFoundException {
+        if (!scandatas.containsKey(id)) throw new NotFoundException();
+        return scandatas.get(id);
+    }
 }

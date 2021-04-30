@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
@@ -11,17 +12,21 @@ import jakarta.ws.rs.*;
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class PieceResources {
-
-
     private static long lastId = 0;
 
     final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
-
     @PUT
     @Path("pieces/init")
     public void init() throws IllegalArgumentException {
-        Piece.builder().build();
+        long i;
+        for(i = 0; i < 5; i++){
+            Piece p = Piece.builder().build();
+            p.setId(i);
+            p.setPosition_x((int)i);
+            pieces.put(i, p);
+        }
+        lastId = 5;
     }
 
     // add delete update
@@ -59,6 +64,18 @@ public class PieceResources {
     public Piece getPiece(@PathParam("id") long id) throws NotFoundException {
         if (!pieces.containsKey(id)) throw new NotFoundException();
         return pieces.get(id);
+    }
+
+    @GET
+    @Path("pieces")
+    public MutableLongObjectMap<Piece> getPieces() throws NotFoundException {
+        for(long i = 0; i < 5; i++){
+            Piece p = Piece.builder().build();
+            p.setId(i);
+            p.setPosition_x((int)i);
+            pieces.put(i, p);
+        }
+        return pieces;
     }
 
     @GET
