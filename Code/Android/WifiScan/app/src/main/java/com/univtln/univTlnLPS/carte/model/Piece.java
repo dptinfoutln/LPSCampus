@@ -9,7 +9,6 @@ public class Piece {
     private int position_y;
     private long id;
     private Etage etage;
-
     private Set<ScanData> listScanData;
 
     public int getPosition_x() {

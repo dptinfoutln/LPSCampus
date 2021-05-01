@@ -56,12 +56,8 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
         ListeAdapter = new AdapterSalles(this, new ArrayList<>());
         ListeViewSalles = (ListView) findViewById(R.id.listedonneessalle);
         ListeSalles = new ArrayList<>();
-        // remplir la listeAdapter avec la liste des salles grace à la BDD Java
-        // donner à la liste view la liste adpater
-        // rendre la liste view cliquable
 
         // récupération de la liste des pièces
-
         new Thread(new Runnable() {
             @Override
             public void run() {

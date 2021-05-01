@@ -6,17 +6,21 @@ import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
+import com.univtln.univTlnLPS.carte.model.Etage;
 import com.univtln.univTlnLPS.client.Position;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.common.WriteFile;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
+import com.univtln.univTlnLPS.scan.model.ScanData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class AjoutData extends AppCompatActivity implements Runnable{
 
@@ -34,11 +39,19 @@ public class AjoutData extends AppCompatActivity implements Runnable{
     private ScanListAdapter adapter;
 
     private EditText editTxt, editTxtInfo;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ajout_data);
+
+
+        try {
+            addItemsOnSpinner();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         wifiScan = new WifiScan(getApplicationContext());
 
@@ -53,6 +66,18 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
     }
+
+    public void addItemsOnSpinner() throws JSONException {
+        spinner = (Spinner) findViewById(R.id.spinner);
+        List list = new ArrayList();
+        list.add(ssgbdControleur.doRequest("GET", "pieces", null, !true));
+
+        ArrayAdapter dataAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
 
     Button btn;
     public void launch(View v){
@@ -130,20 +155,33 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     data.append("\n");
                 }
 
-                new Thread(new Runnable() {
+                /*new Thread(new Runnable() {
                     @Override
                     public void run() {
                         String chaine = null;
                         try {
-                            //String name;
-                            //name = (JSONObject)jchaine.get(name)).getString("name");
-                            //chaine = ssgbdControleur.doRequest("PUT", "pieces/" + name, null, !true); // ajout name
+                            String name;
+                            name = findViewById(R.id.nomDeLaSalle).toString();
+
+                            chaine = ssgbdControleur.doRequest("GET", "pieces/name/" + name, null, !true); // ajout name
+                            if (chaine == "") {
+                                JSONObject param = new JSONObject();
+                                param.put("position_x", 0);
+                                param.put("position_y", 0);
+
+
+                                private Etage etage;
+                                private Set<ScanData> listScanData;
+                                // renvoyer vers une autre activité
+
+                                //ssgbdControleur.doRequest("PUT", "pieces/name/" + name, , !true); // ajout name
+                            }
                             //JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                }).start();
+                }).start();*/
 
                 data.append('\n');
 
