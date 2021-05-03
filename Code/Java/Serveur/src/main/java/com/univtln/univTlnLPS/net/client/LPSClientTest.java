@@ -48,11 +48,11 @@ public class LPSClientTest {
             EntityTransaction transaction = utilisateurDAO.getTransaction();
 
             transaction.begin();
-            //utilisateurDAO.persist(user1);
-            //utilisateurDAO.persist(user2);
+            utilisateurDAO.persist(user1);
+            utilisateurDAO.persist(user2);
 
-            //System.out.println("User 1:" + utilisateurDAO.find(1));
-            //System.out.println("User 2:" + utilisateurDAO.find(2));
+            System.out.println("User 1:" + utilisateurDAO.find(1));
+            System.out.println("User 2:" + utilisateurDAO.find(2));
 
             //System.out.println(utilisateurDAO.findAll());
 
@@ -60,16 +60,17 @@ public class LPSClientTest {
 
         }
 
-        /*try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+        try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
 
             EntityTransaction transaction = superviseurDAO.getTransaction();
 
             transaction.begin();
             superviseurDAO.persist(super1);
 
-            System.out.println(superviseurDAO.findAll());
+            System.out.println("super 3:" + superviseurDAO.find(3));
+            // System.out.println(superviseurDAO.findAll());
 
             transaction.commit();
-        }*/
+        }
     }
 }

@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @SuperBuilder
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

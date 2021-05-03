@@ -1,10 +1,9 @@
 package com.univtln.univTlnLPS.model.carte;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.univtln.univTlnLPS.model.administration.Administrateur;
+import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
@@ -40,4 +39,8 @@ public class Campus implements SimpleEntity {
     @Id
     @GeneratedValue
     private long id;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "campus")
+    private Administrateur administrateur;
 }

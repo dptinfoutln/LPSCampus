@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Administrateur extends Superviseur {
     @XmlElement
     @OneToOne

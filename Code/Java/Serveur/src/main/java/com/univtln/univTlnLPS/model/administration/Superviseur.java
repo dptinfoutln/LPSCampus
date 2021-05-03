@@ -39,7 +39,7 @@ import java.util.Set;
                         " where (superviseur.email=:email) and (superviseur.passwordHash=:passwordhash)")})
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 
 public class Superviseur extends Utilisateur {
     @XmlElement
