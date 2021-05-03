@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.Adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
 
 import org.json.JSONException;
 import org.json.JSONObject;

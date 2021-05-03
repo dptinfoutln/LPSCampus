@@ -1,9 +1,8 @@
-package com.univtln.univTlnLPS.ihm.Adapter;
+package com.univtln.univTlnLPS.ihm.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.net.wifi.ScanResult;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.scan.ScanListAdapter;
 
 import java.util.List;
 
-public class AdapterSalles extends BaseAdapter {
+public class AdapterDonneesSalle extends BaseAdapter {
     private List<String> stringList;
     private LayoutInflater inflater;
 
-    public AdapterSalles (Context context, List<String> stringList){
+    public AdapterDonneesSalle (Context context, List<String> stringList){
         this.stringList = stringList;
         inflater = LayoutInflater.from(context);
     }
@@ -46,16 +44,16 @@ public class AdapterSalles extends BaseAdapter {
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AdapterSalles.ViewHolder holder;
+        AdapterDonneesSalle.ViewHolder holder;
 
         if (convertView == null){
             convertView = inflater.inflate(R.layout.string_list, null);
-            holder = new AdapterSalles.ViewHolder();
+            holder = new AdapterDonneesSalle.ViewHolder();
             holder.textView1 = convertView.findViewById(R.id.stringtext1);
 
             convertView.setTag(holder);
         } else{
-            holder = (AdapterSalles.ViewHolder)convertView.getTag();
+            holder = (AdapterDonneesSalle.ViewHolder)convertView.getTag();
         }
 
         String str = stringList.get(position);

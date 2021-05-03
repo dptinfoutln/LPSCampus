@@ -5,6 +5,7 @@ import com.univtln.univTlnLPS.scan.model.ScanData;
 import java.util.Set;
 
 public class Piece {
+    private String nom;
     private int position_x;
     private int position_y;
     private long id;
@@ -39,4 +40,10 @@ public class Piece {
         this.listScanData = listScanData;
     }
 
+    public Piece(String nom, int position_x, int position_y, Etage etage) {
+        this.nom = nom;
+        this.position_x = position_x;
+        this.position_y = position_y;
+        this.etage = etage;
+    }
 }

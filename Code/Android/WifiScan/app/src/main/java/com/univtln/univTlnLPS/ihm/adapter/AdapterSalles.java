@@ -1,4 +1,4 @@
-package com.univtln.univTlnLPS.ihm.Adapter;
+package com.univtln.univTlnLPS.ihm.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,11 +13,11 @@ import com.univtln.univTlnLPS.R;
 
 import java.util.List;
 
-public class AdapterDonneesSalle extends BaseAdapter {
+public class AdapterSalles extends BaseAdapter {
     private List<String> stringList;
     private LayoutInflater inflater;
 
-    public AdapterDonneesSalle (Context context, List<String> stringList){
+    public AdapterSalles (Context context, List<String> stringList){
         this.stringList = stringList;
         inflater = LayoutInflater.from(context);
     }
@@ -44,16 +44,16 @@ public class AdapterDonneesSalle extends BaseAdapter {
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AdapterDonneesSalle.ViewHolder holder;
+        AdapterSalles.ViewHolder holder;
 
         if (convertView == null){
             convertView = inflater.inflate(R.layout.string_list, null);
-            holder = new AdapterDonneesSalle.ViewHolder();
+            holder = new AdapterSalles.ViewHolder();
             holder.textView1 = convertView.findViewById(R.id.stringtext1);
 
             convertView.setTag(holder);
         } else{
-            holder = (AdapterDonneesSalle.ViewHolder)convertView.getTag();
+            holder = (AdapterSalles.ViewHolder)convertView.getTag();
         }
 
         String str = stringList.get(position);

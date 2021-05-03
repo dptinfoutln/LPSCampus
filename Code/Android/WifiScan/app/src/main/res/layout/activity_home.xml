@@ -71,6 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/devenirSuperviseur"
+                android:text="10.21.74.229"
                 android:hint="IP"
                 android:textAlignment="viewStart"
                 android:textColor="#5E5A5A" />

@@ -46,8 +46,7 @@ public class AjoutDataPourSalle extends AppCompatActivity implements Runnable {
         adapter = new ScanListAdapter(this, new ArrayList<>());
         lv.setAdapter(adapter);
 
-        editTxt = findViewById(R.id.nomDeLaSalle);
-        editTxtInfo = findViewById(R.id.motDePasse);
+        editTxt = findViewById(R.id.infos);
 
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");

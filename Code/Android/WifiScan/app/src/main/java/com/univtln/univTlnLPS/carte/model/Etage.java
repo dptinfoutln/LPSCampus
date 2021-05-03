@@ -2,6 +2,7 @@ package com.univtln.univTlnLPS.carte.model;
 
 public class Etage {
 
+    private String nom;
     private long id;
     private String plan;
 
@@ -16,5 +17,11 @@ public class Etage {
     public Etage(long id, String plan) {
         this.id = id;
         this.plan = plan;
+    }
+
+
+    public Etage(String nom, long id) {
+        this.nom = nom;
+        this.id = id;
     }
 }

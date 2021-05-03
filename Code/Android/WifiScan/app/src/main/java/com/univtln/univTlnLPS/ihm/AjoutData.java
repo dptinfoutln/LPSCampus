@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -46,6 +47,16 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ajout_data);
 
+        wifiScan = new WifiScan(getApplicationContext());
+
+        ListView lv = findViewById(R.id.scanList);
+        adapter = new ScanListAdapter(this, new ArrayList<>());
+        lv.setAdapter(adapter);
+
+        editTxt = findViewById(R.id.infos);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
         try {
             addItemsOnSpinner();
@@ -53,34 +64,48 @@ public class AjoutData extends AppCompatActivity implements Runnable{
             e.printStackTrace();
         }
 
-        wifiScan = new WifiScan(getApplicationContext());
-
-        ListView lv = findViewById(R.id.scanList);
-        adapter = new ScanListAdapter(this, new ArrayList<>());
-        lv.setAdapter(adapter);
-
-        editTxt = findViewById(R.id.nomDeLaSalle);
-        editTxtInfo = findViewById(R.id.motDePasse);
-
-        Intent i = getIntent();
-        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
-
     }
 
     public void addItemsOnSpinner() throws JSONException {
         spinner = (Spinner) findViewById(R.id.spinner);
-        List list = new ArrayList();
-        list.add(ssgbdControleur.doRequest("GET", "pieces", null, !true));
+        List<String> list = new ArrayList<>();
 
-        ArrayAdapter dataAdapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, list);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "pieces", null, !true));
+
+                    Iterator<String> it = jsonObj.keys();
+                    while (it.hasNext()) {
+                        list.add( ((JSONObject)jsonObj.get(it.next())).getString("name") );
+                    }
+
+
+                    AjoutData.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(AjoutData.this,
+                                    android.R.layout.simple_spinner_item, list);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(dataAdapter);
+
+                        }
+                    });
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
     }
 
 
     Button btn;
-    public void launch(View v){
+    public void launch(View v) {
         /** /!\ ATTENTION: Ne pas appeler wifiScan.startScan() dans un thread,
          *  à cause des limitations de scan.
          **/
@@ -93,6 +118,13 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         else
             error();
 
+    }
+
+
+    public void creerSalle(View v) {
+        Intent i = new Intent(this, CreerSalle.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
     }
 
     public void error(){

@@ -4,14 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.carte.model.Piece;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.Adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
 
 import org.json.JSONException;
 import org.json.JSONObject;
