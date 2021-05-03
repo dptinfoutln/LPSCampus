@@ -7,9 +7,11 @@ import com.univtln.univTlnLPS.model.scan.ScanData;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.java.Log;
 
 import java.util.List;
 
+@Log
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")
 public class UtilisateurDAO extends AbstractDAO<Utilisateur> {
@@ -20,9 +22,9 @@ public class UtilisateurDAO extends AbstractDAO<Utilisateur> {
                 .getResultList();
     }
 
-    public List<Utilisateur> findByScanId(long idScan) {
-        return getEntityManager().createNamedQuery("utilisateur.findByScanId")
-                .setParameter("idScan", idScan)
+    public List<Utilisateur> findByScan(ScanData scan) {
+        return getEntityManager().createNamedQuery("utilisateur.findByScan")
+                .setParameter("scan", scan)
                 .getResultList();
     }
 }

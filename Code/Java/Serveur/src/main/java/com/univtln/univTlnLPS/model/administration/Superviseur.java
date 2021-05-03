@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.java.Log;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -21,6 +22,7 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Set;
 
+@Log
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -54,7 +56,7 @@ public class Superviseur extends Utilisateur {
 
     @XmlElement(name = "scan")
     @XmlElementWrapper(name = "scans")
-    @OneToMany(mappedBy="scan")
+    @OneToMany(mappedBy="superviseur")
     private Set<ScanData> scanList;
 
     SecureRandom random = new SecureRandom();

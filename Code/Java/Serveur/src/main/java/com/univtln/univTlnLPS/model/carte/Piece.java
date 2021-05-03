@@ -8,12 +8,14 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
+import lombok.extern.java.Log;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+@Log
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -49,6 +51,6 @@ public class Piece implements SimpleEntity {
 
     @XmlElement(name = "scan")
     @XmlElementWrapper(name = "scans")
-    @OneToMany(mappedBy="scan")
+    @OneToMany(mappedBy="piece")
     private Set<ScanData> scanList;
 }

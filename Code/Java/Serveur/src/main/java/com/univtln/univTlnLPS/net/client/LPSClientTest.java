@@ -29,6 +29,8 @@ public class LPSClientTest {
         String responseInitAsStringInit = webResource.path("LaGarde/init")
                 .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
         log.info(responseInitAsStringInit);
+
+        test();
     }
 
     public static void test(){
@@ -41,31 +43,24 @@ public class LPSClientTest {
                 user2 = Utilisateur.builder().id(2).build(),
                 super1 = Superviseur.builder().id(3).build());
 
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
-        for (Utilisateur u : utilisateurList) {
-            Set<ConstraintViolation<Utilisateur>> v = validator.validate(u);
-            System.out.println(v);
-        }
-
         try (UtilisateurDAO utilisateurDAO = UtilisateurDAO.of()) {
 
             EntityTransaction transaction = utilisateurDAO.getTransaction();
 
             transaction.begin();
-            utilisateurDAO.persist(user1);
-            utilisateurDAO.persist(user2);
+            //utilisateurDAO.persist(user1);
+            //utilisateurDAO.persist(user2);
 
-            System.out.println("User 1:" + utilisateurDAO.find(1));
-            System.out.println("User 2:" + utilisateurDAO.find(2));
+            //System.out.println("User 1:" + utilisateurDAO.find(1));
+            //System.out.println("User 2:" + utilisateurDAO.find(2));
 
-            System.out.println(utilisateurDAO.findAll());
+            //System.out.println(utilisateurDAO.findAll());
 
             transaction.commit();
 
         }
 
-        try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+        /*try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
 
             EntityTransaction transaction = superviseurDAO.getTransaction();
 
@@ -75,6 +70,6 @@ public class LPSClientTest {
             System.out.println(superviseurDAO.findAll());
 
             transaction.commit();
-        }
+        }*/
     }
 }

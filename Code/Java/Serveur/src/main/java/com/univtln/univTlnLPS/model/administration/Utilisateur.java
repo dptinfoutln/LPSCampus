@@ -8,11 +8,13 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.java.Log;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Log
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,10 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "utilisateur.findByCaract",
                 query = "select utilisateur from Utilisateur utilisateur" +
                         " where utilisateur.caracteristiquesMachine=:caract"),
-        @NamedQuery(name = "utilisateur.findByScanId",
-                query = "select utilisateur from Utilisateur utilisateur," +
-                        " in (utilisateur.scan) scan" +
-                        " where scan.id=:idScan")})
+        @NamedQuery(name = "utilisateur.findByScan",
+                query = "select utilisateur from Utilisateur utilisateur" +
+                        " where utilisateur.lastScan=:scan")})
 
 @Entity
 
