@@ -114,8 +114,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
     }
 
-
-    Button btn;
+    
     public void launch(View v) {
         /** /!\ ATTENTION: Ne pas appeler wifiScan.startScan() dans un thread,
          *  à cause des limitations de scan.
@@ -197,34 +196,6 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     data.append("VenueName:").append(scanRes.venueName).append("\n");
                     data.append("\n");
                 }
-
-                /*new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String chaine = null;
-                        try {
-                            String name;
-                            name = findViewById(R.id.nomDeLaSalle).toString();
-
-                            chaine = ssgbdControleur.doRequest("GET", "pieces/name/" + name, null, !true); // ajout name
-                            if (chaine == "") {
-                                JSONObject param = new JSONObject();
-                                param.put("position_x", 0);
-                                param.put("position_y", 0);
-
-
-                                private Etage etage;
-                                private Set<ScanData> listScanData;
-                                // renvoyer vers une autre activité
-
-                                //ssgbdControleur.doRequest("PUT", "pieces/name/" + name, , !true); // ajout name
-                            }
-                            //JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();*/
 
                 data.append('\n');
 
