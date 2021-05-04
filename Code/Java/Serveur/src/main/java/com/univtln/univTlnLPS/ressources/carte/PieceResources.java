@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.ws.rs.NotFoundException;
@@ -8,22 +9,32 @@ import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
+import java.util.HashSet;
+
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class PieceResources {
     private static long lastId = 0;
 
-    final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
+    private static final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
     @PUT
     @Path("pieces/init")
     public void init() throws IllegalArgumentException {
         long i;
+        Batiment bat = new Batiment("U", new HashSet<>(), 1);
+        Etage et = new Etage("plan", "rdc", 1, null, new HashSet<>());
+        bat.getEtageList().add(et);
+        BatimentResources.batiments.put(1, bat);
+        EtageResources.etages.put(1, et);
         for(i = 0; i < 5; i++){
             Piece p = Piece.builder().build();
             p.setId(i);
+            p.setEtage(et);
+            et.getPieceList().add(p);
             p.setPosition_x((int)i);
+            p.setName("U-00"+(i+1));
             pieces.put(i, p);
         }
         lastId = 5;
@@ -69,12 +80,6 @@ public class PieceResources {
     @GET
     @Path("pieces")
     public MutableLongObjectMap<Piece> getPieces() throws NotFoundException {
-        for(long i = 0; i < 5; i++){
-            Piece p = Piece.builder().build();
-            p.setId(i);
-            p.setPosition_x((int)i);
-            pieces.put(i, p);
-        }
         return pieces;
     }
 

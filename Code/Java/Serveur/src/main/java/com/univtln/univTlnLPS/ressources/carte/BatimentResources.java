@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.model.carte.Batiment;
+import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -15,7 +16,7 @@ public class BatimentResources {
 
     private static long lastId = 0;
 
-    final MutableLongObjectMap<Batiment> batiments = LongObjectMaps.mutable.empty();
+    public static final MutableLongObjectMap<Batiment> batiments = LongObjectMaps.mutable.empty();
 
 
     @PUT
@@ -72,6 +73,12 @@ public class BatimentResources {
     public void deleteBatiments() {
         batiments.clear();
         lastId = 0;
+    }
+
+    @GET
+    @Path("batiments")
+    public MutableLongObjectMap<Batiment> getBatiments() {
+        return batiments;
     }
 
 }
