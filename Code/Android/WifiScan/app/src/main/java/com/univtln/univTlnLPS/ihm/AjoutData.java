@@ -14,13 +14,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.carte.model.Etage;
 import com.univtln.univTlnLPS.client.Position;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.common.WriteFile;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
-import com.univtln.univTlnLPS.scan.model.ScanData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,13 +29,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class AjoutData extends AppCompatActivity implements Runnable{
 
     private SSGBDControleur ssgbdControleur;
     private WifiScan wifiScan;
     private ScanListAdapter adapter;
+    private Button btn;
 
     private EditText editTxt, editTxtInfo;
     private Spinner spinner;
@@ -45,7 +43,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ajout_data);
+        setContentView(R.layout.activity_ajout_data);
 
         wifiScan = new WifiScan(getApplicationContext());
 
@@ -54,6 +52,19 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         lv.setAdapter(adapter);
 
         editTxt = findViewById(R.id.infos);
+        btn = findViewById(R.id.creerSalle);
+
+
+        // faire requete rest pour savoir le role
+        /*
+        if (role == 2) {
+            btn.setVisible(true);
+            }
+        else {
+            btn.setVisible(false);
+            }
+
+         */
 
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
