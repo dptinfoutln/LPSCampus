@@ -98,7 +98,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
             public void run() {
                 // graphique si radiobutton graphique coché
                 TextView tv = findViewById(R.id.connexion);
-                tv.setText("Vous êtes sûrement en "+ finalPosition);
+                tv.setText("Vous êtes en "+ finalPosition);
                 if (scanResults.size() == 0){
                     Toast.makeText(SeLocaliser.this, "Activate Localisation", Toast.LENGTH_LONG).show();
                 }
