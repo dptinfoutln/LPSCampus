@@ -27,6 +27,9 @@ import java.util.Set;
 @Entity
 public class Campus implements SimpleEntity {
     @XmlElement
+    private String name;
+
+    @XmlElement
     private String plan;
 
     @XmlElement(name = "Batiment")

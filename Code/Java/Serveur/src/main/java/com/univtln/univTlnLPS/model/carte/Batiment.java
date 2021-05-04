@@ -31,6 +31,11 @@ import java.util.Set;
 public class Batiment implements SimpleEntity {
 
     @XmlElement
+    private int position_x;
+    @XmlElement
+    private int position_y;
+
+    @XmlElement
     private String name;
 
     @XmlElement(name = "Etage")
