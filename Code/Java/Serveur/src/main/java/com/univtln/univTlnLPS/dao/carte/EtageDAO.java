@@ -6,16 +6,17 @@ import com.univtln.univTlnLPS.model.carte.Etage;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.java.Log;
 
 import java.util.List;
 
-
+@Log
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")
 public class EtageDAO extends AbstractDAO<Etage> {
-    public List<Etage> findById(long id) {
-        return getEntityManager().createNamedQuery("etage.findById")
-                .setParameter("id", id)
+    public List<Etage> findByName(String name) {
+        return getEntityManager().createNamedQuery("etage.findByName")
+                .setParameter("name", name)
                 .getResultList();
     }
 }

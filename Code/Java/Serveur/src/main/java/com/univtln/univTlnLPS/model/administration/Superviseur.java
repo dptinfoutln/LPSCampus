@@ -1,10 +1,14 @@
 package com.univtln.univTlnLPS.model.administration;
 
+import com.univtln.univTlnLPS.model.carte.Piece;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.java.Log;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -16,7 +20,9 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
+import java.util.Set;
 
+@Log
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,7 +39,7 @@ import java.util.Arrays;
                         " where (superviseur.email=:email) and (superviseur.passwordHash=:passwordhash)")})
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 
 public class Superviseur extends Utilisateur {
     @XmlElement
@@ -47,6 +53,11 @@ public class Superviseur extends Utilisateur {
     @XmlElement
     @NotNull
     byte[] salt = new byte[16];
+
+    @XmlElement(name = "scan")
+    @XmlElementWrapper(name = "scans")
+    @OneToMany(mappedBy="superviseur")
+    private Set<ScanData> scanList;
 
     SecureRandom random = new SecureRandom();
 

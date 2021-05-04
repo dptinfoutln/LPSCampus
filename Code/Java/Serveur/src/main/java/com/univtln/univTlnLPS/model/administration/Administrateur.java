@@ -8,11 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.java.Log;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Log
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -22,7 +24,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Administrateur extends Superviseur {
     @XmlElement
     @OneToOne

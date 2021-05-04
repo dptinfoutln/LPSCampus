@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
@@ -9,9 +10,7 @@ import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -26,6 +25,11 @@ public class PieceResources {
     @Path("pieces/init")
     public void init() throws IllegalArgumentException {
         long i;
+        Batiment bat = new Batiment("U", new HashSet<>(), 1);
+        Etage et = new Etage("plan", "rdc", 1, null, new HashSet<>());
+        bat.getEtageList().add(et);
+        BatimentResources.batiments.put(1, bat);
+        EtageResources.etages.put(1, et);
         for(i = 0; i < 5; i++){
             Piece p = Piece.builder().build();
 
@@ -34,9 +38,12 @@ public class PieceResources {
             scanList.add(ScanData.builder().id(i*2+1).piece(p).build());
 
             p.setId(i);
+            p.setEtage(et);
+            et.getPieceList().add(p);
             p.setPosition_x((int)i);
-            p.setName("name"+i);
             p.setScanList(scanList);
+            p.setName("U-00"+(i+1));
+
             pieces.put(i, p);
         }
         lastId = 5;

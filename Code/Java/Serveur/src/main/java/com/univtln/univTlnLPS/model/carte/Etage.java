@@ -7,30 +7,40 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.java.Log;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+@Log
 @AllArgsConstructor
-@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
+
 @Setter
 @Builder
+
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 
 
 @NamedQueries({
-        @NamedQuery(name = "etage.findById", query = "select etage from Etage etage where etage.id=:id")})
+        @NamedQuery(name = "etage.findByName", query = "select etage from Etage etage where etage.name=:name")})
 
 public class Etage implements SimpleEntity {
 
     @XmlElement
     private String plan;
+
+    @XmlElement
+    private String name;
 
     @XmlAttribute
     @EqualsAndHashCode.Include
@@ -40,7 +50,7 @@ public class Etage implements SimpleEntity {
 
     @JsonIgnore
     @ManyToOne
-    private Batiment bat;
+    private Batiment batiment;
 
     @XmlElement(name = "piece")
     @XmlElementWrapper(name = "pieces")

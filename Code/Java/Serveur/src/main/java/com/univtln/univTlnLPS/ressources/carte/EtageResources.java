@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.model.carte.Etage;
+import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -14,7 +15,7 @@ public class EtageResources {
 
     private static long lastId = 0;
 
-    final MutableLongObjectMap<Etage> etages = LongObjectMaps.mutable.empty();
+    public static final MutableLongObjectMap<Etage> etages = LongObjectMaps.mutable.empty();
 
 
     @PUT
@@ -68,9 +69,15 @@ public class EtageResources {
 
     @DELETE
     @Path("etages")
-    public void deleteBatiments() {
+    public void deleteEtages() {
         etages.clear();
         lastId = 0;
+    }
+
+    @GET
+    @Path("etages")
+    public MutableLongObjectMap<Etage> getEtages() {
+        return etages;
     }
 
 }
