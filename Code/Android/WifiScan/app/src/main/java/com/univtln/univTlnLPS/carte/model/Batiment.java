@@ -4,18 +4,23 @@ import java.util.List;
 
 public class Batiment {
 
-    private String nom;
     private long id;
+    private String nom;
     private List<Etage> listEtages;
+    private int position_x;
+    private int position_y;
 
-    public Batiment(String nom, long id, List<Etage> listEtages) {
-        this.nom = nom;
+
+    public Batiment(long id, String nom, int position_x, int position_y) {
         this.id = id;
-        this.listEtages = listEtages;
+        this.nom = nom;
+        this.position_x = position_x;
+        this.position_y = position_y;
     }
 
-    public Batiment(String nom, long id) {
-        this.nom = nom;
+    public Batiment(long id, String nom) {
         this.id = id;
+        this.nom = nom;
     }
+
 }

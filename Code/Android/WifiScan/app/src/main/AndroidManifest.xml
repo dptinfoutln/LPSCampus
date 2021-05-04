@@ -26,7 +26,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.CreerBatiment"></activity>
+        <activity android:name=".ihm.DescriptionProbleme"></activity>
+        <activity android:name=".ihm.ReporterProbleme" />
+        <activity android:name=".ihm.CreerCampus" />
+        <activity android:name=".ihm.CreerBatiment" />
         <activity android:name=".ihm.CreerEtage" />
         <activity android:name=".ihm.CreerSalle" />
         <activity android:name=".ihm.DevenirSuperviseur" />

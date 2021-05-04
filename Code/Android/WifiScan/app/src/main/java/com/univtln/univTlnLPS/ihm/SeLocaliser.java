@@ -111,4 +111,11 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
             }
         });
     }
+
+
+    public void probleme(View v) {
+        Intent i = new Intent(this, ReporterProbleme.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
+    }
 }
