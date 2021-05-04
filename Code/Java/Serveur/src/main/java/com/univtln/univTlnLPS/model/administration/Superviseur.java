@@ -1,6 +1,5 @@
 package com.univtln.univTlnLPS.model.administration;
 
-import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
