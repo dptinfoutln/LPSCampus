@@ -6,9 +6,10 @@
 
     <persistence-unit name="mypu" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>com.univtln.univTlnLPS.model.administration.Administrateur</class>
-        <class>com.univtln.univTlnLPS.model.administration.Superviseur</class>
         <class>com.univtln.univTlnLPS.model.administration.Utilisateur</class>
+        <class>com.univtln.univTlnLPS.model.administration.Superviseur</class>
+        <class>com.univtln.univTlnLPS.model.administration.Administrateur</class>
+
 
         <class>com.univtln.univTlnLPS.model.carte.Batiment</class>
         <class>com.univtln.univTlnLPS.model.carte.Campus</class>

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
-import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -25,6 +24,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@ToString
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

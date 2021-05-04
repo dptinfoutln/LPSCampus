@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Getter
 @Setter
 @Builder
+@ToString
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

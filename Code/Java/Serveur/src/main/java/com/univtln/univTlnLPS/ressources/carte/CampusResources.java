@@ -20,7 +20,7 @@ public class CampusResources {
     @PUT
     @Path("campus/init")
     public void init() throws IllegalArgumentException {
-        campus.put(1, new Campus("plan", new HashSet<>(), 1, null));
+        campus.put(1, new Campus("tln", "plan", new HashSet<>(), 1, null));
     }
 
     @GET

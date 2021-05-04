@@ -33,12 +33,13 @@ import javax.xml.bind.annotation.XmlRootElement;
                         " where utilisateur.lastScan=:scan")})
 
 @Entity
-
+@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Utilisateur implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
     @XmlElement

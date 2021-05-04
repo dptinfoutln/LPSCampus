@@ -25,7 +25,7 @@ public class PieceResources {
     @Path("pieces/init")
     public void init() throws IllegalArgumentException {
         long i;
-        Batiment bat = new Batiment("U", new HashSet<>(), 1);
+        Batiment bat = new Batiment(0, 0, "U", new HashSet<>(), 1);
         Etage et = new Etage("plan", "rdc", 1, null, new HashSet<>());
         bat.getEtageList().add(et);
         BatimentResources.batiments.put(1, bat);

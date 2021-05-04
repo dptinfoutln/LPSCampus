@@ -39,9 +39,9 @@ public class LPSClientTest {
         Utilisateur user1, user2;
         Superviseur super1;
         List<Utilisateur> utilisateurList = Arrays.asList(
-                user1 = Utilisateur.builder().id(1).build(),
-                user2 = Utilisateur.builder().id(2).build(),
-                super1 = Superviseur.builder().id(3).build());
+                user1 = Utilisateur.builder().build(),
+                user2 = Utilisateur.builder().build(),
+                super1 = Superviseur.builder().email("truc").build());
 
         try (UtilisateurDAO utilisateurDAO = UtilisateurDAO.of()) {
 
@@ -54,7 +54,7 @@ public class LPSClientTest {
             System.out.println("User 1:" + utilisateurDAO.find(1));
             System.out.println("User 2:" + utilisateurDAO.find(2));
 
-            //System.out.println(utilisateurDAO.findAll());
+            System.out.println(utilisateurDAO.findAll());
 
             transaction.commit();
 
@@ -68,9 +68,13 @@ public class LPSClientTest {
             superviseurDAO.persist(super1);
 
             System.out.println("super 3:" + superviseurDAO.find(3));
-            // System.out.println(superviseurDAO.findAll());
+            System.out.println(superviseurDAO.findAll());
 
             transaction.commit();
+        }
+
+        try (UtilisateurDAO utilisateurDAO = UtilisateurDAO.of()) {
+            System.out.println(utilisateurDAO.findAll());
         }
     }
 }

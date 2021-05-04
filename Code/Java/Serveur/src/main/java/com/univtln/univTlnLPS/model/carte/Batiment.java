@@ -19,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@ToString
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)

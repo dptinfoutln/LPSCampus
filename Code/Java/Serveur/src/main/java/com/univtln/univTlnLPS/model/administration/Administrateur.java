@@ -23,6 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 
+@NamedQueries({
+        @NamedQuery(name = "administrateur.findByCampus",
+                query = "select administrateur from Administrateur administrateur" +
+                        " where administrateur.campus=:campus")})
 @Entity
 public class Administrateur extends Superviseur {
     @XmlElement
