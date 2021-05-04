@@ -6,41 +6,57 @@
     tools:context=".ihm.ReporterProbleme">
 
 
-    <RadioButton
-        android:id="@+id/mauvaiseLocalisation"
+    <TextView
+        android:id="@+id/texte"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:buttonTint="#673AB7"
-        android:checked="false"
-        android:text="Mauvaise Localisation"
-        android:textColor="#030304" />
+        android:text="Choisir le problème rencontré :"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp" />
 
-    <RadioButton
-        android:id="@+id/mauvaisePlan"
+    <RadioGroup
+        android:id="@+id/radiogroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:buttonTint="#673AB7"
-        android:checked="false"
-        android:text="Mauvais Plan"
-        android:textColor="#030304"
-        android:layout_below="@id/mauvaiseLocalisation"/>
+        android:layout_below="@id/texte">
 
-    <RadioButton
-        android:id="@+id/dysfonctionnement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:buttonTint="#673AB7"
-        android:checked="false"
-        android:text="Dysfonctionnement"
-        android:textColor="#030304"
-        android:layout_below="@id/mauvaisePlan"/>
+        <RadioButton
+            android:id="@+id/mauvaiseLocalisation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="false"
+            android:text="Mauvaise Localisation"
+            android:textColor="#030304" />
+
+        <RadioButton
+            android:id="@+id/mauvaisePlan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="false"
+            android:text="Mauvais Plan"
+            android:textColor="#030304"
+            android:layout_below="@id/mauvaiseLocalisation"/>
+
+        <RadioButton
+            android:id="@+id/dysfonctionnement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="false"
+            android:text="Dysfonctionnement"
+            android:textColor="#030304"
+            android:layout_below="@id/mauvaisePlan"/>
+    </RadioGroup>
 
     <Button
         android:id="@+id/valider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Valider"
-        android:layout_below="@+id/dysfonctionnement"
+        android:layout_below="@+id/radiogroup"
         android:onClick="valider"/>
 
 
