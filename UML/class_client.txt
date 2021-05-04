@@ -17,8 +17,7 @@ package "Administration" {
     }
 
 
-    
-package Scan{ 
+package Scan { 
     
     class ScanData{
     + InfoScan
@@ -31,6 +30,7 @@ package Scan{
     WifiData "*" -- "1" ScanData
 
     }
+
 
 package "Carte" {
 
@@ -54,7 +54,9 @@ package "Carte" {
     Etage "*" --* "1" Batiment
     Campus "1" *-- "*" Batiment
     Administrateur "*" -- "1" Campus : Gère
+    
 }
+
 
 package Localisation {
     'classe Position = position que l'algo retourne
@@ -65,7 +67,6 @@ package Localisation {
     ScanData "1"--"1" ModeleControleur
 }
 
-Position -- ModeleControleur
 
 package Interface {
     class HomeActivity
@@ -76,9 +77,20 @@ package Interface {
     class SeConnecterActivity
     class SeLocaliserActivity
     class AjoutDataActivity
+    class ReporterProblemeActivity
+    class DescriptionProblemeActivity
+    class CreerSalleActivity
+    class CreerEtageActivity
+    class CreerBatimentActivity
+    class CreerCampusActivity
 }
 
+
+
+Position -- ModeleControleur
+
 Superviseur -- SeConnecterActivity
+HomeActivity -- SeConnecterActivity
 HomeActivity -- SeLocaliserActivity
 HomeActivity -- DevenirSuperviseurActivity
 
@@ -89,13 +101,22 @@ AjoutDataouConsulterActivity -- AjoutDataActivity
 
 AffichageSalleActivity -- AffichageDonneesSalleActivity
 
-
 Utilisateur -- HomeActivity
 
 ScanData -- AjoutDataActivity
 
-
 SeLocaliserActivity -- ScanData
+SeLocaliserActivity -- ReporterProblemeActivity
+ReporterProblemeActivity -- DescriptionProblemeActivity
+
+AjoutDataActivity -- CreerSalleActivity
+CreerSalleActivity -- Piece
+CreerSalleActivity -- CreerEtageActivity
+CreerEtageActivity -- Etage
+CreerEtageActivity -- CreerBatimentActivity
+CreerBatimentActivity -- Batiment
+CreerBatimentActivity -- CreerCampusActivity
+CreerCampusActivity -- Campus
 
 
 @enduml
