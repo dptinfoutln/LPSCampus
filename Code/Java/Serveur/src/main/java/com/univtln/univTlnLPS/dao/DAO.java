@@ -46,6 +46,8 @@ public interface DAO<T extends SimpleEntity> extends AutoCloseable {
         return getEntityManager().find(getMyType(), id);
     }
 
+    default void remove(T t) { getEntityManager().remove(t);}
+
     @Override
     default void close() {
         getEntityManager().close();

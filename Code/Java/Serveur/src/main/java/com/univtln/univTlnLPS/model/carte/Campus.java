@@ -26,6 +26,11 @@ import java.util.Set;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+
+@NamedQueries({
+        @NamedQuery(name = "campus.findByName", query = "select campus from Campus campus where campus.name=:name")})
+
+
 public class Campus implements SimpleEntity {
     @XmlElement
     private String name;

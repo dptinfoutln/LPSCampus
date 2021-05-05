@@ -24,7 +24,7 @@ public class ScanDataResources {
 
     private static long lastId = 0;
 
-    final MutableLongObjectMap<ScanData> scandatas =
+    private static final MutableLongObjectMap<ScanData> scandatas =
             LongObjectMaps.mutable.empty();
 
 
@@ -82,7 +82,6 @@ public class ScanDataResources {
         lastId = 0;
     }
 
-    // TODO: finish get scans by piece_id
     @GET
     @Path("pieces/{id}/scans")
     public Map<Long, ScanData> getScanDataByPiece(@PathParam("id") long id) throws NotFoundException {

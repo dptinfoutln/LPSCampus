@@ -47,7 +47,7 @@ public class Superviseur extends Utilisateur implements Principal {
 
     @XmlElement
     @NotNull
-    private String passwordHash;
+    private byte[] passwordHash;
 
     @XmlElement
     @NotNull
@@ -58,13 +58,19 @@ public class Superviseur extends Utilisateur implements Principal {
     @OneToMany(mappedBy="superviseur")
     private Set<ScanData> scanList;
 
+    @Builder.Default
     private SecureRandom random = new SecureRandom();
 
     public void setPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        if(random == null)
+            random = new SecureRandom();
+        if(salt == null)
+            salt = new byte[16];
+
         random.nextBytes(salt);
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        this.passwordHash = new String(factory.generateSecret(spec).getEncoded());
+        this.passwordHash = factory.generateSecret(spec).getEncoded();
     }
 
     @SneakyThrows
@@ -72,7 +78,7 @@ public class Superviseur extends Utilisateur implements Principal {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] submittedPasswordHash = factory.generateSecret(spec).getEncoded();
-        return Arrays.equals(passwordHash.getBytes(), submittedPasswordHash);
+        return Arrays.equals(passwordHash, submittedPasswordHash);
     }
 
     @Override
