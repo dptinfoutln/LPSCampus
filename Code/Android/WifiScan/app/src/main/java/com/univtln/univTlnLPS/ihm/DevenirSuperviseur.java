@@ -9,8 +9,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 
 public class DevenirSuperviseur extends AppCompatActivity {
+
+    private SSGBDControleur ssgbdControleur;
     EditText loginTxt, mdpTxt;
 
     @Override
@@ -20,6 +23,10 @@ public class DevenirSuperviseur extends AppCompatActivity {
 
         loginTxt = findViewById(R.id.loginTxt);
         mdpTxt = findViewById(R.id.mdpTxt);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
     public void checkForm(View v){

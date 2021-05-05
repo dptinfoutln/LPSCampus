@@ -15,10 +15,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class Client {
+public class Position {
 
     public static String uri1 = "http://";
     public static String uri2 = ":5000/position";
+
     public static String get(String uri, JSONObject obj){
         HttpURLConnection urlConnection = null;
         String res = "";
@@ -50,13 +51,7 @@ public class Client {
                     br.close();
                     res = sb.toString();
             }
-
-            /*InputStream in = urlConnection.getInputStream();
-            InputStreamReader isw = new InputStreamReader(in);
-
-            int data = isw.read();*/
-
-        } catch (IOException e) {
+                    } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if(urlConnection != null){
