@@ -91,8 +91,12 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
                                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(Utilisateur.Role.class)));
 
                 //We check to email/password
-                List<Superviseur> liste = SuperviseurDAO.of().findByEmail(email);
+                List<Superviseur> liste = null;
                 Superviseur superviseur = null;
+                try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+                    liste = superviseurDAO.findByEmail(email);
+                }
+
 
                 if (!liste.isEmpty()) {
                     superviseur = liste.get(0);
@@ -117,7 +121,7 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
         }
     }
 
-    Boolean isUserInRoles(EnumSet<Utilisateur.Role> rolesSet, Superviseur superviseur){
+    public static Boolean isUserInRoles(EnumSet<Utilisateur.Role> rolesSet, Superviseur superviseur){
         for (Utilisateur.Role role:
              rolesSet) {
             if (isUserInRole(role.toString(), superviseur))
@@ -126,7 +130,7 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
         return false;
     }
 
-    Boolean isUserInRole(String role,Superviseur superviseur){
+    public static Boolean isUserInRole(String role, Superviseur superviseur){
         // Tout le monde a les autorisations utilisateurs (guest)
         if (role.equals("USER"))
             return true;
