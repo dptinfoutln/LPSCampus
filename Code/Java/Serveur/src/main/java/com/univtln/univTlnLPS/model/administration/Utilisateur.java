@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @MappedSuperclass
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Utilisateur implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
@@ -58,13 +58,13 @@ public class Utilisateur implements SimpleEntity {
          */
         ADMIN,
         /**
-         * User role.
+         * Supervisorr role.
          */
-        USER,
+        SUPER,
         /**
-         * Guest role.
+         * USER role.
          */
-        GUEST
+        USER
     }
 
 }

@@ -75,22 +75,22 @@ public class JsonWebTokenFilter implements ContainerRequestFilter {
             return;
         }
 
-        String username = null;
+        String email = null;
 
         //We check the validity of the token
         try {
             Jws<Claims> jws = Jwts.parserBuilder()
                     .requireIssuer("sample-jaxrs")
 
-                    // TO DO
+                    // TODO
                     // .setSigningKey(InMemoryLoginModule.KEY)
 
                     .build()
                     .parseClaimsJws(compactJwt);
-            username = jws.getBody().getSubject();
+            email = jws.getBody().getSubject();
 
             //We build a new securitycontext to transmit the security data to JAX-RS
-            requestContext.setSecurityContext(MySecurityContext.newInstance(AUTHENTICATION_SCHEME, username));
+            requestContext.setSecurityContext(MySecurityContext.newInstance(AUTHENTICATION_SCHEME, email));
         } catch (JwtException e) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                     .entity("Wrong JWT token. " + e.getLocalizedMessage()).build());
@@ -108,7 +108,7 @@ public class JsonWebTokenFilter implements ContainerRequestFilter {
             //We check if the role is allowed
             /*
 
-            TO DO
+            TODO
 
              if (!InMemoryLoginModule.isInRoles(rolesSet, username))
                 requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)

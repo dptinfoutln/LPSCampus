@@ -2,7 +2,11 @@ package com.univtln.univTlnLPS.security.filter.request;
 
 
 
+import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
+import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
+import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
+import com.univtln.univTlnLPS.security.MySecurityContext;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import jakarta.annotation.Priority;
 import jakarta.annotation.security.DenyAll;
@@ -69,48 +73,42 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
             final String encodedUserPassword = authorization.substring(AUTHENTICATION_SCHEME.length()).trim();
 
             //We Decode username and password (username:password)
-            String[] usernameAndPassword = new String(Base64.getDecoder().decode(encodedUserPassword.getBytes())).split(":");
+            String[] emailAndPassword = new String(Base64.getDecoder().decode(encodedUserPassword.getBytes())).split(":");
 
-            final String username = usernameAndPassword[0];
-            final String password = usernameAndPassword[1];
+            final String email = emailAndPassword[0];
+            final String password = emailAndPassword[1];
 
-            log.info(username + " tries to log in");
+            log.info(email + " tries to log in");
 
             //We verify user access rights according to roles
             //After Authentication we are doing Authorization
             if (method.isAnnotationPresent(RolesAllowed.class)) {
                 RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
-                /*
-
-                TO DO (CHECK)
-                RECUPERER  un EnumSet des roles (pour l'instant dans utilisateur)
-
-
-                 */
 
                 EnumSet<Utilisateur.Role> rolesSet =
                         Arrays.stream(rolesAnnotation.value())
                                 .map(Utilisateur.Role::valueOf)
                                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(Utilisateur.Role.class)));
 
-                /* TO DO
-
-                //We check to login/password
-                if (!InMemoryLoginModule.USER_DATABASE.login(username, password)) {
+                //We check to email/password
+                //if (!InMemoryLoginModule.USER_DATABASE.login(email, password)) {
+                //users.get(email).checkPassword(password);
+                Superviseur user = SuperviseurDAO.of().findByEmail(email).get(0);
+                if(!user.checkPassword(password)) {
                     requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                             .entity("Wrong username or password").build());
                     return;
                 }
+                /*// TODO
                 //We check if the role is allowed
-                if (!InMemoryLoginModule.isInRoles(rolesSet, username))
+                if (!InMemoryLoginModule.isInRoles(rolesSet, email))
                     requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                             .entity("Roles not allowed").build());
 
                 //We build a new SecurityContext Class to transmit the security data
                 // for this login attempt to JAX-RS
-                requestContext.setSecurityContext(MySecurityContext.newInstance(AUTHENTICATION_SCHEME, username));
-
-                */
+                requestContext.setSecurityContext(MySecurityContext.newInstance(AUTHENTICATION_SCHEME, email));
+*/
             }
         }
     }

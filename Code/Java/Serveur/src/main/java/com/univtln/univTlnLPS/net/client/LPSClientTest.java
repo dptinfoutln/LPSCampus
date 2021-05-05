@@ -1,7 +1,9 @@
 package com.univtln.univTlnLPS.net.client;
 
+import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
+import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import jakarta.persistence.EntityTransaction;
@@ -38,10 +40,12 @@ public class LPSClientTest {
 
         Utilisateur user1, user2;
         Superviseur super1;
+        Administrateur admin;
         List<Utilisateur> utilisateurList = Arrays.asList(
                 user1 = Utilisateur.builder().build(),
                 user2 = Utilisateur.builder().build(),
-                super1 = Superviseur.builder().email("truc").build());
+                super1 = Superviseur.builder().email("truc").build(),
+                admin = Administrateur.builder().email("admin@").build());
 
         try (UtilisateurDAO utilisateurDAO = UtilisateurDAO.of()) {
 
@@ -73,8 +77,24 @@ public class LPSClientTest {
             transaction.commit();
         }
 
+
+        try (AdministrateurDAO administrateurDAO = AdministrateurDAO.of()) {
+            EntityTransaction transaction = administrateurDAO.getTransaction();
+
+            transaction.begin();
+            administrateurDAO.persist(admin);
+
+            transaction.commit();
+            System.out.println(administrateurDAO.findAll());
+        }
+
         try (UtilisateurDAO utilisateurDAO = UtilisateurDAO.of()) {
             System.out.println(utilisateurDAO.findAll());
+        }
+
+        try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+            System.out.println(superviseurDAO.findAll());
+            System.out.println(superviseurDAO.findAll().get(1).getClass().getSimpleName());
         }
     }
 }

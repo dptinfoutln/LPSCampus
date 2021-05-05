@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -39,7 +40,7 @@ import java.util.Set;
                         " where (superviseur.email=:email) and (superviseur.passwordHash=:passwordhash)")})
 
 @Entity
-public class Superviseur extends Utilisateur {
+public class Superviseur extends Utilisateur implements Principal {
     @XmlElement
     @NotNull
     private String email;
@@ -50,14 +51,14 @@ public class Superviseur extends Utilisateur {
 
     @XmlElement
     @NotNull
-    byte[] salt = new byte[16];
+    private byte[] salt = new byte[16];
 
     @XmlElement(name = "scan")
     @XmlElementWrapper(name = "scans")
     @OneToMany(mappedBy="superviseur")
     private Set<ScanData> scanList;
 
-    SecureRandom random = new SecureRandom();
+    private SecureRandom random = new SecureRandom();
 
     public void setPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         random.nextBytes(salt);
@@ -73,4 +74,11 @@ public class Superviseur extends Utilisateur {
         byte[] submittedPasswordHash = factory.generateSecret(spec).getEncoded();
         return Arrays.equals(passwordHash.getBytes(), submittedPasswordHash);
     }
+
+    @Override
+    public String getName() {
+        return email;
+    }
+
+
 }
