@@ -11,10 +11,18 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+
+
 @Log
 public class LPSServer {
 
     static final public Properties properties = new Properties();
+
+    public static final Key KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
 
     static {
         properties.setProperty("pu", "mypu");

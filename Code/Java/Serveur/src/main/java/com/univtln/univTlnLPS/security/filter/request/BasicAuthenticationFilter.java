@@ -3,7 +3,7 @@ package com.univtln.univTlnLPS.security.filter.request;
 
 
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
-import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
+import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.security.MySecurityContext;
@@ -91,26 +91,59 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
                                 .collect(Collectors.toCollection(() -> EnumSet.noneOf(Utilisateur.Role.class)));
 
                 //We check to email/password
-                //if (!InMemoryLoginModule.USER_DATABASE.login(email, password)) {
-                //users.get(email).checkPassword(password);
-                Superviseur user = SuperviseurDAO.of().findByEmail(email).get(0);
-                if(!user.checkPassword(password)) {
-                    requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
-                            .entity("Wrong username or password").build());
-                    return;
+                List<Superviseur> liste = SuperviseurDAO.of().findByEmail(email);
+                Superviseur superviseur = null;
+
+                if (!liste.isEmpty()) {
+                    superviseur = liste.get(0);
+
+                    if (!superviseur.checkPassword(password)) {
+                        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+                                .entity("Wrong username or password").build());
+                        return;
+                    }
                 }
-                /*// TODO
+
                 //We check if the role is allowed
-                if (!InMemoryLoginModule.isInRoles(rolesSet, email))
+                if (!isUserInRoles(rolesSet, superviseur))
                     requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
                             .entity("Roles not allowed").build());
 
                 //We build a new SecurityContext Class to transmit the security data
                 // for this login attempt to JAX-RS
                 requestContext.setSecurityContext(MySecurityContext.newInstance(AUTHENTICATION_SCHEME, email));
-*/
+
             }
         }
+    }
+
+    Boolean isUserInRoles(EnumSet<Utilisateur.Role> rolesSet, Superviseur superviseur){
+        for (Utilisateur.Role role:
+             rolesSet) {
+            if (isUserInRole(role.toString(), superviseur))
+                return true;
+        }
+        return false;
+    }
+
+    Boolean isUserInRole(String role,Superviseur superviseur){
+        // Tout le monde a les autorisations utilisateurs (guest)
+        if (role.equals("USER"))
+            return true;
+
+            // Si on veut verifier des droits d'acces pour une perdonne connectee
+        else {
+
+            if (role.equals("SUPER") && superviseur != null)
+                return true;
+
+            // Si le role cherche est administrateur
+            if (role.equals("ADMIN") && superviseur != null) {
+                return (superviseur instanceof Administrateur);
+            }
+        }
+
+        return false;
     }
 
 }

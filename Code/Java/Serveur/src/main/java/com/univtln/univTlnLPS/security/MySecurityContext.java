@@ -49,7 +49,7 @@ public class MySecurityContext implements SecurityContext {
     public boolean isUserInRole(String role) {
 
         // Tout le monde a les autorisations utilisateurs (guest)
-        if (role.equals("user"))
+        if (role.equals("USER"))
             return true;
 
         // Si on veut verifier des droits d'acces pour une perdonne connectee
@@ -62,12 +62,11 @@ public class MySecurityContext implements SecurityContext {
             }
 
             // Si le role cherche est superviseur et S'il a ete trouve on retourne true
-            if (role == "super" && superviseur != null)
+            if (role == "SUPER" && superviseur != null)
                 return true;
 
             // Si le role cherche est administrateur
-            if (role == "admin") {
-                System.out.println(superviseur);
+            if (role == "ADMIN") {
                 if (superviseur instanceof Administrateur);
                     return false;
             }
