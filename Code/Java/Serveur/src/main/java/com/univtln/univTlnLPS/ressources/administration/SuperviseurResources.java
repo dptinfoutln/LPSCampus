@@ -25,7 +25,7 @@ public class SuperviseurResources {
     @PUT
     @Path("superviseurs/init")
     public void init() throws IllegalArgumentException {
-        Superviseur.builder().email("").passwordHash("").build();
+
     }
 
     // add delete update

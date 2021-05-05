@@ -21,6 +21,10 @@ public class LPSModele {
         Client client = ClientBuilder.newClient();
         WebTarget webResource = client.target("http://localhost:9998/LPS");
 
+        String responseInitAsStringCampus = webResource.path("LaGarde/campus/init")
+                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
+        log.info(responseInitAsStringCampus);
+
         String responseInitAsStringAdmin = webResource.path("LaGarde/admin/init")
                 .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
         log.info(responseInitAsStringAdmin);
@@ -36,10 +40,6 @@ public class LPSModele {
         String responseInitAsStringBatiment = webResource.path("LaGarde/batiments/init")
                 .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
         log.info(responseInitAsStringBatiment);
-
-        String responseInitAsStringCampus = webResource.path("LaGarde/campus/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringCampus);
 
         String responseInitAsStringEtage = webResource.path("LaGarde/etages/init")
                 .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
