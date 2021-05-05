@@ -90,14 +90,44 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void refuser(View v) {
-        // ajout du superviseur à la base de données
-        // disparition de la demande
+        // suppression de la demande
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ssgbdControleur.doRequest("DELETE", "demandes/" + lastId, null, !true);
+                    VoirDemandes.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            affichageDemandes();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void accepter(View v) {
-        // il ne se passe rien
-        // disparition de la demande
-
+        // ajout du superviseur à la base de données
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ssgbdControleur.doRequest("PUT", "superviseurs", null, !true);
+                    VoirDemandes.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            affichageDemandes();
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
+    
 }
