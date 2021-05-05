@@ -2,16 +2,20 @@ package com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.client.Client;
+import com.univtln.univTlnLPS.client.Position;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.common.WriteFile;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
@@ -23,19 +27,23 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class AjoutData extends AppCompatActivity implements Runnable{
+
+    private SSGBDControleur ssgbdControleur;
     private WifiScan wifiScan;
     private ScanListAdapter adapter;
+    private Button btn;
 
     private EditText editTxt, editTxtInfo;
-    private EditText ipTxt;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ajout_data);
+        setContentView(R.layout.activity_ajout_data);
 
         wifiScan = new WifiScan(getApplicationContext());
 
@@ -43,13 +51,71 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         adapter = new ScanListAdapter(this, new ArrayList<>());
         lv.setAdapter(adapter);
 
-        editTxt = findViewById(R.id.nomDeLaSalle);
-        editTxtInfo = findViewById(R.id.motDePasse);
-        ipTxt = findViewById(R.id.ip2);
+        editTxt = findViewById(R.id.infos);
+        btn = findViewById(R.id.creerSalle);
+
+
+        // faire requete rest pour savoir le role
+        /*
+        if (role == 2) {
+            btn.setVisible(true);
+            }
+        else {
+            btn.setVisible(false);
+            }
+
+         */
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
+        try {
+            addItemsOnSpinner();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    Button btn;
-    public void launch(View v){
+    public void addItemsOnSpinner() throws JSONException {
+        spinner = (Spinner) findViewById(R.id.spinner);
+        List<String> list = new ArrayList<>();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "pieces", null, !true));
+
+                    Iterator<String> it = jsonObj.keys();
+                    while (it.hasNext()) {
+                        list.add( ((JSONObject)jsonObj.get(it.next())).getString("name") );
+                    }
+
+
+                    AjoutData.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(AjoutData.this,
+                                    android.R.layout.simple_spinner_item, list);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(dataAdapter);
+
+                        }
+                    });
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+
+    }
+
+    
+    public void launch(View v) {
         /** /!\ ATTENTION: Ne pas appeler wifiScan.startScan() dans un thread,
          *  à cause des limitations de scan.
          **/
@@ -62,6 +128,13 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         else
             error();
 
+    }
+
+
+    public void creerSalle(View v) {
+        Intent i = new Intent(this, CreerSalle.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
     }
 
     public void error(){
@@ -123,6 +196,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     data.append("VenueName:").append(scanRes.venueName).append("\n");
                     data.append("\n");
                 }
+
                 data.append('\n');
 
                 WriteFile.createFile(directory, fileName);
@@ -135,9 +209,9 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         JSONObject res = null;
         String mess = "";
         try {
-            res = Client.convertScan(wifiScan.getResults());
+            res = Position.convertScan(wifiScan.getResults());
             mess = res.toString();
-            Client.get(Client.uri1 + ipTxt.getText().toString() + Client.uri2, res);
+            Position.get(Position.uri1 + ssgbdControleur.getIp() + Position.uri2, res);
         } catch (JSONException e) {
             e.printStackTrace();
         }

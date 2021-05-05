@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.CreerBatiment">
+
+
+    <EditText
+        android:id="@+id/nomBatiment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom du batiment" />
+
+    <EditText
+        android:id="@+id/position_x"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Position en x"
+        android:layout_below="@id/nomBatiment" />
+
+    <EditText
+        android:id="@+id/position_y"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Position en y"
+        android:layout_below="@id/position_x" />
+
+    <TextView
+        android:id="@+id/choixBat"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Choisir un campus :"
+        android:textSize="20sp"
+        android:layout_below="@id/position_y" />
+
+    <Spinner
+        android:id="@+id/spinnerCampus"
+        android:layout_width="match_parent"
+        android:layout_below="@id/choixBat"
+        android:layout_height="40dp" />
+
+    <Button
+        android:id="@+id/creerCampus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/position_y"
+        android:layout_alignEnd="@id/choixBat"
+        android:onClick="createCampus"
+        android:text="Créer Campus" />
+
+
+    <Button
+        android:id="@+id/creerBatiment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerCampus"
+        android:onClick="createBatiment"
+        android:text="Créer Batiment" />
+
+</RelativeLayout>

@@ -17,7 +17,7 @@ public class Permissions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.permissions);
+        setContentView(R.layout.activity_permissions);
 
         TextView txtView = (TextView)findViewById(R.id.txtperm);
         if (ContextCompat.checkSelfPermission(this,
