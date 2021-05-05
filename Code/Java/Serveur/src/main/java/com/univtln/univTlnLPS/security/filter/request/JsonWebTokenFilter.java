@@ -1,7 +1,10 @@
 package com.univtln.univTlnLPS.security.filter.request;
 
 
+import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
+import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
+import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.MySecurityContext;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import io.jsonwebtoken.Claims;
@@ -24,6 +27,7 @@ import lombok.extern.java.Log;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -82,8 +86,7 @@ public class JsonWebTokenFilter implements ContainerRequestFilter {
             Jws<Claims> jws = Jwts.parserBuilder()
                     .requireIssuer("sample-jaxrs")
 
-                    // TODO
-                    // .setSigningKey(InMemoryLoginModule.KEY)
+                    .setSigningKey(LPSServer.KEY)
 
                     .build()
                     .parseClaimsJws(compactJwt);
@@ -106,14 +109,17 @@ public class JsonWebTokenFilter implements ContainerRequestFilter {
                             .collect(Collectors.toCollection(() -> EnumSet.noneOf(Utilisateur.Role.class)));
 
             //We check if the role is allowed
-            /*
 
-            TODO
+            Superviseur superviseur = null;
+            try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+                List<Superviseur> liste = superviseurDAO.findByEmail(email);
+                if (!liste.isEmpty())
+                    superviseur = liste.get(0);
+            }
 
-             if (!InMemoryLoginModule.isInRoles(rolesSet, username))
+             if (!BasicAuthenticationFilter.isUserInRoles(rolesSet, superviseur))
                 requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
                         .entity("Roles not allowed").build());
-             */
 
         }
     }

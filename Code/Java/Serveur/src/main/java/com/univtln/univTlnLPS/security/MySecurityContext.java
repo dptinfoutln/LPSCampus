@@ -15,6 +15,8 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.security.Principal;
+import java.util.List;
+
 /**
  * This class define a specific security context after an authentication with either the basic or the JWT filters.
  *
@@ -34,10 +36,9 @@ public class MySecurityContext implements SecurityContext {
 
         Superviseur superviseur = null;
         try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
-
-            superviseur = superviseurDAO.findByEmail(userEmail).get(0);
-            System.out.println(superviseur);
-
+            List<Superviseur> liste = superviseurDAO.findByEmail(userEmail);
+            if (!liste.isEmpty())
+                superviseur = liste.get(0);
         }
         return superviseur;
 
@@ -47,32 +48,15 @@ public class MySecurityContext implements SecurityContext {
     //A method to check if a user belongs to a role
     @Override
     public boolean isUserInRole(String role) {
-
-        // Tout le monde a les autorisations utilisateurs (guest)
-        if (role.equals("USER"))
-            return true;
-
-        // Si on veut verifier des droits d'acces pour une perdonne connectee
-        else {
-            // On recupere le superviseur correspondant a l'email
-            Superviseur superviseur = null;
-            try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
-
-                superviseur = superviseurDAO.findByEmail(userEmail).get(0);
-            }
-
-            // Si le role cherche est superviseur et S'il a ete trouve on retourne true
-            if (role == "SUPER" && superviseur != null)
-                return true;
-
-            // Si le role cherche est administrateur
-            if (role == "ADMIN") {
-                if (superviseur instanceof Administrateur);
-                    return false;
-            }
+        // On recupere le superviseur correspondant a l'email
+        Superviseur superviseur = null;
+        try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+            List<Superviseur> liste = superviseurDAO.findByEmail(userEmail);
+            if (!liste.isEmpty())
+                superviseur = liste.get(0);
         }
+        return BasicAuthenticationFilter.isUserInRole(role, superviseur);
 
-        return false;
     }
 
     //Say the access has been secured
