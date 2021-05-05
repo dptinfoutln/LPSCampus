@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:onClick="onClickAjouterDonnees"
         android:layout_above="@id/consulterDonnees"
-        android:layout_marginBottom="30dp"
         android:text="Ajouter données" />
 
     <Button
@@ -27,4 +26,13 @@
         android:onClick="onClickConsulterDonnees"
         android:layout_alignBottom="@id/frame3"
         android:text="Consulter donnees" />
+
+    <Button
+        android:id="@+id/voirDemandes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickVoirDemandes"
+        android:layout_above="@id/ajouterdonnees"
+        android:text="Voir les demandes" />
+
 </RelativeLayout>

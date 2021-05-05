@@ -26,7 +26,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.AffichageDetailDonnees"></activity>
+        <activity android:name=".ihm.VoirDemandes"></activity>
+        <activity android:name=".ihm.AffichageDetailDonnees" />
         <activity android:name=".ihm.DescriptionProbleme" />
         <activity android:name=".ihm.ReporterProbleme" />
         <activity android:name=".ihm.CreerCampus" />
