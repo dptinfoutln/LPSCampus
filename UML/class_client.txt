@@ -70,9 +70,11 @@ package Localisation {
 
 package Interface {
     class HomeActivity
-    class AffichageDonneesSalleActivity
     class AffichageSalleActivity
+    class AffichageDonneesSalleActivity
+    class AffichageDetailDonneesActivity
     class AjoutDataouConsulterActivity
+    class ConsulterDemandesActivity
     class DevenirSuperviseurActivity
     class SeConnecterActivity
     class SeLocaliserActivity
@@ -98,8 +100,12 @@ SeConnecterActivity -- AjoutDataouConsulterActivity
 
 AjoutDataouConsulterActivity -- AffichageSalleActivity
 AjoutDataouConsulterActivity -- AjoutDataActivity
+AjoutDataouConsulterActivity -- ConsulterDemandesActivity
+
+ConsulterDemandesActivity -- Administrateur
 
 AffichageSalleActivity -- AffichageDonneesSalleActivity
+AffichageDonneesSalleActivity -- AffichageDetailDonneesActivity
 
 Utilisateur -- HomeActivity
 
