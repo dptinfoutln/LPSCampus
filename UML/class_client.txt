@@ -73,7 +73,12 @@ package Interface {
     class AffichageSalleActivity
     class AffichageDonneesSalleActivity
     class AffichageDetailDonneesActivity
-    class AjoutDataouConsulterActivity
+    class PagePrincipaleEPActivity
+    class GestionCompteActivity
+    class ModifierInfoActivity
+    class ModifierLoginActivity
+    class ModifierMDPActivity
+    class SupprimerCompteActivity
     class ConsulterDemandesActivity
     class DevenirSuperviseurActivity
     class SeConnecterActivity
@@ -96,11 +101,17 @@ HomeActivity -- SeConnecterActivity
 HomeActivity -- SeLocaliserActivity
 HomeActivity -- DevenirSuperviseurActivity
 
-SeConnecterActivity -- AjoutDataouConsulterActivity
+SeConnecterActivity -- PagePrincipaleEPActivity
 
-AjoutDataouConsulterActivity -- AffichageSalleActivity
-AjoutDataouConsulterActivity -- AjoutDataActivity
-AjoutDataouConsulterActivity -- ConsulterDemandesActivity
+PagePrincipaleEPActivity -- AffichageSalleActivity
+PagePrincipaleEPActivity -- AjoutDataActivity
+PagePrincipaleEPActivity -- ConsulterDemandesActivity
+PagePrincipaleEPActivity -- GestionCompteActivity
+
+GestionCompteActivity -- ModifierInfoActivity
+ModifierInfoActivity -- ModifierLoginActivity
+ModifierInfoActivity -- ModifierMDPActivity
+GestionCompteActivity -- SupprimerCompteActivity
 
 ConsulterDemandesActivity -- Administrateur
 
