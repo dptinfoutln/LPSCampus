@@ -29,7 +29,8 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     List<String> ListeSalles;
     ListAdapter ListeAdapter;
 
-    private String lastId;
+    private String lastId, nom;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
                             long id) {
         String resultat = (String)parent.getItemAtPosition(position);
         lastId = resultat.split(":")[0];
+        nom = resultat.split(":")[1];
     }
 
 
@@ -95,6 +97,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
             Intent i = new Intent(this, AffichageDonneesSalle.class);
             i.putExtra("ssgbdC", ssgbdControleur);
             i.putExtra("salleId", lastId);
+            i.putExtra("piece", nom);
             startActivity(i);
         }
     }
