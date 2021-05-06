@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Campus;
@@ -24,9 +25,7 @@ import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 @Path("LaGarde")
 public class CampusResources {
 
-    @PUT
-    @Path("campus/init")
-    public void init() {
+    public static void init() {
         try (CampusDAO campDao = CampusDAO.of()){
             EntityTransaction transaction = campDao.getTransaction();
             transaction.begin();
@@ -73,13 +72,16 @@ public class CampusResources {
     @RolesAllowed({"ADMIN"})
     @BasicAuth
     public void delCampus(@PathParam("id") long id) {
-        try (CampusDAO campDAO = CampusDAO.of()){
-            Campus camp = campDAO.find(id);
-            if(camp == null)
-                throw new NotFoundException();
-            campDAO.remove(camp);
-        }
+        try (CampusDAO campusDAO = CampusDAO.of()) {
+            EntityTransaction transaction = campusDAO.getTransaction();
 
+            transaction.begin();
+            Campus campus = campusDAO.find(id);
+            if( campus == null) throw new NotFoundException();
+            campusDAO.remove(campus);
+
+            transaction.commit();
+        }
     }
 
 }
