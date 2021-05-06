@@ -28,7 +28,7 @@ public class PieceResources {
     private static final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
     public static void init() throws IllegalArgumentException {
-        long i;
+        /*long i;
         Batiment bat = new Batiment(0, 0, "U", new HashSet<>(), 1);
         Etage et = new Etage("plan", "rdc", 1, null, new HashSet<>());
         bat.getEtageList().add(et);
@@ -50,7 +50,7 @@ public class PieceResources {
 
             pieces.put(i, p);
         }
-        lastId = 5;
+        lastId = 5;*/
     }
 
     // add delete update
@@ -111,6 +111,17 @@ public class PieceResources {
     }
 
 
+    @GET
+    @Path("pieces/size")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @BasicAuth
+    public int getPieceSize() {
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            return pieceDAO.findAll().size();
+
+        }
+    }
 
     @GET
     @Path("pieces")
@@ -126,18 +137,6 @@ public class PieceResources {
 
         }
         return map ;
-    }
-
-    @GET
-    @Path("pieces/size")
-    @RolesAllowed({"SUPER", "ADMIN"})
-    @BasicAuth
-    public int getPieceSize() {
-        try (PieceDAO pieceDAO = PieceDAO.of()) {
-
-            return pieceDAO.findAll().size();
-
-        }
     }
 
     @DELETE
