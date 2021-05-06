@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.net.client;
 
+import com.univtln.univTlnLPS.common.LPSModele;
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
@@ -23,9 +24,11 @@ public class LPSClient {
         Client client = ClientBuilder.newClient();
         WebTarget webResource = client.target("http://localhost:9998/LPS");
 
-        String responseInitAsStringInit = webResource.path("LaGarde/init")
+        /*String responseInitAsStringInit = webResource.path("LaGarde/init")
                 .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringInit);
+        log.info(responseInitAsStringInit);*/
+
+        LPSModele.init();
 
         /*responseInitAsStringInit = webResource.path("LaGarde/campus")
                 .request().put(Entity.entity(new Campus("name222", "",

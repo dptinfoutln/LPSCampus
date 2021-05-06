@@ -25,7 +25,10 @@ import jakarta.ws.rs.ext.Provider;
 import lombok.extern.java.Log;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,6 +93,11 @@ public class JsonWebTokenFilter implements ContainerRequestFilter {
 
                     .build()
                     .parseClaimsJws(compactJwt);
+            if(jws.getBody().getExpiration()
+                    .before(Date.from(LocalDateTime.now()
+                            .atZone(ZoneId.systemDefault()).toInstant())))
+                requestContext.abortWith(Response.status(498)
+                        .entity("EXPIRED JWT token").build());
             email = jws.getBody().getSubject();
 
             //We build a new securitycontext to transmit the security data to JAX-RS

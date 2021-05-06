@@ -99,7 +99,7 @@ public class ScanDataResources {
     }
 
     @GET
-    @Path("superviseurs/{id}/scans")
+    @Path("superviseurs/{id}/scans/size")
     @RolesAllowed({"ADMIN"})
     @BasicAuth
     public int getScanDataBySupByPieceSize(@PathParam("id") long id,
@@ -131,7 +131,7 @@ public class ScanDataResources {
     }
 
     @GET
-    @Path("superviseurs/scans")
+    @Path("superviseurs/scans/size")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"SUPER", "ADMIN"})
     @BasicAuth

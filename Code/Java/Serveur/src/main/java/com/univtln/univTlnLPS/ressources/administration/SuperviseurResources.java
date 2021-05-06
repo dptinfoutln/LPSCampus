@@ -13,6 +13,7 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
+import lombok.extern.java.Log;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
@@ -27,6 +28,7 @@ import java.util.Date;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
+@Log
 public class SuperviseurResources {
 
     @POST
@@ -48,9 +50,7 @@ public class SuperviseurResources {
     }
 
 
-    @PUT
-    @Path("superviseurs/init")
-    public void init() throws IllegalArgumentException {
+    public static void init() throws IllegalArgumentException {
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
             EntityTransaction transaction = superDAO.getTransaction();
             transaction.begin();
@@ -135,6 +135,8 @@ public class SuperviseurResources {
     @JWTAuth
     public void removeSuperviseur(@Context SecurityContext securityContext) throws NotFoundException {
         Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
+
+        log.info(superviseur.toString());
 
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
             EntityTransaction transaction = superDAO.getTransaction();

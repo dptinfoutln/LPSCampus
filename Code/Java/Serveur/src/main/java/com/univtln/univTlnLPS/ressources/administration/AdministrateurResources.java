@@ -18,9 +18,7 @@ import java.util.HashSet;
 @Path("LaGarde")
 public class AdministrateurResources {
 
-    @PUT
-    @Path("admin/init")
-    public void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
+    public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
         try (AdministrateurDAO adminDAO = AdministrateurDAO.of()) {
             EntityTransaction transaction = adminDAO.getTransaction();
             transaction.begin();

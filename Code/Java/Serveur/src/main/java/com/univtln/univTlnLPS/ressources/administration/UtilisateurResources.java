@@ -18,9 +18,7 @@ public class UtilisateurResources {
 
     final MutableLongObjectMap<Utilisateur> utilisateurs = LongObjectMaps.mutable.empty();
 
-    @PUT
-    @Path("utilisateurs/init")
-    public void init() throws IllegalArgumentException {
+    public static void init() throws IllegalArgumentException {
         Utilisateur.builder().caracteristiquesMachine("").build();
     }
 
