@@ -61,11 +61,17 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
-        try {
-            role = ssgbdControleur.doRequest("GET", "", null, !true);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    role = ssgbdControleur.doRequest("GET", "", null, !true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
 
         btn.setVisibility(0);
 

@@ -29,14 +29,12 @@ public class GestionCompte extends AppCompatActivity {
 
 
     public void modifier(View v) {
-        // superviseurs post
         Intent i = new Intent(this, ModifierInfo.class);
         i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
     }
 
     public void supprimer(View v) {
-        // superviseurs delete
         Intent i = new Intent(this, SupprimerCompte.class);
         i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
