@@ -3,6 +3,7 @@ package com.univtln.univTlnLPS.ressources.carte;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
@@ -32,7 +33,7 @@ public class EtageResources {
     @Path("etages")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Etage addEtage(Etage etage) throws IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
         etage.setId(++lastId);
@@ -44,7 +45,7 @@ public class EtageResources {
     @Path("etages/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Etage updateEtage(@PathParam("id") long id, Etage etage) throws NotFoundException, IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
         etage.setId(id);
@@ -56,7 +57,7 @@ public class EtageResources {
     @DELETE
     @Path("etages/{id}")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void removeEtage(@PathParam("id") long id) throws NotFoundException {
         if (!etages.containsKey(id)) throw new NotFoundException();
         etages.remove(id);
@@ -65,7 +66,7 @@ public class EtageResources {
     @GET
     @Path("etages/{id}")
     @RolesAllowed({"ADMIN", "SUPER"})
-    @BasicAuth
+    @JWTAuth
     public Etage getEtage(@PathParam("id") long id) throws NotFoundException {
         if (!etages.containsKey(id)) throw new NotFoundException();
         return etages.get(id);
@@ -74,7 +75,7 @@ public class EtageResources {
     @GET
     @Path("etages/size")
     @RolesAllowed({"ADMIN", "SUPER"})
-    @BasicAuth
+    @JWTAuth
     public int getEtageSize() {
         return etages.size();
     }
@@ -82,7 +83,7 @@ public class EtageResources {
     @DELETE
     @Path("etages")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void deleteEtages() {
         etages.clear();
         lastId = 0;
@@ -91,7 +92,7 @@ public class EtageResources {
     @GET
     @Path("etages")
     @RolesAllowed({"SUPER", "ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public MutableLongObjectMap<Etage> getEtages() {
         return etages;
     }

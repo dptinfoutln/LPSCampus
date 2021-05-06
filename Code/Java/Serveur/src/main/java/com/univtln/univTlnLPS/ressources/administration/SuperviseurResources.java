@@ -3,6 +3,7 @@ package com.univtln.univTlnLPS.ressources.administration;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.NotFoundException;
@@ -28,7 +29,7 @@ public class SuperviseurResources {
 
     @POST
     @Path("connexion")
-    @RolesAllowed({"USER", "SUPER", "ADMIN"})
+    @RolesAllowed({"SUPER", "ADMIN"})
     @BasicAuth
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
     public String connexion(@Context SecurityContext securityContext) {
@@ -57,7 +58,7 @@ public class SuperviseurResources {
     @Path("superviseurs")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Superviseur addSuperviseur(Superviseur superviseur) throws IllegalArgumentException {
         if (superviseur.getId() != 0) throw new IllegalArgumentException();
         superviseur.setId(++lastId);
@@ -69,7 +70,7 @@ public class SuperviseurResources {
     @Path("superviseurs/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Superviseur updateSuperviseur(@PathParam("id") long id, Superviseur superviseur) throws NotFoundException, IllegalArgumentException {
         if (superviseur.getId() != 0) throw new IllegalArgumentException();
         superviseur.setId(id);
@@ -81,7 +82,7 @@ public class SuperviseurResources {
     @DELETE
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void removeSuperviseur(@PathParam("id") long id) throws NotFoundException {
         if (!superviseurs.containsKey(id)) throw new NotFoundException();
         superviseurs.remove(id);

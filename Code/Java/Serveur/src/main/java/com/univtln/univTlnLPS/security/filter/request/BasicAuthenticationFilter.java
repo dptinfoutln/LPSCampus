@@ -107,6 +107,11 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
                         return;
                     }
                 }
+                else{
+                    requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+                            .entity("Wrong username or password").build());
+                    return;
+                }
 
                 //We check if the role is allowed
                 if (!isUserInRoles(rolesSet, superviseur))
@@ -124,7 +129,7 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
     public static Boolean isUserInRoles(EnumSet<Utilisateur.Role> rolesSet, Superviseur superviseur){
         for (Utilisateur.Role role:
              rolesSet) {
-            if (isUserInRole(role.toString(), superviseur))
+            if (isUserInRole(role.name(), superviseur))
                 return true;
         }
         return false;
