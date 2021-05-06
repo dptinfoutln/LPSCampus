@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.GestionCompte">
+
+    <FrameLayout
+        android:id="@+id/frameGestion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/gestionCompte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestion du compte"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="22sp" />
+
+    <Button
+        android:id="@+id/modifier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier le compte"
+        android:layout_above="@id/supprimer"
+        android:onClick="modifier" />
+
+    <Button
+        android:id="@+id/supprimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supprimer le compte"
+        android:layout_alignBottom="@+id/frameGestion"
+        android:onClick="supprimer" />
+
+</RelativeLayout>

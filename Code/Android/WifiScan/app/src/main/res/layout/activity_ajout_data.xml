@@ -5,6 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".ihm.AjoutData">
 
+    <FrameLayout
+        android:id="@+id/frameAjout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -37,10 +41,9 @@
         android:id="@+id/creerSalle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/spinner"
+        android:layout_alignEnd="@id/frameAjout"
+        android:layout_below="@+id/spinner"
         android:onClick="creerSalle"
         android:text="Créer Salle" />
-
-
 
 </RelativeLayout>

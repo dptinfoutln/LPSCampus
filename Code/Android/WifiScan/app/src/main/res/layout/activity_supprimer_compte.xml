@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.SupprimerCompte">
+
+    <FrameLayout
+        android:id="@+id/frameSupprimer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/supprimerCompte"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Supprimer mon compte"
+        android:textAlignment="center"
+        android:textColor="#0C0C0C"
+        android:textSize="20sp" />
+
+    <CheckBox
+        android:id="@+id/checkboxValider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/supprimerCompte"
+        android:text="Valider la suppression du compte"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/buttonValider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:layout_alignBottom="@id/frameSupprimer"
+        android:onClick="valider" />
+
+</RelativeLayout>

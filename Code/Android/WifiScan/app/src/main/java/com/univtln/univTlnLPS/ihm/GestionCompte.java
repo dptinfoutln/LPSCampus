@@ -5,41 +5,42 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 
-public class AjoutDataOrConsulterData extends AppCompatActivity {
+import org.json.JSONException;
+
+public class GestionCompte extends AppCompatActivity {
+
 
     private SSGBDControleur ssgbdControleur;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ajout_data_or_consulter_data);
+        setContentView(R.layout.activity_gestion_compte);
 
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
-
     }
 
-    public void onClickAjouterDonnees(View v) {
-        Intent i = new Intent(this, AjoutData.class);
+
+
+    public void modifier(View v) {
+        // superviseurs post
+        Intent i = new Intent(this, ModifierInfo.class);
         i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
     }
 
-    public void onClickConsulterDonnees(View v) {
-        Intent i = new Intent(this, AffichageSalles.class);
+    public void supprimer(View v) {
+        // superviseurs delete
+        Intent i = new Intent(this, SupprimerCompte.class);
         i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
-    }
 
-    public void onClickVoirDemandes(View v) {
-        Intent i = new Intent(this, VoirDemandes.class);
-        i.putExtra("ssgbdC", ssgbdControleur);
-        startActivity(i);
     }
 
 

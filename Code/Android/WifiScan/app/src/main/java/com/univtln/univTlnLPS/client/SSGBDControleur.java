@@ -53,7 +53,7 @@ public class SSGBDControleur implements Serializable {
                         return ""; // échec de l'authentification
                     }
                 // on met le token dans le header
-                urlConnection.setRequestProperty("Authorization", c.getToken());
+                urlConnection.setRequestProperty("Authorization", "Bearer" + c.getToken());
             }
 
             urlConnection.setDoInput(true);

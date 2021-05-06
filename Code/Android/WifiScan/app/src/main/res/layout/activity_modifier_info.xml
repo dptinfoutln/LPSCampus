@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.ModifierInfo">
+
+
+    <FrameLayout
+        android:id="@+id/frameModifier"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/texteModifier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier les informations du compte"
+        android:textAlignment="center"
+        android:textColor="#090808"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/modifierLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier le login"
+        android:onClick="modifierLogin"
+        android:layout_above="@id/modifierMDP" />
+
+    <Button
+        android:id="@+id/modifierMDP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier le mot de passe"
+        android:onClick="modifierMDP"
+        android:layout_alignBottom="@id/frameModifier" />
+
+</RelativeLayout>
