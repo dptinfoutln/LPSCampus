@@ -28,15 +28,15 @@ public class CampusResources {
     @Path("campus/init")
     public void init() {
         try (CampusDAO campDao = CampusDAO.of()){
-            if (campDao.findByName("tln").isEmpty()){
-                EntityTransaction transaction = campDao.getTransaction();
-                transaction.begin();
+            EntityTransaction transaction = campDao.getTransaction();
+            transaction.begin();
 
-                Campus camp = new Campus("tln", "plan", new HashSet<>(), 0, null);
-                campDao.persist(camp);
+            campDao.deleteAll();
 
-                transaction.commit();
-            }
+            Campus camp = new Campus("tln", "plan", new HashSet<>(), 0, null);
+            campDao.persist(camp);
+
+            transaction.commit();
         }
     }
 

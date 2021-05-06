@@ -22,22 +22,22 @@ public class AdministrateurResources {
     @Path("admin/init")
     public void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
         try (AdministrateurDAO adminDAO = AdministrateurDAO.of()) {
-            if (adminDAO.findAll().isEmpty()) {
-                EntityTransaction transaction = adminDAO.getTransaction();
-                transaction.begin();
+            EntityTransaction transaction = adminDAO.getTransaction();
+            transaction.begin();
 
-                Campus camp = CampusDAO.of().findByName("tln").get(0);
-                Administrateur admin = Administrateur.builder()
-                        .email("leviathan@univ-tln.fr")
-                        .campus(camp).build();
-                admin.setPasswordHash("trempette");
+            adminDAO.deleteAllWithDTYPE();
 
-                adminDAO.persist(admin);
+            Campus camp = CampusDAO.of().findByName("tln").get(0);
+            Administrateur admin = Administrateur.builder()
+                    .email("leviathan@univ-tln.fr")
+                    .campus(camp).build();
+            admin.setPasswordHash("trempette");
 
-                transaction.commit();
-            }
+            adminDAO.persist(admin);
 
+            transaction.commit();
         }
+
 
     }
 
