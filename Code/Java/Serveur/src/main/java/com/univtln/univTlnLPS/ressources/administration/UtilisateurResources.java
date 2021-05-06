@@ -1,6 +1,8 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
+import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -48,6 +50,8 @@ public class UtilisateurResources {
 
     @DELETE
     @Path("utilisateurs/{id}")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void removeUtilisateur(@PathParam("id") long id) throws NotFoundException {
         if (!utilisateurs.containsKey(id)) throw new NotFoundException();
         utilisateurs.remove(id);

@@ -1,11 +1,23 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
 import com.univtln.univTlnLPS.model.administration.Superviseur;
+import com.univtln.univTlnLPS.net.server.LPSServer;
+import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import io.jsonwebtoken.Jwts;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
+
+import javax.naming.AuthenticationException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
@@ -16,9 +28,20 @@ public class SuperviseurResources {
 
     @POST
     @Path("connexion")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public String connexion(String content) {
-        return "success";
+    @RolesAllowed({"USER", "SUPER", "ADMIN"})
+    @BasicAuth
+    @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.TEXT_XML})
+    public String connexion(@Context SecurityContext securityContext) {
+        if (securityContext.isSecure() && securityContext.getUserPrincipal() instanceof Superviseur) {
+            Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
+            return Jwts.builder()
+                    .setIssuer("sample-jaxrs")
+                    .setIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
+                    .setSubject(superviseur.getEmail())
+                    .setExpiration(Date.from(LocalDateTime.now().plus(15, ChronoUnit.MINUTES).atZone(ZoneId.systemDefault()).toInstant()))
+                    .signWith(LPSServer.KEY).compact();
+        }
+        throw new WebApplicationException(new AuthenticationException());
     }
 
 
@@ -33,6 +56,8 @@ public class SuperviseurResources {
     @PUT
     @Path("superviseurs")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public Superviseur addSuperviseur(Superviseur superviseur) throws IllegalArgumentException {
         if (superviseur.getId() != 0) throw new IllegalArgumentException();
         superviseur.setId(++lastId);
@@ -43,6 +68,8 @@ public class SuperviseurResources {
     @POST
     @Path("superviseurs/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public Superviseur updateSuperviseur(@PathParam("id") long id, Superviseur superviseur) throws NotFoundException, IllegalArgumentException {
         if (superviseur.getId() != 0) throw new IllegalArgumentException();
         superviseur.setId(id);
@@ -53,6 +80,8 @@ public class SuperviseurResources {
 
     @DELETE
     @Path("superviseurs/{id}")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void removeSuperviseur(@PathParam("id") long id) throws NotFoundException {
         if (!superviseurs.containsKey(id)) throw new NotFoundException();
         superviseurs.remove(id);

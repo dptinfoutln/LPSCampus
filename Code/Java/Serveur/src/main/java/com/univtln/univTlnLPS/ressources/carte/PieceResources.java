@@ -4,6 +4,8 @@ import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
+import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -54,6 +56,8 @@ public class PieceResources {
     @PUT
     @Path("pieces")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public Piece addPiece(Piece piece) throws IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
         piece.setId(++lastId);
@@ -64,6 +68,8 @@ public class PieceResources {
     @POST
     @Path("pieces/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public Piece updatePiece(@PathParam("id") long id, Piece piece) throws NotFoundException, IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
         piece.setId(id);
@@ -74,6 +80,8 @@ public class PieceResources {
 
     @DELETE
     @Path("pieces/{id}")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void removePiece(@PathParam("id") long id) throws NotFoundException {
         if (!pieces.containsKey(id)) throw new NotFoundException();
         pieces.remove(id);
@@ -81,25 +89,35 @@ public class PieceResources {
 
     @GET
     @Path("pieces/{id}")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @BasicAuth
     public Piece getPiece(@PathParam("id") long id) throws NotFoundException {
         if (!pieces.containsKey(id)) throw new NotFoundException();
         return pieces.get(id);
     }
 
+
+
     @GET
     @Path("pieces")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @BasicAuth
     public MutableLongObjectMap<Piece> getPieces() throws NotFoundException {
         return pieces;
     }
 
     @GET
     @Path("pieces/size")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @BasicAuth
     public int getPieceSize() {
         return pieces.size();
     }
 
     @DELETE
     @Path("pieces")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void deletePieces() {
         pieces.clear();
         lastId = 0;

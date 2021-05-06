@@ -2,6 +2,8 @@ package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
+import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -30,6 +32,8 @@ public class BatimentResources {
     @PUT
     @Path("batiments")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public Batiment addBatiment(Batiment batiment) throws IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
         batiment.setId(++lastId);
@@ -40,6 +44,8 @@ public class BatimentResources {
     @POST
     @Path("batiments/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public Batiment updateBatiment(@PathParam("id") long id, Batiment batiment) throws NotFoundException, IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
         batiment.setId(id);
@@ -50,6 +56,8 @@ public class BatimentResources {
 
     @DELETE
     @Path("batiments/{id}")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void removeBatiment(@PathParam("id") long id) throws NotFoundException {
         if (!batiments.containsKey(id)) throw new NotFoundException();
         batiments.remove(id);
@@ -57,6 +65,8 @@ public class BatimentResources {
 
     @GET
     @Path("batiments/{id}")
+    @RolesAllowed({"ADMIN", "SUPER"})
+    @BasicAuth
     public Batiment getBatiment(@PathParam("id") long id) throws NotFoundException {
         if (!batiments.containsKey(id)) throw new NotFoundException();
         return batiments.get(id);
@@ -64,12 +74,16 @@ public class BatimentResources {
 
     @GET
     @Path("batiments/size")
+    @RolesAllowed({"ADMIN", "SUPER"})
+    @BasicAuth
     public int getBatimentSize() {
         return batiments.size();
     }
 
     @DELETE
     @Path("batiments")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void deleteBatiments() {
         batiments.clear();
         lastId = 0;
@@ -77,6 +91,8 @@ public class BatimentResources {
 
     @GET
     @Path("batiments")
+    @RolesAllowed({"ADMIN", "SUPER"})
+    @BasicAuth
     public MutableLongObjectMap<Batiment> getBatiments() {
         return batiments;
     }

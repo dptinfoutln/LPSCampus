@@ -4,6 +4,8 @@ import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.carte.Campus;
+import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -40,6 +42,8 @@ public class AdministrateurResources {
     @POST
     @Path("admin")
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
     public void updateAdmin(Administrateur admin){
         try (AdministrateurDAO adminDAO = AdministrateurDAO.of()){
             EntityTransaction transaction = adminDAO.getTransaction();
