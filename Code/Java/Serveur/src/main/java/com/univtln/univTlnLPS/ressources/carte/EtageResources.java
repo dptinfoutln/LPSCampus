@@ -66,8 +66,6 @@ public class EtageResources {
         return etage;
     }
 
-
-
     @GET
     @Path("etages/{id}")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -93,8 +91,6 @@ public class EtageResources {
 
         }
     }
-
-
 
     @GET
     @Path("etages")
