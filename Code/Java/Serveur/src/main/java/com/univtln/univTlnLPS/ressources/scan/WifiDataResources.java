@@ -63,21 +63,6 @@ public class WifiDataResources {
         return wifidata;
     }
 
-    @DELETE
-    @Path("wifis/{id}")
-    public void removeWifiData(@PathParam("id") long id) throws NotFoundException {
-        try (WifiDataDAO wifiDataDAO = WifiDataDAO.of()) {
-            EntityTransaction transaction = wifiDataDAO.getTransaction();
-
-            transaction.begin();
-            WifiData wifiData = wifiDataDAO.find(id);
-            if( wifiData == null) throw new NotFoundException();
-            wifiDataDAO.remove(wifiData);
-
-            transaction.commit();
-        }
-    }
-
     @GET
     @Path("wifis/{id}")
     public WifiData getWifiData(@PathParam("id") long id) throws NotFoundException {
@@ -99,6 +84,21 @@ public class WifiDataResources {
 
             return wifiDataDAO.findAll().size();
 
+        }
+    }
+
+    @DELETE
+    @Path("wifis/{id}")
+    public void removeWifiData(@PathParam("id") long id) throws NotFoundException {
+        try (WifiDataDAO wifiDataDAO = WifiDataDAO.of()) {
+            EntityTransaction transaction = wifiDataDAO.getTransaction();
+
+            transaction.begin();
+            WifiData wifiData = wifiDataDAO.find(id);
+            if( wifiData == null) throw new NotFoundException();
+            wifiDataDAO.remove(wifiData);
+
+            transaction.commit();
         }
     }
 

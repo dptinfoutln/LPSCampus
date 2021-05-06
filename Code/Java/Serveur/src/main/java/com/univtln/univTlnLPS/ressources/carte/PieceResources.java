@@ -1,10 +1,7 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
-import com.univtln.univTlnLPS.model.carte.Batiment;
-import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
-import com.univtln.univTlnLPS.model.scan.ScanData;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
@@ -14,9 +11,7 @@ import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -52,8 +47,6 @@ public class PieceResources {
         }
         lastId = 5;*/
     }
-
-    // add delete update
 
     @PUT
     @Path("pieces")
@@ -109,7 +102,6 @@ public class PieceResources {
         }
         return piece;
     }
-
 
     @GET
     @Path("pieces/size")

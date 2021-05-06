@@ -74,23 +74,6 @@ public class ScanDataResources {
         return scandata;
     }
 
-    @RolesAllowed({"SUPER", "ADMIN"})
-    @BasicAuth
-    @DELETE
-    @Path("scans/{id}")
-    public void removeScanData(@PathParam("id") long id) throws NotFoundException {
-        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
-            EntityTransaction transaction = scanDataDAO.getTransaction();
-
-            transaction.begin();
-            ScanData scanData = scanDataDAO.find(id);
-            if( scanData == null) throw new NotFoundException();
-            scanDataDAO.remove(scanData);
-
-            transaction.commit();
-        }
-    }
-
     @GET
     @Path("scans/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -115,12 +98,62 @@ public class ScanDataResources {
         }
     }
 
-    @DELETE
-    @Path("scans")
-    public void deleteScanDatas() {
-        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
-            scanDataDAO.deleteAll();
+    @GET
+    @Path("superviseurs/{id}/scans")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
+    public int getScanDataBySupByPieceSize(@PathParam("id") long id,
+                                                       @QueryParam("idPiece") long idPiece) throws NotFoundException {
+
+        int size;
+        // On recupere le superviseur
+        Superviseur superviseur;
+        try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+
+            superviseur = superviseurDAO.find(id);
+            if( superviseur == null) throw new NotFoundException();
+
         }
+
+        // On recupere la piece
+        Piece piece;
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            piece = pieceDAO.find(idPiece);
+            if( piece == null) throw new NotFoundException();
+        }
+
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            size = scanDataDAO.findBySuperAndPiece(superviseur, piece).size();
+        }
+
+        return size;
+    }
+
+    @GET
+    @Path("superviseurs/scans")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @BasicAuth
+    public int getOwnScanDataByPieceSize(Superviseur superviseur,
+                                                     @QueryParam("idPiece") long idPiece) throws NotFoundException {
+
+        int size;
+
+        // On recupere la piece
+        Piece piece;
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            piece = pieceDAO.find(idPiece);
+            if (piece == null) throw new NotFoundException();
+        }
+
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+
+            size = scanDataDAO.findBySuperAndPiece(superviseur, piece).size();
+        }
+
+        return size;
     }
 
     @GET
@@ -182,5 +215,30 @@ public class ScanDataResources {
         }
 
         return map;
+    }
+
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @BasicAuth
+    @DELETE
+    @Path("scans/{id}")
+    public void removeScanData(@PathParam("id") long id) throws NotFoundException {
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            EntityTransaction transaction = scanDataDAO.getTransaction();
+
+            transaction.begin();
+            ScanData scanData = scanDataDAO.find(id);
+            if( scanData == null) throw new NotFoundException();
+            scanDataDAO.remove(scanData);
+
+            transaction.commit();
+        }
+    }
+
+    @DELETE
+    @Path("scans")
+    public void deleteScanDatas() {
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            scanDataDAO.deleteAll();
+        }
     }
 }
