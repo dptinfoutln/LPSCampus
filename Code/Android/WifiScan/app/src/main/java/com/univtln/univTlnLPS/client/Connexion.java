@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
 public class Connexion implements Serializable {
 
@@ -26,6 +27,13 @@ public class Connexion implements Serializable {
         return token;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getMdp() {
+        return mdp;
+    }
 
     public Connexion(String ip) {
         this.login = this.mdp = this.token = null;
@@ -43,25 +51,19 @@ public class Connexion implements Serializable {
     /**
      * S'authentifie pour récupérer le token
      * @return True si l'authentification a réussi
-     * @throws JSONException
      */
-    public boolean seConnecter() throws JSONException {
-        JSONObject identifiants = new JSONObject();
-        identifiants.put("login", login);
-        identifiants.put("mdp", mdp);
+    public boolean seConnecter() {
+        String auth = login + ":" + mdp;
+        auth = "Basic" + Base64.getEncoder().encodeToString(auth.getBytes());
+
         HttpURLConnection urlConnection = null;
         try {
             URL url = new URL(uri);
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            urlConnection.setRequestMethod("GET");
-
-            DataOutputStream localDataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
-            localDataOutputStream.writeBytes(identifiants.toString());
-            localDataOutputStream.flush();
-            localDataOutputStream.close();
+            urlConnection.setRequestProperty("Authorization", auth);
+            urlConnection.setRequestMethod("POST");
 
             urlConnection.connect();
 

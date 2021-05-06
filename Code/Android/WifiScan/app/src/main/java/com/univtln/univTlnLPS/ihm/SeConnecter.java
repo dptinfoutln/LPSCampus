@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
-import android.widget.CursorTreeAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,8 +13,6 @@ import com.univtln.univTlnLPS.client.Connexion;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 
 import org.json.JSONException;
-
-import static android.os.Looper.loop;
 
 public class SeConnecter extends AppCompatActivity {
 
@@ -45,24 +41,21 @@ public class SeConnecter extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    if (c.seConnecter()) {
-                        Intent i = new Intent(SeConnecter.this, AjoutDataOrConsulterData.class);
-                        i.putExtra("ssgbdC", ssgbdControleur);
-                        startActivity(i);
-                    }
-                    else {
-                        SeConnecter.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(SeConnecter.this, "Identifiant ou mot de passe incorrects", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (c.seConnecter()) {
+                    Intent i = new Intent(SeConnecter.this, PagePrincipaleEP.class);
+                    i.putExtra("ssgbdC", ssgbdControleur);
+                    startActivity(i);
                 }
+                else {
+                    SeConnecter.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(SeConnecter.this, "Identifiant ou mot de passe incorrects", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+
                 SeConnecter.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ihm.AjoutDataOrConsulterData">
+    tools:context=".ihm.PagePrincipaleEP">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -34,5 +34,13 @@
         android:onClick="onClickVoirDemandes"
         android:layout_above="@id/ajouterdonnees"
         android:text="Voir les demandes" />
+
+    <Button
+        android:id="@+id/parametres"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:onClick="onClickParametres"
+        app:icon="@drawable/roue_dentee"
+        android:layout_alignEnd="@id/frame3"/>
 
 </RelativeLayout>

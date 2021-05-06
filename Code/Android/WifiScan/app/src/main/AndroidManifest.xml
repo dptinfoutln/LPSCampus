@@ -26,7 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.VoirDemandes"></activity>
+        <activity android:name=".ihm.SupprimerCompte"></activity>
+        <activity android:name=".ihm.ModifierMDP" />
+        <activity android:name=".ihm.ModifierLogin" />
+        <activity android:name=".ihm.ModifierInfo" />
+        <activity android:name=".ihm.GestionCompte" />
+        <activity android:name=".ihm.VoirDemandes" />
         <activity android:name=".ihm.AffichageDetailDonnees" />
         <activity android:name=".ihm.DescriptionProbleme" />
         <activity android:name=".ihm.ReporterProbleme" />
@@ -35,7 +40,7 @@
         <activity android:name=".ihm.CreerEtage" />
         <activity android:name=".ihm.CreerSalle" />
         <activity android:name=".ihm.DevenirSuperviseur" />
-        <activity android:name=".ihm.AjoutDataOrConsulterData" />
+        <activity android:name=".ihm.PagePrincipaleEP" />
         <activity android:name=".ihm.SeConnecter" />
         <activity android:name=".ihm.AjoutDataPourSalle" />
         <activity
