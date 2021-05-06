@@ -1,20 +1,16 @@
 package com.univtln.univTlnLPS.ressources.scan;
 
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
+import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.*;
@@ -24,17 +20,17 @@ import java.util.stream.Collectors;
 @Path("LaGarde")
 public class ScanDataResources {
 
+    public static void init() throws IllegalArgumentException {
+        ScanData scanData = ScanData.builder().infoScan("").wifiList(new HashSet<>()).build();
 
-    private static long lastId = 0;
+        try (ScanDataDAO scanDataDao = ScanDataDAO.of()) {
+            EntityTransaction transaction = scanDataDao.getTransaction();
 
-    private static final MutableLongObjectMap<ScanData> scandatas =
-            LongObjectMaps.mutable.empty();
+            transaction.begin();
+            scanDataDao.persist(scanData);
 
-
-    @PUT
-    @Path("scans/init")
-    public void init() throws IllegalArgumentException {
-        ScanData.builder().infoScan("").wifiList(new HashSet<>()).build();
+            transaction.commit();
+        }
     }
 
     @PUT
@@ -44,8 +40,15 @@ public class ScanDataResources {
     @BasicAuth
     public ScanData addScanData(ScanData scandata) throws IllegalArgumentException {
         if (scandata.getId() != 0) throw new IllegalArgumentException();
-        scandata.setId(++lastId);
-        scandatas.put(scandata.getId(), scandata);
+
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            EntityTransaction transaction = scanDataDAO.getTransaction();
+
+            transaction.begin();
+            scanDataDAO.persist(scandata);
+
+            transaction.commit();
+        }
         return scandata;
     }
 
@@ -55,10 +58,19 @@ public class ScanDataResources {
     @RolesAllowed({"ADMIN", "SUPER"})
     @BasicAuth
     public ScanData updateScanData(@PathParam("id") long id, ScanData scandata) throws NotFoundException, IllegalArgumentException {
-        if (scandata.getId() != 0) throw new IllegalArgumentException();
-        scandata.setId(id);
-        if (!scandatas.containsKey(id)) throw new NotFoundException();
-        scandatas.put(id, scandata);
+        if (scandata.getId() != id) throw new IllegalArgumentException();
+
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            EntityTransaction transaction = scanDataDAO.getTransaction();
+
+            transaction.begin();
+
+            if( scanDataDAO.find(id) == null) throw new NotFoundException();
+
+            scanDataDAO.persist(scandata);
+
+            transaction.commit();
+        }
         return scandata;
     }
 
@@ -67,8 +79,16 @@ public class ScanDataResources {
     @DELETE
     @Path("scans/{id}")
     public void removeScanData(@PathParam("id") long id) throws NotFoundException {
-        if (!scandatas.containsKey(id)) throw new NotFoundException();
-        scandatas.remove(id);
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            EntityTransaction transaction = scanDataDAO.getTransaction();
+
+            transaction.begin();
+            ScanData scanData = scanDataDAO.find(id);
+            if( scanData == null) throw new NotFoundException();
+            scanDataDAO.remove(scanData);
+
+            transaction.commit();
+        }
     }
 
     @GET
@@ -76,21 +96,31 @@ public class ScanDataResources {
     @RolesAllowed({"SUPER", "ADMIN"})
     @BasicAuth
     public ScanData getScanData(@PathParam("id") long id) throws NotFoundException {
-        if (!scandatas.containsKey(id)) throw new NotFoundException();
-        return scandatas.get(id);
+        ScanData scanData;
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+
+            scanData = scanDataDAO.find(id);
+            if( scanData == null) throw new NotFoundException();
+        }
+        return scanData;
     }
 
     @GET
     @Path("scans/size")
     public int getScanDataSize() {
-        return scandatas.size();
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+
+            return scanDataDAO.findAll().size();
+
+        }
     }
 
     @DELETE
     @Path("scans")
     public void deleteScanDatas() {
-        scandatas.clear();
-        lastId = 0;
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+            scanDataDAO.deleteAll();
+        }
     }
 
     @GET
@@ -99,13 +129,30 @@ public class ScanDataResources {
     @BasicAuth
     public Map<Long, ScanData> getScanDataBySupByPiece(@PathParam("id") long id,
                                                   @QueryParam("idPiece") long idPiece) throws NotFoundException {
-        Client client = ClientBuilder.newClient();
-        WebTarget webResource = client.target("http://localhost:9998/LPS");
-        Piece p = webResource.path("LaGarde/pieces/"+idPiece)
-                .request().get(Piece.class);
+        Map<Long, ScanData> map;
 
-        Map<Long, ScanData> map = p.getScanList().stream()
-                .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+        // On recupere le superviseur
+        Superviseur superviseur;
+        try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+
+            superviseur = superviseurDAO.find(id);
+            if( superviseur == null) throw new NotFoundException();
+
+        }
+
+        // On recupere la piece
+        Piece piece;
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            piece = pieceDAO.find(idPiece);
+            if( piece == null) throw new NotFoundException();
+        }
+
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+
+            map = scanDataDAO.findBySuperAndPiece(superviseur, piece).stream()
+                    .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+        }
 
         return map;
     }
@@ -117,18 +164,22 @@ public class ScanDataResources {
     @BasicAuth
     public Map<Long, ScanData> getOwnScanDataByPiece(Superviseur superviseur,
                                                      @QueryParam("idPiece") long idPiece) throws NotFoundException {
-        Client client = ClientBuilder.newClient();
-        WebTarget webResource = client.target("http://localhost:9998/LPS");
-        Piece p = webResource.path("LaGarde/pieces/"+idPiece)
-                .request().get(Piece.class);
 
-        List<ScanData> liste = new ArrayList<>();
-        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
-            liste = scanDataDAO.findBySuperAndPiece(superviseur, p);
+        Map<Long, ScanData> map;
+
+        // On recupere la piece
+        Piece piece;
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            piece = pieceDAO.find(idPiece);
+            if (piece == null) throw new NotFoundException();
         }
 
-        Map<Long, ScanData> map = liste.stream()
-                .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+        try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+
+            map = scanDataDAO.findBySuperAndPiece(superviseur, piece).stream()
+                    .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+        }
 
         return map;
     }
