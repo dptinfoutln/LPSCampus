@@ -2,6 +2,7 @@ package com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
@@ -33,13 +34,16 @@ import java.util.List;
 public class AjoutData extends AppCompatActivity implements Runnable{
 
     private SSGBDControleur ssgbdControleur;
+
     private WifiScan wifiScan;
     private ScanListAdapter adapter;
     private Button btn;
-
     private EditText editTxt, editTxtInfo;
     private Spinner spinner;
 
+    private String role;
+
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,27 +58,26 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         editTxt = findViewById(R.id.infos);
         btn = findViewById(R.id.creerSalle);
 
-
-        // faire requete rest pour savoir le role
-        /*
-        if (role == 2) {
-            btn.setVisible(true);
-            }
-        else {
-            btn.setVisible(false);
-            }
-
-         */
-
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
+        try {
+            role = ssgbdControleur.doRequest("GET", "", null, !true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        btn.setVisibility(0);
+
+        if (role.equals("ADMIN")) {
+            btn.setVisibility(1);
+            }
 
         try {
             addItemsOnSpinner();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     public void addItemsOnSpinner() throws JSONException {

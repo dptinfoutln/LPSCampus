@@ -26,6 +26,7 @@ public class SupprimerCompte extends AppCompatActivity {
 
     public void valider(View v) {
         // definir l'id ici
+        // id
         if (check.isChecked()) {
             new Thread(new Runnable() {
                 @Override
