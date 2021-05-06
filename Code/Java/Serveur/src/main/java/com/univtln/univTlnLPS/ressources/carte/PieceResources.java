@@ -1,11 +1,13 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -13,7 +15,9 @@ import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
@@ -23,9 +27,7 @@ public class PieceResources {
 
     private static final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
-    @PUT
-    @Path("pieces/init")
-    public void init() throws IllegalArgumentException {
+    public static void init() throws IllegalArgumentException {
         long i;
         Batiment bat = new Batiment(0, 0, "U", new HashSet<>(), 1);
         Etage et = new Etage("plan", "rdc", 1, null, new HashSet<>());
@@ -60,8 +62,15 @@ public class PieceResources {
     @BasicAuth
     public Piece addPiece(Piece piece) throws IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
-        piece.setId(++lastId);
-        pieces.put(piece.getId(), piece);
+
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+            EntityTransaction transaction = pieceDAO.getTransaction();
+
+            transaction.begin();
+            pieceDAO.persist(piece);
+
+            transaction.commit();
+        }
         return piece;
     }
 
@@ -71,20 +80,20 @@ public class PieceResources {
     @RolesAllowed({"ADMIN"})
     @BasicAuth
     public Piece updatePiece(@PathParam("id") long id, Piece piece) throws NotFoundException, IllegalArgumentException {
-        if (piece.getId() != 0) throw new IllegalArgumentException();
-        piece.setId(id);
-        if (!pieces.containsKey(id)) throw new NotFoundException();
-        pieces.put(id, piece);
-        return piece;
-    }
+        if (piece.getId() != id) throw new IllegalArgumentException();
 
-    @DELETE
-    @Path("pieces/{id}")
-    @RolesAllowed({"ADMIN"})
-    @BasicAuth
-    public void removePiece(@PathParam("id") long id) throws NotFoundException {
-        if (!pieces.containsKey(id)) throw new NotFoundException();
-        pieces.remove(id);
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+            EntityTransaction transaction = pieceDAO.getTransaction();
+
+            transaction.begin();
+
+            if( pieceDAO.find(id) == null) throw new NotFoundException();
+
+            pieceDAO.persist(piece);
+
+            transaction.commit();
+        }
+        return piece;
     }
 
     @GET
@@ -92,8 +101,13 @@ public class PieceResources {
     @RolesAllowed({"SUPER", "ADMIN"})
     @BasicAuth
     public Piece getPiece(@PathParam("id") long id) throws NotFoundException {
-        if (!pieces.containsKey(id)) throw new NotFoundException();
-        return pieces.get(id);
+        Piece piece;
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            piece = pieceDAO.find(id);
+            if( piece == null) throw new NotFoundException();
+        }
+        return piece;
     }
 
 
@@ -102,8 +116,16 @@ public class PieceResources {
     @Path("pieces")
     @RolesAllowed({"SUPER", "ADMIN"})
     @BasicAuth
-    public MutableLongObjectMap<Piece> getPieces() throws NotFoundException {
-        return pieces;
+    public Map<Long, Piece> getPieces() throws NotFoundException {
+        Map<Long, Piece> map;
+
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            map = pieceDAO.findAll().stream()
+                    .collect(Collectors.toMap(Piece::getId, piece -> piece));
+
+        }
+        return map ;
     }
 
     @GET
@@ -111,7 +133,28 @@ public class PieceResources {
     @RolesAllowed({"SUPER", "ADMIN"})
     @BasicAuth
     public int getPieceSize() {
-        return pieces.size();
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            return pieceDAO.findAll().size();
+
+        }
+    }
+
+    @DELETE
+    @Path("pieces/{id}")
+    @RolesAllowed({"ADMIN"})
+    @BasicAuth
+    public void removePiece(@PathParam("id") long id) throws NotFoundException {
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+            EntityTransaction transaction = pieceDAO.getTransaction();
+
+            transaction.begin();
+            Piece piece = pieceDAO.find(id);
+            if( piece == null) throw new NotFoundException();
+            pieceDAO.remove(piece);
+
+            transaction.commit();
+        }
     }
 
     @DELETE
@@ -119,7 +162,8 @@ public class PieceResources {
     @RolesAllowed({"ADMIN"})
     @BasicAuth
     public void deletePieces() {
-        pieces.clear();
-        lastId = 0;
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+            pieceDAO.deleteAll();
+        }
     }
 }
