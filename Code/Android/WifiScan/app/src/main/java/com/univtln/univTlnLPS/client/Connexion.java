@@ -56,6 +56,7 @@ public class Connexion implements Serializable {
         String auth = login + ":" + mdp;
         auth = "Basic" + Base64.getEncoder().encodeToString(auth.getBytes());
 
+        boolean success = false;
         HttpURLConnection urlConnection = null;
         try {
             URL url = new URL(uri);
@@ -79,7 +80,7 @@ public class Connexion implements Serializable {
                     }
                     br.close();
                     token = sb.toString();
-                    return true;
+                    success = true;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,7 +89,7 @@ public class Connexion implements Serializable {
                 urlConnection.disconnect();
             }
         }
-        return false;
+        return success;
     }
 
 

@@ -61,33 +61,43 @@ public class AjoutData extends AppCompatActivity implements Runnable{
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
+        btn.setVisibility(View.INVISIBLE);
+        btn.setEnabled(false);
+
+        btn.refreshDrawableState();
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    role = ssgbdControleur.doRequest("GET", "", null, !true);
+                    role = ssgbdControleur.doRequest("GET", "superviseurs/me/role", null, !true);
+                    role = role.substring(0, role.length()-1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                AjoutData.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (role.equals("ADMIN")) {
+                            btn.setVisibility(View.VISIBLE);
+                            btn.setEnabled(true);
+                            btn.refreshDrawableState();
+                        }
+                        try {
+                            addItemsOnSpinner();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         }).start();
 
-
-        btn.setVisibility(0);
-
-        if (role.equals("ADMIN")) {
-            btn.setVisibility(1);
-            }
-
-        try {
-            addItemsOnSpinner();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void addItemsOnSpinner() throws JSONException {
-        spinner = (Spinner) findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
         List<String> list = new ArrayList<>();
 
         new Thread(new Runnable() {

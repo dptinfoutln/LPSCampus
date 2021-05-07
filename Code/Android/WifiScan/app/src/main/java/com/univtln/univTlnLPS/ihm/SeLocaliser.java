@@ -25,9 +25,13 @@ import java.util.List;
 public class SeLocaliser extends AppCompatActivity implements Runnable{
 
     private SSGBDControleur ssgbdControleur;
+
     private WifiScan wifiScan;
     private Button btn;
+    private TextView tv;
     private RadioButton texte, graphique;
+
+    String image = null;
 
 
     @Override
@@ -35,6 +39,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_se_localiser);
 
+        tv = findViewById(R.id.connexion);
         texte = findViewById(R.id.texte);
         graphique = findViewById(R.id.graphique);
 
@@ -101,16 +106,15 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         SeLocaliser.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // graphique si radiobutton graphique coché
-                TextView tv = findViewById(R.id.connexion);
+                // on affiche du texte si le radiobutton texte est sélectionné
                 if (texte.isChecked()) {
                     tv.setText("Vous êtes en "+ finalPosition);
                 }
+                // sinon on affiche un plan de l'étage
                 else if (graphique.isChecked()) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            String image = null;
                             try {
                                 // afficher l'image correspondant au plan de l'étage
                                 // image = ssgbdControleur.doRequest("GET", "plans" + id, null, !true);;
@@ -128,7 +132,6 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
                     Toast.makeText(SeLocaliser.this, "success", Toast.LENGTH_LONG).show();
                     //Toast.makeText(MainActivity.this, "Scan success", Toast.LENGTH_LONG).show();
                 }
-
                 btn.setEnabled(true);
             }
         });
