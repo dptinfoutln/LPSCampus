@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashSet;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
@@ -61,7 +62,7 @@ public class SuperviseurResources {
             try {
                 for (int i = 1; i <= 5; i++) {
                     Superviseur superviseur = Superviseur.builder()
-                            .email("super" + i + "@univ-tln.fr").build();
+                            .email("super" + i + "@univ-tln.fr").scanList(new HashSet<>()).build();
                     superviseur.setPasswordHash("password");
 
                     superDAO.persist(superviseur);
@@ -140,6 +141,8 @@ public class SuperviseurResources {
         log.info(superviseur.toString());
 
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+
+            superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
             EntityTransaction transaction = superDAO.getTransaction();
             transaction.begin();
 

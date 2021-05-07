@@ -2,8 +2,10 @@ package com.univtln.univTlnLPS.net.client;
 
 import com.univtln.univTlnLPS.common.LPSModele;
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
+import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
+import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Campus;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.client.Client;
