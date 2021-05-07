@@ -23,9 +23,12 @@ import java.util.List;
 
 public class CreerBatiment extends AppCompatActivity {
 
+    private SSGBDControleur ssgbdControleur;
+
     private EditText nomBat, pos_x, pos_y;
     private Spinner campus;
-    private SSGBDControleur ssgbdControleur;
+
+    private List<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class CreerBatiment extends AppCompatActivity {
 
 
     public void getBatiments() {
-        List<String> list = new ArrayList<>();
+        list = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {

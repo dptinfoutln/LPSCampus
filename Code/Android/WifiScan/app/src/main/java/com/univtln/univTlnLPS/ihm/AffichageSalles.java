@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
@@ -25,11 +27,15 @@ import java.util.List;
 public class AffichageSalles extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private SSGBDControleur ssgbdControleur;
-    ListView ListeViewSalles;
-    List<String> ListeSalles;
-    AdapterSalles ListeAdapter;
+    private ListView ListeViewSalles;
+    private List<String> ListeSalles;
+    private AdapterSalles ListeAdapter;
+    private Spinner spinnerUser;
 
-    private String lastId, nom;
+
+    private String lastId, nom, id, chaine, role;
+    private List<String> list;
+    private JSONObject jsonObj;
 
 
     @Override
@@ -37,10 +43,13 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_affichage_salles);
 
+        spinnerUser = findViewById(R.id.spinnerUser);
+
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
         lastId = "-1";
+        role = "SUPER";
         affichageSalle();
 
     }
@@ -48,7 +57,8 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-        String resultat = (String)parent.getItemAtPosition(position);
+
+        String resultat = (String) parent.getItemAtPosition(position);
         lastId = resultat.split(":")[0];
         nom = resultat.split(":")[1];
 
@@ -62,13 +72,65 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
         ListeViewSalles = (ListView) findViewById(R.id.listedonneessalle);
         ListeSalles = new ArrayList<>();
 
-        // récupération de la liste des pièces
+        // récupération de la liste des users pour l'admin sinon du nom du superviseur
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("GET", "pieces", null, !true);
+                    role = ssgbdControleur.doRequest("GET", "superviseurs/me/role", null, !true);
+                    role = role.substring(0, role.length()-1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                chaine = null;
+
+                jsonObj = null;
+                if (role.equals("ADMIN")) {
+                    try {
+                        jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "superviseurs", null, !true));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    try {
+                        jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "superviseurs/me", null, !true));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                list = new ArrayList<>();
+
+                // remplissage de la liste
+                Iterator<String> it2 = jsonObj.keys();
+                while (it2.hasNext()) {
+                    String key = it2.next();
+                    try {
+                        list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // on donne la liste au spinner
+                AffichageSalles.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(AffichageSalles.this,
+                                android.R.layout.simple_spinner_item, list);
+                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerUser.setAdapter(dataAdapter);
+                    }
+                });
+
+
+
+                // à reprendre : affichage de la liste des pièces selon l'item sélectionné du spinner
+                try {
+                    // à changer pour superviseur et admin
+                    chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/pieces", null, !true);
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     Iterator<String> it = jchaine.keys();
@@ -101,6 +163,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
             i.putExtra("ssgbdC", ssgbdControleur);
             i.putExtra("salleId", lastId);
             i.putExtra("piece", nom);
+            i.putExtra("id", id);
             startActivity(i);
         }
     }

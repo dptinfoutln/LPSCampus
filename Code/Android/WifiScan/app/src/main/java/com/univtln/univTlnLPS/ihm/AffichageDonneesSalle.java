@@ -29,7 +29,7 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
     private List<String> liste;
     private TextView nomSalle;
 
-    private String lastId, salleId, nom;
+    private String lastId, salleId, nom, role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +114,19 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("DELETE", "scans/" + lastId, null, !true);
+                    role = ssgbdControleur.doRequest("GET", "superviseurs/me/role", null, !true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                role = role.substring(0, role.length()-1);
+                try {
+                    if (role.equals("SUPER")) {
+                        // path : superviseurs/id/scans/pieces
+                        ssgbdControleur.doRequest("DELETE", "superviseurs/me/scans/" + nom, null, !true);
+                    }
+                    else {
+                        // admin
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
