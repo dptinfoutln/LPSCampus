@@ -22,32 +22,40 @@
         android:layout_alignEnd="@id/frameSL"
         android:onClick="probleme" />
 
-    <RadioButton
-        android:id="@+id/graphique"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:buttonTint="#673AB7"
-        android:layout_above="@+id/seConnecter"
-        android:checked="false"
-        android:text="graphique"
-        android:layout_toLeftOf="@id/texte"
-        android:layout_marginEnd="20sp"
-        android:textColor="#030304" />
 
-    <RadioButton
-        android:id="@+id/texte"
+    <RadioGroup
+        android:id="@+id/groupTexteGraphique"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:buttonTint="#673AB7"
-        android:checked="true"
-        android:text="texte"
-        android:layout_marginEnd="20sp"
-        android:layout_alignEnd="@id/connexion"
-        android:layout_above="@+id/seConnecter"
-        android:textColor="#0E0E0E" />
+        android:orientation="horizontal"
+        android:layout_alignEnd="@id/frameSL"
+        android:layout_above="@id/seLocaliser">
+
+        <RadioButton
+            android:id="@+id/graphique"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="false"
+            android:text="graphique"
+            android:textColor="#030304"
+            android:layout_marginRight="20sp" />
+
+        <RadioButton
+            android:id="@+id/texte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="true"
+            android:text="texte"
+            android:textColor="#0E0E0E"
+            android:layout_marginRight="20sp"/>
+
+    </RadioGroup>
+
 
     <Button
-        android:id="@+id/seConnecter"
+        android:id="@+id/seLocaliser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Se Localiser"
