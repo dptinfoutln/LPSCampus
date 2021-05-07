@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.java.Log;
@@ -13,6 +14,7 @@ import lombok.extern.java.Log;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Set;
 
 @Log
 @AllArgsConstructor
@@ -51,6 +53,15 @@ public class Utilisateur implements SimpleEntity {
     @OneToOne
     private ScanData lastScan;
 
+    @XmlElement
+    @OneToOne
+    private FormDevenirSuper form;
+
+    /*@XmlElement(name = "bugReport")
+    @XmlElementWrapper(name = "bugReports")
+    @OneToMany(mappedBy="utilisateur")
+    private Set<BugReport> bugReports;*/
+
 
     public enum Role {
         /**
@@ -58,7 +69,7 @@ public class Utilisateur implements SimpleEntity {
          */
         ADMIN,
         /**
-         * Supervisorr role.
+         * Supervisor role.
          */
         SUPER,
         /**

@@ -59,7 +59,7 @@ public class ScanData implements SimpleEntity {
     @OneToMany(mappedBy="scanData")
     Set<WifiData> wifiList;
 
-    @XmlElement
+    @JsonIgnore
     @OneToOne(mappedBy = "lastScan")
     private Utilisateur user;
 
