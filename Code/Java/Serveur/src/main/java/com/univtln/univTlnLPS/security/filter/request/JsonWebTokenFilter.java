@@ -93,42 +93,37 @@ public class JsonWebTokenFilter implements ContainerRequestFilter {
 
                     .build()
                     .parseClaimsJws(compactJwt);
-            if(jws.getBody().getExpiration()
-                    .before(Date.from(LocalDateTime.now()
-                            .atZone(ZoneId.systemDefault()).toInstant())))
-                requestContext.abortWith(Response.status(498)
-                        .entity("EXPIRED JWT token").build());
             email = jws.getBody().getSubject();
+
+            //If present we extract the allowed roles annotation.
+            if (method.isAnnotationPresent(RolesAllowed.class)) {
+                RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
+                EnumSet<Utilisateur.Role> rolesSet =
+                        Arrays.stream(rolesAnnotation.value())
+                                .map(Utilisateur.Role::valueOf)
+                                .collect(Collectors.toCollection(() -> EnumSet.noneOf(Utilisateur.Role.class)));
+
+                //We check if the role is allowed
+
+                Superviseur superviseur = null;
+                try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
+                    List<Superviseur> liste = superviseurDAO.findByEmail(email);
+                    if (!liste.isEmpty())
+                        superviseur = liste.get(0);
+                }
+
+                if (!BasicAuthenticationFilter.isUserInRoles(rolesSet, superviseur))
+                    requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
+                            .entity("Roles not allowed").build());
+
+            }
 
             //We build a new securitycontext to transmit the security data to JAX-RS
             requestContext.setSecurityContext(MySecurityContext.newInstance(AUTHENTICATION_SCHEME, email));
         } catch (JwtException e) {
-            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED)
+            requestContext.abortWith(Response.status(498)
                     .entity("Wrong JWT token. " + e.getLocalizedMessage()).build());
         }
 
-
-        //If present we extract the allowed roles annotation.
-        if (method.isAnnotationPresent(RolesAllowed.class)) {
-            RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
-            EnumSet<Utilisateur.Role> rolesSet =
-                    Arrays.stream(rolesAnnotation.value())
-                            .map(Utilisateur.Role::valueOf)
-                            .collect(Collectors.toCollection(() -> EnumSet.noneOf(Utilisateur.Role.class)));
-
-            //We check if the role is allowed
-
-            Superviseur superviseur = null;
-            try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
-                List<Superviseur> liste = superviseurDAO.findByEmail(email);
-                if (!liste.isEmpty())
-                    superviseur = liste.get(0);
-            }
-
-             if (!BasicAuthenticationFilter.isUserInRoles(rolesSet, superviseur))
-                requestContext.abortWith(Response.status(Response.Status.FORBIDDEN)
-                        .entity("Roles not allowed").build());
-
-        }
     }
 }

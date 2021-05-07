@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
+import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
@@ -43,7 +44,7 @@ public class SuperviseurResources {
                     .setIssuer("sample-jaxrs")
                     .setIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                     .setSubject(superviseur.getEmail())
-                    .setExpiration(Date.from(LocalDateTime.now().plus(1, ChronoUnit.MINUTES).atZone(ZoneId.systemDefault()).toInstant()))
+                    .setExpiration(Date.from(LocalDateTime.now().plus(15, ChronoUnit.MINUTES).atZone(ZoneId.systemDefault()).toInstant()))
                     .signWith(LPSServer.KEY).compact();
         }
         throw new WebApplicationException(new AuthenticationException());
@@ -146,5 +147,18 @@ public class SuperviseurResources {
 
             transaction.commit();
         }
+    }
+
+    @GET
+    @Path("superviseurs/me/role")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @JWTAuth
+    public String getSuperviseurRole(@Context SecurityContext securityContext) throws NotFoundException {
+        Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
+
+        if (superviseur instanceof Administrateur)
+            return "ADMIN";
+
+        return "SUPER";
     }
 }
