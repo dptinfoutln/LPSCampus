@@ -1,7 +1,9 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
+import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
@@ -14,6 +16,8 @@ import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -22,7 +26,23 @@ import java.util.stream.Collectors;
 public class EtageResources {
 
     public static void init() throws IllegalArgumentException {
-        Etage.builder().build();
+        Batiment bat;
+
+        try (BatimentDAO batDAO = BatimentDAO.of()) {
+            bat = batDAO.findByName("U").get(0);
+        }
+
+        Etage et = new Etage("plan", "U-rdc", 0, bat,
+                new HashSet<>());
+
+        try (EtageDAO etDAO = EtageDAO.of()) {
+            EntityTransaction transaction = etDAO.getTransaction();
+            transaction.begin();
+
+            etDAO.persist(et);
+
+            transaction.commit();
+        }
     }
 
     @PUT

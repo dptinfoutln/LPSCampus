@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.administration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.carte.Campus;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
                         " where administrateur.campus=:campus")})
 @Entity
 public class Administrateur extends Superviseur {
-    @XmlElement
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(mappedBy = "administrateur")
     private Campus campus;
 }

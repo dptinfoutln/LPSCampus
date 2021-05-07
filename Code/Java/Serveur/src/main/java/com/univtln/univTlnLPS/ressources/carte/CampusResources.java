@@ -1,7 +1,10 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
+import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
+import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Campus;
 
@@ -27,17 +30,20 @@ import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 public class CampusResources {
 
     public static void init() {
+        Administrateur admin;
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            admin = (Administrateur) superDAO.findByEmail("leviathan@univ-tln.fr").get(0);
+        }
+
         try (CampusDAO campDao = CampusDAO.of()){
-            if (campDao.findByName("tln").isEmpty()) {
-                EntityTransaction transaction = campDao.getTransaction();
-                transaction.begin();
+            EntityTransaction transaction = campDao.getTransaction();
+            transaction.begin();
 
-                Campus camp = new Campus("tln", "plan", new HashSet<>(), 0, null);
-                campDao.persist(camp);
+            Campus camp = new Campus("tln", "plan", new HashSet<>(), 0,
+                    admin);
+            campDao.persist(camp);
 
-                transaction.commit();
-            }
-
+            transaction.commit();
         }
     }
 

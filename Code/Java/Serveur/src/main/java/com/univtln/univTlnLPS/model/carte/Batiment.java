@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.carte;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -43,6 +44,10 @@ public class Batiment implements SimpleEntity {
     @XmlElementWrapper(name = "Etages")
     @OneToMany(mappedBy="batiment")
     private Set<Etage> etageList;
+
+    @JsonIgnore
+    @ManyToOne
+    private Campus campus;
 
     @XmlAttribute
     @EqualsAndHashCode.Include

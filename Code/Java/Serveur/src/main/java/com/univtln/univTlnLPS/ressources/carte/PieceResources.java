@@ -1,6 +1,8 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
+import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
+import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
@@ -12,6 +14,8 @@ import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,34 +23,43 @@ import java.util.stream.Collectors;
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class PieceResources {
-    private static long lastId = 0;
-
-    private static final MutableLongObjectMap<Piece> pieces = LongObjectMaps.mutable.empty();
 
     public static void init() throws IllegalArgumentException {
-        /*long i;
-        Batiment bat = new Batiment(0, 0, "U", new HashSet<>(), 1);
-        Etage et = new Etage("plan", "rdc", 1, null, new HashSet<>());
-        bat.getEtageList().add(et);
-        BatimentResources.batiments.put(1, bat);
-        EtageResources.etages.put(1, et);
-        for(i = 0; i < 5; i++){
-            Piece p = Piece.builder().build();
+        long i;
 
-            Set<ScanData> scanList = new HashSet<>();
-            scanList.add(ScanData.builder().id(i*2).piece(p).build());
-            scanList.add(ScanData.builder().id(i*2+1).piece(p).build());
+        try (EtageDAO etDAO = EtageDAO.of()) {
+            EntityTransaction transactionEt = etDAO.getTransaction();
+            transactionEt.begin();
+            List<Etage> l = etDAO.findByName("U-rdc");
+            if ( !l.isEmpty() ) {
+                Etage et = l.get(0);
 
-            p.setId(i);
-            p.setEtage(et);
-            et.getPieceList().add(p);
-            p.setPosition_x((int)i);
-            p.setScanList(scanList);
-            p.setName("U-00"+(i+1));
+                try (PieceDAO pDAO = PieceDAO.of()) {
+                    EntityTransaction transaction = pDAO.getTransaction();
+                    transaction.begin();
 
-            pieces.put(i, p);
+                    for(i = 0; i < 5; i++){
+                        Piece p = Piece.builder().build();
+
+                        p.setEtage(et);
+                        et.getPieceList().add(p);
+                        p.setPosition_x((int)i);
+                        p.setPosition_y((int)i);
+                        p.setScanList(new HashSet<>());
+                        p.setName("U-00"+(i+1));
+
+                        pDAO.persist(p);
+                    }
+
+                    transaction.commit();
+                }
+
+            }
+
+            etDAO.persist(l.get(0));
+
+            transactionEt.commit();
         }
-        lastId = 5;*/
     }
 
     @PUT

@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
+import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.carte.Campus;
@@ -23,12 +24,9 @@ public class AdministrateurResources {
             EntityTransaction transaction = adminDAO.getTransaction();
             transaction.begin();
 
-            adminDAO.deleteAllWithDTYPE();
-
-            Campus camp = CampusDAO.of().findByName("tln").get(0);
             Administrateur admin = Administrateur.builder()
                     .email("leviathan@univ-tln.fr")
-                    .campus(camp).build();
+                    .build();
             admin.setPasswordHash("trempette");
 
             adminDAO.persist(admin);
