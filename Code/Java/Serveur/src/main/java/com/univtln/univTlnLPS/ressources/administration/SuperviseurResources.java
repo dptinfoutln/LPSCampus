@@ -57,8 +57,6 @@ public class SuperviseurResources {
             EntityTransaction transaction = superDAO.getTransaction();
             transaction.begin();
 
-            superDAO.deleteAllWithDTYPE();
-
             try {
                 for (int i = 1; i <= 5; i++) {
                     Superviseur superviseur = Superviseur.builder()
