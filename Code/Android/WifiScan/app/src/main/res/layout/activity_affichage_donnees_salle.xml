@@ -24,7 +24,9 @@
         android:id="@+id/listedonneessalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nomSalle" />
+        android:layout_below="@+id/nomSalle"
+        android:nestedScrollingEnabled="true"
+        android:layout_above="@id/Supprimer"/>
 
     <FrameLayout
             android:layout_width="match_parent"
@@ -41,7 +43,7 @@
             android:text="Afficher" />
 
     <Button
-        android:id="@+id/Connexion"
+        android:id="@+id/Supprimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/frame3"

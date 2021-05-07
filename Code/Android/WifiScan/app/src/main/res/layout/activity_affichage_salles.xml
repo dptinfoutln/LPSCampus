@@ -10,7 +10,9 @@
     <ListView
         android:id="@+id/listedonneessalle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        android:layout_above="@id/choisir"/>
 
     <FrameLayout
         android:layout_width="match_parent"
