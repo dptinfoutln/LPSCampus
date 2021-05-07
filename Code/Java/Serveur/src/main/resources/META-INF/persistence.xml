@@ -9,6 +9,7 @@
         <class>com.univtln.univTlnLPS.model.administration.Utilisateur</class>
         <class>com.univtln.univTlnLPS.model.administration.Superviseur</class>
         <class>com.univtln.univTlnLPS.model.administration.Administrateur</class>
+        <class>com.univtln.univTlnLPS.model.administration.FormDevenirSuper</class>
 
 
         <class>com.univtln.univTlnLPS.model.carte.Batiment</class>
