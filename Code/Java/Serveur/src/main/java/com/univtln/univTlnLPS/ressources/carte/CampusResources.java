@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
@@ -43,7 +44,7 @@ public class CampusResources {
     @Path("campus")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void addCampus(Campus camp) throws IllegalArgumentException {
         try (CampusDAO campDao = CampusDAO.of()){
             if(camp.getId() != 0 || !campDao.findByName(camp.getName()).isEmpty())
@@ -61,7 +62,7 @@ public class CampusResources {
     @GET
     @Path("campus")
     @RolesAllowed({"ADMIN", "SUPER"})
-    @BasicAuth
+    @JWTAuth
     public Map<Long, Campus> getCampus() {
         return CampusDAO.of().findAll().stream()
                 .collect(Collectors.toMap(Campus::getId, campus -> campus));
@@ -70,7 +71,7 @@ public class CampusResources {
     @DELETE
     @Path("campus/{id}")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void delCampus(@PathParam("id") long id) {
         try (CampusDAO campusDAO = CampusDAO.of()) {
             EntityTransaction transaction = campusDAO.getTransaction();

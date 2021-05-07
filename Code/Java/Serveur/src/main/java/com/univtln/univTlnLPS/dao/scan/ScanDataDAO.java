@@ -37,4 +37,10 @@ public class ScanDataDAO extends AbstractDAO<ScanData> {
                 .setParameter("piece", piece)
                 .getResultList();
     }
+
+    public List<Piece> findScanPiecesBySuper(Superviseur superviseur) {
+        return getEntityManager().createNamedQuery("scanData.findScanPiecesBySuper")
+                .setParameter("superviseur", superviseur)
+                .getResultList();
+    }
 }

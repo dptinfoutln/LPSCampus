@@ -3,6 +3,7 @@ package com.univtln.univTlnLPS.ressources.carte;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
@@ -52,7 +53,7 @@ public class PieceResources {
     @Path("pieces")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Piece addPiece(Piece piece) throws IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
 
@@ -71,7 +72,7 @@ public class PieceResources {
     @Path("pieces/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Piece updatePiece(@PathParam("id") long id, Piece piece) throws NotFoundException, IllegalArgumentException {
         if (piece.getId() != id) throw new IllegalArgumentException();
 
@@ -92,7 +93,7 @@ public class PieceResources {
     @GET
     @Path("pieces/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Piece getPiece(@PathParam("id") long id) throws NotFoundException {
         Piece piece;
         try (PieceDAO pieceDAO = PieceDAO.of()) {
@@ -106,7 +107,7 @@ public class PieceResources {
     @GET
     @Path("pieces/size")
     @RolesAllowed({"SUPER", "ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public int getPieceSize() {
         try (PieceDAO pieceDAO = PieceDAO.of()) {
 
@@ -118,7 +119,7 @@ public class PieceResources {
     @GET
     @Path("pieces")
     @RolesAllowed({"SUPER", "ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Map<Long, Piece> getPieces() throws NotFoundException {
         Map<Long, Piece> map;
 
@@ -134,7 +135,7 @@ public class PieceResources {
     @DELETE
     @Path("pieces/{id}")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void removePiece(@PathParam("id") long id) throws NotFoundException {
         try (PieceDAO pieceDAO = PieceDAO.of()) {
             EntityTransaction transaction = pieceDAO.getTransaction();
@@ -151,7 +152,7 @@ public class PieceResources {
     @DELETE
     @Path("pieces")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void deletePieces() {
         try (PieceDAO pieceDAO = PieceDAO.of()) {
             pieceDAO.deleteAll();

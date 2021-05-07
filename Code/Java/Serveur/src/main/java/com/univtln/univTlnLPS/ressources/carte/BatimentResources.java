@@ -5,6 +5,7 @@ import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
@@ -29,7 +30,7 @@ public class BatimentResources {
     @Path("batiments")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Batiment addBatiment(Batiment batiment) throws IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
 
@@ -48,7 +49,7 @@ public class BatimentResources {
     @Path("batiments/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public Batiment updateBatiment(@PathParam("id") long id, Batiment batiment) throws NotFoundException, IllegalArgumentException {
         if (batiment.getId() != id) throw new IllegalArgumentException();
 
@@ -69,7 +70,7 @@ public class BatimentResources {
     @GET
     @Path("batiments/{id}")
     @RolesAllowed({"ADMIN", "SUPER"})
-    @BasicAuth
+    @JWTAuth
     public Batiment getBatiment(@PathParam("id") long id) throws NotFoundException {
         Batiment batiment;
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
@@ -83,7 +84,7 @@ public class BatimentResources {
     @GET
     @Path("batiments/size")
     @RolesAllowed({"ADMIN", "SUPER"})
-    @BasicAuth
+    @JWTAuth
     public int getBatimentSize() {
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
 
@@ -95,7 +96,7 @@ public class BatimentResources {
     @GET
     @Path("batiments")
     @RolesAllowed({"ADMIN", "SUPER"})
-    @BasicAuth
+    @JWTAuth
     public Map<Long, Batiment> getBatiments() {
         Map<Long, Batiment> map;
 
@@ -109,7 +110,7 @@ public class BatimentResources {
     @DELETE
     @Path("batiments/{id}")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void removeBatiment(@PathParam("id") long id) throws NotFoundException {
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
             EntityTransaction transaction = batimentDAO.getTransaction();
@@ -126,7 +127,7 @@ public class BatimentResources {
     @DELETE
     @Path("batiments")
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
+    @JWTAuth
     public void deleteBatiments() {
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
             batimentDAO.deleteAll();

@@ -34,7 +34,8 @@ import java.util.Set;
         @NamedQuery(name = "scanData.findByPiece", query = "select scanData from ScanData scanData where scanData.piece=:piece"),
         @NamedQuery(name = "scanData.findByUser", query = "select scanData from ScanData scanData where scanData.user=:user"),
         @NamedQuery(name = "scanData.findBySuper", query = "select scanData from ScanData scanData where scanData.superviseur=:superviseur"),
-        @NamedQuery(name = "scanData.findBySuperAndPiece", query = "select scanData from ScanData scanData where (scanData.superviseur=:superviseur and scanData.piece=:piece)")})
+        @NamedQuery(name = "scanData.findBySuperAndPiece", query = "select scanData from ScanData scanData where (scanData.superviseur=:superviseur and scanData.piece=:piece)"),
+        @NamedQuery(name = "scanData.findScanPiecesBySuper", query = "select distinct scanData.piece from ScanData scanData where (scanData.superviseur=:superviseur)")})
 
 
 @Entity
