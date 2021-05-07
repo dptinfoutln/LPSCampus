@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +27,16 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
     private SSGBDControleur ssgbdControleur;
     private WifiScan wifiScan;
     private Button btn;
+    private RadioButton texte, graphique;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_se_localiser);
+
+        texte = findViewById(R.id.texte);
+        graphique = findViewById(R.id.graphique);
 
         wifiScan = new WifiScan(this);
 
@@ -98,7 +103,24 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
             public void run() {
                 // graphique si radiobutton graphique coché
                 TextView tv = findViewById(R.id.connexion);
-                tv.setText("Vous êtes en "+ finalPosition);
+                if (texte.isChecked()) {
+                    tv.setText("Vous êtes en "+ finalPosition);
+                }
+                else if (graphique.isChecked()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String image = null;
+                            try {
+                                // afficher l'image correspondant au plan de l'étage
+                                // image = ssgbdControleur.doRequest("GET", "plans" + id, null, !true);;
+                                // tv.setCompoundDrawableWithIntrinsicBounds(R.drawable.image, 0, 0, 0);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
                 if (scanResults.size() == 0){
                     Toast.makeText(SeLocaliser.this, "Activate Localisation", Toast.LENGTH_LONG).show();
                 }
