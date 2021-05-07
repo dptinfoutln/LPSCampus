@@ -202,9 +202,8 @@ public class ScanDataResources {
         return getScanDataBySupByPieceEF(id, idPiece).size();
     }
 
-
     @GET
-    @Path("superviseurs/scans/size")
+    @Path("superviseurs/me/scans/size")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
@@ -212,6 +211,16 @@ public class ScanDataResources {
                                          @QueryParam("idPiece") long idPiece) throws NotFoundException{
 
         return getOwnScanDataByPieceEF(securityContext, idPiece).size();
+    }
+
+    @GET
+    @Path("superviseurs/{id}/scans/pieces")
+    @RolesAllowed({"ADMIN"})
+    @JWTAuth
+    public Map<Long, Piece> getScanPiecesBySuper(@PathParam("id") long id) throws NotFoundException {
+
+        return getScanPiecesBySuperEF(id).stream()
+                .collect(Collectors.toMap(Piece::getId, piece -> piece));
     }
 
     @GET
@@ -223,16 +232,6 @@ public class ScanDataResources {
         Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
 
         return getScanPiecesBySuperEF(superviseur.getId()).stream()
-                .collect(Collectors.toMap(Piece::getId, piece -> piece));
-    }
-
-    @GET
-    @Path("superviseurs/{id}/scans/pieces")
-    @RolesAllowed({"ADMIN"})
-    @JWTAuth
-    public Map<Long, Piece> getScanPiecesBySuper(@PathParam("id") long id) throws NotFoundException {
-
-        return getScanPiecesBySuperEF(id).stream()
                 .collect(Collectors.toMap(Piece::getId, piece -> piece));
     }
 
@@ -260,10 +259,48 @@ public class ScanDataResources {
 
     }
 
+    public void removeScanEF(List<ScanData> listeScan){
+
+        for (ScanData scanData:
+                listeScan) {
+            try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
+                EntityTransaction transaction = scanDataDAO.getTransaction();
+
+                transaction.begin();
+
+                scanDataDAO.remove(scanData);
+
+                transaction.commit();
+            }
+        }
+    }
+
+    @DELETE
+    @Path("superviseurs/{id}/scans")
+    @RolesAllowed({"ADMIN"})
+    @JWTAuth
+    public  void removeScanDataBySupByPiece(@PathParam("id") long id,
+                                                       @QueryParam("idPiece") long idPiece) throws NotFoundException {
+
+        List<ScanData>  liste = getScanDataBySupByPieceEF(id, idPiece);
+        removeScanEF(liste);
+    }
+
+    @DELETE
+    @Path("superviseurs/scans")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
+    public void removeOwnScanDataByPiece(@Context SecurityContext securityContext,
+                                                     @QueryParam("idPiece") long idPiece) throws NotFoundException {
+
+        List<ScanData> liste =  getOwnScanDataByPieceEF(securityContext, idPiece);
+        removeScanEF(liste);
+    }
+
     @DELETE
     @Path("scans/{id}")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @JWTAuth
     public void removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
 
