@@ -66,35 +66,38 @@ public class FormDevenirSuperRessource {
     @RolesAllowed("Admin")
     @JWTAuth
     public Superviseur answeredForm(@PathParam("id") long id,
-                             @QueryParam("choice") Boolean choice) throws NotFoundException {
+                             @QueryParam("choice") String choice) throws NotFoundException {
 
+        Superviseur superviseur = null;
 
         try (FormDevenirSuperDAO formDevenirSuperDAO = FormDevenirSuperDAO.of()) {
 
-            EntityTransaction transaction = formDevenirSuperDAO.getTransaction();
+
             FormDevenirSuper form = formDevenirSuperDAO.find(id);
 
             if (form == null) throw new NotFoundException();
 
-            transaction.begin();
+            if (choice.equals("accepted")) {
+                superviseur = Superviseur.builder()
+                        .email(form.getEmail())
+                        .salt(form.getSalt())
+                        .passwordHash(form.getPasswordHash())
+                        .build();
 
+                if (superviseur.getId() != 0) throw new IllegalArgumentException();
 
-            Superviseur superviseur = Superviseur.builder()
-                    .email(form.getEmail())
-                    .salt(form.getSalt())
-                    .passwordHash(form.getPasswordHash())
-                    .build();
+                try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+                    EntityTransaction transactionSup = superDAO.getTransaction();
+                    transactionSup.begin();
 
-            if (superviseur.getId() != 0) throw new IllegalArgumentException();
+                    superDAO.persist(superviseur);
 
-            try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
-                EntityTransaction transactionSup = superDAO.getTransaction();
-                transactionSup.begin();
-
-                superDAO.persist(superviseur);
-
-                transactionSup.commit();
+                    transactionSup.commit();
+                }
             }
+
+            EntityTransaction transaction = formDevenirSuperDAO.getTransaction();
+            transaction.begin();
 
             formDevenirSuperDAO.remove(form);
 
