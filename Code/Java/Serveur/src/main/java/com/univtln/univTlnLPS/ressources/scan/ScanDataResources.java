@@ -67,7 +67,7 @@ public class ScanDataResources {
                 throw new IllegalArgumentException();
         }
 
-        if (scandata.getId() != id) throw new IllegalArgumentException();
+        if (scandata.getId() != id && id == 0) throw new IllegalArgumentException();
 
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
             EntityTransaction transaction = scanDataDAO.getTransaction();
@@ -264,12 +264,13 @@ public class ScanDataResources {
     @JWTAuth
     @DELETE
     @Path("scans/{id}")
-    public void removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException {
+    public void removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
-            EntityTransaction transaction = scanDataDAO.getTransaction();
 
-            transaction.begin();
+            if(id == 0) throw new IllegalArgumentException();
+
             ScanData scanData = scanDataDAO.find(id);
+            if( scanData == null) throw new NotFoundException();
 
             // On verifie que l'utilisateur soit admin ou le superviseur du scan
             if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {
@@ -277,7 +278,10 @@ public class ScanDataResources {
                     throw new IllegalArgumentException();
             }
 
-            if( scanData == null) throw new NotFoundException();
+            EntityTransaction transaction = scanDataDAO.getTransaction();
+
+            transaction.begin();
+
             scanDataDAO.remove(scanData);
 
             transaction.commit();
