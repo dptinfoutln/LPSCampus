@@ -62,7 +62,7 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
             public void run() {
                 String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("GET", "demandes", null, !true);
+                    chaine = ssgbdControleur.doRequest("GET", "forms", null, !true);
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     Iterator<String> it = jchaine.keys();
@@ -79,6 +79,7 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
                         public void run() {
                             ListeViewDemandes.setAdapter(ListeAdapter);
                             ListeViewDemandes.setOnItemClickListener(VoirDemandes.this);
+
                         }
                     });
 
