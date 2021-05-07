@@ -8,9 +8,6 @@ import model as M
 app = Flask(__name__)
 api = Api(app)
 
-# name = {"nom1" : {"age" : 19, "lieu" : "Toulon"}
-#         "nom2" : {"age" : 23, "lieu" : "Hyeres"}
-#         }
 
 class Position(Resource):
     def post(self):
