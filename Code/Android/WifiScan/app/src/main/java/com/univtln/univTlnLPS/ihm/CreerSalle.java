@@ -101,7 +101,7 @@ public class CreerSalle extends AppCompatActivity {
         pid.put("position_x", x);
         pid.put("position_y", y);
         pid.put("name", salle);
-        pid.put("id", -1);
+        pid.put("id", 0);
         pid.put("etage", et);
         pid.put("scanList", null);
 

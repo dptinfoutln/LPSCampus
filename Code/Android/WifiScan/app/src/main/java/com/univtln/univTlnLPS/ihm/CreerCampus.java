@@ -43,6 +43,7 @@ public class CreerCampus extends AppCompatActivity {
         cid.put("name", nom);
         cid.put("listBatiments", null);
         cid.put("plan", urlPlan);
+        cid.put("id", 0);
 
 
         new Thread(new Runnable() {

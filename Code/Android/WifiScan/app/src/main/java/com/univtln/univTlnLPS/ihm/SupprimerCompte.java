@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
@@ -36,6 +37,13 @@ public class SupprimerCompte extends AppCompatActivity {
                 public void run() {
                     try {
                         ssgbdControleur.doRequest("DELETE", "superviseurs/me", null, !true);
+                        SupprimerCompte.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(SupprimerCompte.this, "Votre compte LPSCampus a été supprimé", Toast.LENGTH_LONG).show();
+                                SupprimerCompte.this.finishAffinity();
+                            }
+                        });
                     } catch (JSONException jsonException) {
                         jsonException.printStackTrace();
                     }

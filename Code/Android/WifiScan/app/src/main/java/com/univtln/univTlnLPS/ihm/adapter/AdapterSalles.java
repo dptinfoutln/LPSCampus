@@ -17,9 +17,20 @@ public class AdapterSalles extends BaseAdapter {
     private List<String> stringList;
     private LayoutInflater inflater;
 
+    private int itemSelected;
+
     public AdapterSalles (Context context, List<String> stringList){
         this.stringList = stringList;
         inflater = LayoutInflater.from(context);
+        itemSelected = -1;
+    }
+
+    public void setItemSelected(int id) {
+        itemSelected = id;
+    }
+
+    public int getItemSelected() {
+        return itemSelected;
     }
 
     @Override
@@ -60,8 +71,13 @@ public class AdapterSalles extends BaseAdapter {
 
         holder.textView1.setText(str);
 
-        int c = position%2+1;
-        convertView.setBackgroundColor(Color.rgb(120*c, 120*c, 120*c));
+        if (position == itemSelected) {
+            convertView.setBackgroundColor(Color.rgb(0, 181, 214));
+        }
+        else{
+            int c = position%2+1;
+            convertView.setBackgroundColor(Color.rgb(120*c, 120*c, 120*c));
+        }
 
 
         return convertView;

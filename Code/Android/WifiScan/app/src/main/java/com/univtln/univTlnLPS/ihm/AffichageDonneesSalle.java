@@ -43,6 +43,8 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
         salleId = i.getStringExtra("salleId");
         nom = i.getStringExtra("piece");
 
+        nomSalle.setText(nom);
+
         try {
             affichageDonneesSalle();
         } catch (JSONException e) {
@@ -87,7 +89,6 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
                         public void run() {
                             ListeDonneesSalle.setAdapter(listeAdapter);
                             ListeDonneesSalle.setOnItemClickListener(AffichageDonneesSalle.this);
-                            nomSalle.setText(nom);
                         }
                     });
                 } catch (JSONException e) {

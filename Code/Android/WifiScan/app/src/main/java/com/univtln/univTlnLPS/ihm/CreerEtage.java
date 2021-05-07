@@ -89,7 +89,7 @@ public class CreerEtage extends AppCompatActivity {
         eid.put("name", nom);
         eid.put("bat", bat);
         eid.put("plan", planBat.getText().toString());
-        eid.put("id", -1);
+        eid.put("id", 0);
         eid.put("pieceList", null);
 
         new Thread(new Runnable() {

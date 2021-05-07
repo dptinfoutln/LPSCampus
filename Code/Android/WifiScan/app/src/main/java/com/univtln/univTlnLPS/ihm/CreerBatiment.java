@@ -99,6 +99,7 @@ public class CreerBatiment extends AppCompatActivity {
         bid.put("listEtages", null);
         bid.put("position_x", x);
         bid.put("position_y", y);
+        bid.put("id", 0);
 
         new Thread(new Runnable() {
             @Override

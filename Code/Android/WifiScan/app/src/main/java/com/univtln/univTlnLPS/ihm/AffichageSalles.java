@@ -27,7 +27,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     private SSGBDControleur ssgbdControleur;
     ListView ListeViewSalles;
     List<String> ListeSalles;
-    ListAdapter ListeAdapter;
+    AdapterSalles ListeAdapter;
 
     private String lastId, nom;
 
@@ -51,6 +51,9 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
         String resultat = (String)parent.getItemAtPosition(position);
         lastId = resultat.split(":")[0];
         nom = resultat.split(":")[1];
+
+        ListeAdapter.setItemSelected(position);
+        ListeAdapter.notifyDataSetChanged();
     }
 
 
