@@ -122,10 +122,11 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
                 try {
                     if (role.equals("SUPER")) {
                         // path : superviseurs/id/scans/pieces
-                        ssgbdControleur.doRequest("DELETE", "superviseurs/me/scans/" + nom, null, !true);
+                        ssgbdControleur.doRequest("DELETE", "superviseurs/me/scans/pieces/" + nom, null, !true);
                     }
                     else {
                         // admin
+                        ssgbdControleur.doRequest("DELETE", "superviseurs/" + lastId + "/scans/pieces/" + nom, null, !true);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

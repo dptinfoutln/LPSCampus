@@ -33,7 +33,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     private Spinner spinnerUser;
 
 
-    private String lastId, nom, id, chaine, role;
+    private String lastId, nom, chaine, role;
     private List<String> list;
     private JSONObject jsonObj;
 
@@ -129,8 +129,14 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
 
                 // à reprendre : affichage de la liste des pièces selon l'item sélectionné du spinner
                 try {
-                    // à changer pour superviseur et admin
+                    // à changer pour superviseur et admin et rafraichir
+                    // superviseur
                     chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/pieces", null, !true);
+                    ListeViewSalles.refreshDrawableState();
+                    // admin
+                    chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + lastId + "/pieces", null, !true);
+                    ListeViewSalles.refreshDrawableState();
+
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     Iterator<String> it = jchaine.keys();
@@ -163,7 +169,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
             i.putExtra("ssgbdC", ssgbdControleur);
             i.putExtra("salleId", lastId);
             i.putExtra("piece", nom);
-            i.putExtra("id", id);
+            i.putExtra("id", lastId);
             startActivity(i);
         }
     }
