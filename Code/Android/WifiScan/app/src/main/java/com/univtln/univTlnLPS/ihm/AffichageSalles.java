@@ -33,7 +33,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     private Spinner spinnerUser;
 
 
-    private String lastId, nom, chaine, role;
+    private String lastId, lastId2, nom, nom2, chaine, role;
     private List<String> list;
     private JSONObject jsonObj;
 
@@ -50,10 +50,15 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
 
         lastId = "-1";
         role = "SUPER";
+
+        affichageSuper();
         affichageSalle();
 
     }
 
+    /**
+     * Listener OnClick pour la liste des salles
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
@@ -66,8 +71,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
         ListeAdapter.notifyDataSetChanged();
     }
 
-
-    public void affichageSalle() {
+    public void affichageSuper() {
         ListeAdapter = new AdapterSalles(this, new ArrayList<>());
         ListeViewSalles = (ListView) findViewById(R.id.listedonneessalle);
         ListeSalles = new ArrayList<>();
@@ -78,7 +82,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
             public void run() {
                 try {
                     role = ssgbdControleur.doRequest("GET", "superviseurs/me/role", null, !true);
-                    role = role.substring(0, role.length()-1);
+                    role = role.substring(0, role.length() - 1);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -92,8 +96,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     try {
                         jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "superviseurs/me", null, !true));
                     } catch (JSONException e) {
@@ -108,7 +111,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
                 while (it2.hasNext()) {
                     String key = it2.next();
                     try {
-                        list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("name"));
+                        list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("email"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -122,20 +125,49 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
                                 android.R.layout.simple_spinner_item, list);
                         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerUser.setAdapter(dataAdapter);
+                        spinnerUser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                String resultat = (String) parent.getItemAtPosition(position);
+                                lastId2 = resultat.split(":")[0];
+                                nom2 = resultat.split(":")[1];
+
+                                ListeAdapter.setItemSelected(position);
+                                ListeAdapter.notifyDataSetChanged();
+
+                                affichageSalle();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     }
                 });
+            }
+        }).start();
+    }
 
 
+    public void affichageSalle() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
                 // à reprendre : affichage de la liste des pièces selon l'item sélectionné du spinner
                 try {
                     // à changer pour superviseur et admin et rafraichir
-                    // superviseur
-                    chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/pieces", null, !true);
-                    ListeViewSalles.refreshDrawableState();
-                    // admin
-                    chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + lastId + "/pieces", null, !true);
-                    ListeViewSalles.refreshDrawableState();
+                    if (role.equals("SUPER")) {
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/pieces", null, !true);
+                        ListeViewSalles.refreshDrawableState();
+                    }
+                    else if (role.equals("ADMIN")) {
+                        // changer le lastId par la nouvelle variable associée au nouveau onItemClick
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + lastId2 + "/pieces", null, !true);
+                        ListeViewSalles.refreshDrawableState();
+                    }
+
 
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
@@ -169,7 +201,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
             i.putExtra("ssgbdC", ssgbdControleur);
             i.putExtra("salleId", lastId);
             i.putExtra("piece", nom);
-            i.putExtra("id", lastId);
+            i.putExtra("id", lastId2);
             startActivity(i);
         }
     }
