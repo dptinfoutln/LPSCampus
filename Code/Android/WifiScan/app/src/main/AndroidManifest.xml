@@ -26,7 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.SupprimerCompte"></activity>
+        <activity android:name=".ihm.CompteUser"></activity>
+        <activity android:name=".ihm.CompteSuperviseur" />
+        <activity android:name=".ihm.SupprimerCompte" />
         <activity android:name=".ihm.ModifierMDP" />
         <activity android:name=".ihm.ModifierLogin" />
         <activity android:name=".ihm.ModifierInfo" />

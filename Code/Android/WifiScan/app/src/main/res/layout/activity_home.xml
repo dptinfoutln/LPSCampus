@@ -38,44 +38,31 @@
                 android:layout_height="match_parent"
                 android:id="@+id/home"/>
 
-            <Button
-                android:id="@+id/devenirSuperviseur"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickDevenirSuperviseur"
-                android:layout_above="@id/Connexion"
-                android:text="Devenir Superviseur" />
-
-
-            <Button
-                android:id="@+id/Connexion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickSeConnecter"
-                android:layout_above="@id/selocaliserPA"
-
-                android:text="Connexion" />
-
-
-
-            <Button
-                android:id="@+id/selocaliserPA"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickSeLocaliser"
-                android:layout_alignBottom="@id/home"
-                android:text="Localisation" />
-
             <EditText
                 android:id="@+id/ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/devenirSuperviseur"
+                android:layout_above="@id/AvecConnexion"
                 android:text="10.21.74.229"
                 android:hint="IP"
                 android:textAlignment="viewStart"
                 android:textColor="#5E5A5A" />
 
+            <Button
+                android:id="@+id/AvecConnexion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickAvecConnexion"
+                android:text="Compte Superviseur"
+                android:layout_above="@+id/SansConnexion"/>
+
+            <Button
+                android:id="@+id/SansConnexion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickSansConnexion"
+                android:text="Continuer sans se connecter"
+                android:layout_alignBottom="@+id/home"/>
 
         </RelativeLayout>
 
