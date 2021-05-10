@@ -23,12 +23,12 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/imgTln"
             android:layout_marginTop="30dp"
             android:text="Application de localisation dans les batiments de l'Université de Toulon - La Garde"
             android:textAlignment="center"
-            android:layout_below="@id/imgTln"
             android:textColor="#0B0808"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,6 +65,16 @@
                 android:onClick="onClickSeLocaliser"
                 android:layout_alignBottom="@id/home"
                 android:text="Localisation" />
+
+            <EditText
+                android:id="@+id/ip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/devenirSuperviseur"
+                android:text="10.21.74.229"
+                android:hint="IP"
+                android:textAlignment="viewStart"
+                android:textColor="#5E5A5A" />
 
 
         </RelativeLayout>

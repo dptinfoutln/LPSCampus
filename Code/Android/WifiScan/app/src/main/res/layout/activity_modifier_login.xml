@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.ModifierLogin">
+
+    <FrameLayout
+        android:id="@+id/frameLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/texteModifierLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier mon login"
+        android:textAlignment="center"
+        android:textColor="#0B0909"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/nouveau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Saisir le nouveau login"
+        android:layout_below="@+id/texteModifierLogin" />
+
+    <Button
+        android:id="@+id/validerChangementLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:layout_alignBottom="@id/frameLogin"
+        android:onClick="valider"/>
+
+</RelativeLayout>

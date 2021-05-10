@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.CreerSalle">
+
+
+    <EditText
+        android:id="@+id/creerSalle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nom de la salle à créer"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/position_x"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Position en X"
+        android:layout_below="@id/creerSalle"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/position_y"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/position_x"
+        android:hint="Position en Y"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/etages"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Choisir un étage :"
+        android:textSize="20sp"
+        android:layout_below="@id/position_y" />
+
+    <Button
+        android:id="@+id/creerEtage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/etages"
+        android:layout_below="@id/position_y"
+        android:onClick="createEtage"
+        android:text="Créer Etage" />
+
+    <Spinner
+        android:id="@+id/spinnerEtages"
+        android:layout_width="match_parent"
+        android:layout_below="@id/etages"
+        android:layout_height="40dp" />
+
+    <Button
+        android:id="@+id/launch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerEtages"
+        android:onClick="createSalle"
+        android:text="Créer Salle" />
+
+
+</RelativeLayout>

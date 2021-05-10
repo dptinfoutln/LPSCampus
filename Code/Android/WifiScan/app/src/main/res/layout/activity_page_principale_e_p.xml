@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.PagePrincipaleEP">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame3" />
+
+    <Button
+        android:id="@+id/ajouterdonnees"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickAjouterDonnees"
+        android:layout_above="@id/consulterDonnees"
+        android:text="Ajouter données" />
+
+    <Button
+        android:id="@+id/consulterDonnees"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickConsulterDonnees"
+        android:layout_alignBottom="@id/frame3"
+        android:text="Consulter donnees" />
+
+    <Button
+        android:id="@+id/voirDemandes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickVoirDemandes"
+        android:layout_above="@id/ajouterdonnees"
+        android:text="Voir les demandes" />
+
+    <Button
+        android:id="@+id/parametres"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:onClick="onClickParametres"
+        app:icon="@drawable/roue_dentee"
+        android:layout_alignEnd="@id/frame3"/>
+
+</RelativeLayout>
