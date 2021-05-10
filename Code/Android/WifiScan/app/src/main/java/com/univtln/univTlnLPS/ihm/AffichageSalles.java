@@ -89,33 +89,32 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
 
                 chaine = null;
 
+                list = new ArrayList<>();
                 jsonObj = null;
                 if (role.equals("ADMIN")) {
                     try {
                         jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "superviseurs", null, !true));
+
+                        // remplissage de la liste
+                        Iterator<String> it2 = jsonObj.keys();
+                        while (it2.hasNext()) {
+                            String key = it2.next();
+                            list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("email"));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                 } else {
                     try {
                         jsonObj = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "superviseurs/me", null, !true));
+                        list.add(jsonObj.get("id") + ":" + jsonObj.getString("email"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
 
-                list = new ArrayList<>();
 
-                // remplissage de la liste
-                Iterator<String> it2 = jsonObj.keys();
-                while (it2.hasNext()) {
-                    String key = it2.next();
-                    try {
-                        list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("email"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
 
                 // on donne la liste au spinner
                 AffichageSalles.this.runOnUiThread(new Runnable() {
@@ -159,12 +158,12 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
                 try {
                     // à changer pour superviseur et admin et rafraichir
                     if (role.equals("SUPER")) {
-                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/pieces", null, !true);
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/scans/pieces", null, !true);
                         ListeViewSalles.refreshDrawableState();
                     }
                     else if (role.equals("ADMIN")) {
                         // changer le lastId par la nouvelle variable associée au nouveau onItemClick
-                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + lastId2 + "/pieces", null, !true);
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + lastId2 + "/scans/pieces", null, !true);
                         ListeViewSalles.refreshDrawableState();
                     }
 
