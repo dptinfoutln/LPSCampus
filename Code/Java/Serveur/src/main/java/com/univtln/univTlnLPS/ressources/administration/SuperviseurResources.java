@@ -3,6 +3,7 @@ package com.univtln.univTlnLPS.ressources.administration;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
+import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
@@ -27,6 +28,8 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
@@ -129,6 +132,25 @@ public class SuperviseurResources {
         superviseurs.remove(id);
     }*/
 
+    @GET
+    @Path("superviseurs")
+    @RolesAllowed({"ADMIN"})
+    @JWTAuth
+    public Map<Long, Superviseur> getSuperviseurs() throws NotFoundException {
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            return superDAO.findAll().stream()
+                    .collect(Collectors.toMap(Superviseur::getId, superviseur -> superviseur));
+        }
+    }
+
+    @GET
+    @Path("superviseurs/me")
+    @RolesAllowed({"SUPER"})
+    @JWTAuth
+    public Superviseur getSuperviseur(@Context SecurityContext securityContext) throws NotFoundException {
+        return (Superviseur)securityContext.getUserPrincipal();
+    }
+
     @DELETE
     @Path("superviseurs/me")
     @RolesAllowed({"SUPER"})
@@ -161,5 +183,51 @@ public class SuperviseurResources {
             return "ADMIN";
 
         return "SUPER";
+    }
+
+    @POST
+    @Path("superviseurs/me/login")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JWTAuth
+    public void changeSuperviseurLogin(@Context SecurityContext securityContext,
+                                         String newLogin) throws NotFoundException {
+        Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
+
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            EntityTransaction et = superDAO.getTransaction();
+            et.begin();
+
+            superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
+            superviseur.setEmail(newLogin);
+            superDAO.persist(superviseur);
+
+            et.commit();
+        }
+    }
+
+    @POST
+    @Path("superviseurs/me/mdp")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JWTAuth
+    public void changeSuperviseurMdp(@Context SecurityContext securityContext,
+                                       String newMdp) throws NotFoundException {
+        Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
+
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            EntityTransaction et = superDAO.getTransaction();
+            et.begin();
+
+            superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
+            superviseur.setPasswordHash(newMdp);
+            superDAO.persist(superviseur);
+
+            et.commit();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
     }
 }
