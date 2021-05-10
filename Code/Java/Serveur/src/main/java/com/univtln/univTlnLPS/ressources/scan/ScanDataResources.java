@@ -247,7 +247,7 @@ public class ScanDataResources {
     }
 
     @GET
-    @Path("superviseurs/scans")
+    @Path("superviseurs/me/scans")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
@@ -287,7 +287,7 @@ public class ScanDataResources {
     }
 
     @DELETE
-    @Path("superviseurs/scans")
+    @Path("superviseurs/me/scans")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
     public void removeOwnScanDataByPiece(@Context SecurityContext securityContext,

@@ -24,6 +24,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
+
+@NamedQueries({
+        @NamedQuery(name = "bugReport.findByCat",
+                query = "select bugReport from BugReport bugReport" +
+                        " where bugReport.category=:cat")})
 public class BugReport implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
