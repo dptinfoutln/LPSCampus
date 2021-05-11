@@ -3,10 +3,12 @@ package com.univtln.univTlnLPS.ressources.scan;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
+import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
+import com.univtln.univTlnLPS.model.scan.WifiData;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
@@ -15,25 +17,18 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.SecurityContext;
+import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
+@Log
 public class ScanDataResources {
 
     public static void init() throws IllegalArgumentException {
-        ScanData scanData = ScanData.builder().infoScan("").wifiList(new HashSet<>()).build();
 
-        try (ScanDataDAO scanDataDao = ScanDataDAO.of()) {
-            EntityTransaction transaction = scanDataDao.getTransaction();
-
-            transaction.begin();
-            scanDataDao.persist(scanData);
-
-            transaction.commit();
-        }
     }
 
     @PUT
@@ -41,18 +36,46 @@ public class ScanDataResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN", "SUPER"})
     @JWTAuth
-    public ScanData addScanData(ScanData scandata) throws IllegalArgumentException {
-        if (scandata.getId() != 0) throw new IllegalArgumentException();
+    public void addScanData(ScanData scanData,
+                                @QueryParam("piece") long idPiece,
+                                @Context SecurityContext securityContext) throws IllegalArgumentException {
+        if (scanData.getId() != 0) throw new IllegalArgumentException();
+
+        Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
 
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
-            EntityTransaction transaction = scanDataDAO.getTransaction();
+            EntityTransaction transaction;
 
-            transaction.begin();
-            scanDataDAO.persist(scandata);
+            Set<WifiData> wifiSet = scanData.getWifiList();
 
-            transaction.commit();
+            scanData.setWifiList(new HashSet<>());
+
+            try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+                transaction = scanDataDAO.getTransaction();
+
+                transaction.begin();
+                scanData.setSuperviseur(superDAO.findByEmail(superviseur.getEmail()).get(0));
+                scanData.setPiece(PieceDAO.of().find(idPiece));
+                scanDataDAO.persist(scanData);
+
+                transaction.commit();
+            }
+
+            ScanData sData = scanDataDAO.find(scanData.getId());
+            try (WifiDataDAO wDAO = WifiDataDAO.of()) {
+                transaction = wDAO.getTransaction();
+
+                transaction.begin();
+
+                for (WifiData wData : wifiSet) {
+                    wData.setScanData(sData);
+                    wDAO.persist(wData);
+                }
+
+                transaction.commit();
+            }
         }
-        return scandata;
+
     }
 
     @POST

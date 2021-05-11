@@ -19,16 +19,7 @@ import jakarta.ws.rs.core.SecurityContext;
 public class WifiDataResources {
 
     public static void init() throws IllegalArgumentException {
-        WifiData wifi = WifiData.builder().BSSID("test").build();
 
-        try (WifiDataDAO wifiDataDAO = WifiDataDAO.of()) {
-            EntityTransaction transaction = wifiDataDAO.getTransaction();
-
-            transaction.begin();
-            wifiDataDAO.persist(wifi);
-
-            transaction.commit();
-        }
     }
 
     @PUT

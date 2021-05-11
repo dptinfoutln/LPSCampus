@@ -7,6 +7,8 @@ import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Campus;
+import com.univtln.univTlnLPS.model.scan.ScanData;
+import com.univtln.univTlnLPS.model.scan.WifiData;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -18,6 +20,7 @@ import lombok.extern.java.Log;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashSet;
+import java.util.Set;
 
 @Log
 public class LPSClient {

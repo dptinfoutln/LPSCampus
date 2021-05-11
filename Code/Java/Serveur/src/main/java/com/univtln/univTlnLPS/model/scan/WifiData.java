@@ -36,6 +36,7 @@ public class WifiData implements SimpleEntity {
 
     @XmlElement
     @Size(max = 20)
+    @EqualsAndHashCode.Include
     private String BSSID;
 
     @XmlElement

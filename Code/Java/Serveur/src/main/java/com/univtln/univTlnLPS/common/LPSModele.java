@@ -6,6 +6,8 @@ import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
+import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
+import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.ressources.administration.AdministrateurResources;
@@ -35,6 +37,8 @@ public class LPSModele {
 
     public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
 
+        deleteAll(WifiDataDAO.of());
+        deleteAll(ScanDataDAO.of());
         deleteAll(PieceDAO.of());
         deleteAll(EtageDAO.of());
         deleteAll(BatimentDAO.of());
