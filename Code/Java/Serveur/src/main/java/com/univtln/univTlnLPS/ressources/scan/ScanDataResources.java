@@ -41,12 +41,13 @@ public class ScanDataResources {
                                 @Context SecurityContext securityContext) throws IllegalArgumentException {
         if (scanData.getId() != 0) throw new IllegalArgumentException();
 
+        Set<WifiData> wifiSet = scanData.getWifiList();
+        if (wifiSet.size() == 0) throw new IllegalArgumentException();
+
         Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
 
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
             EntityTransaction transaction;
-
-            Set<WifiData> wifiSet = scanData.getWifiList();
 
             scanData.setWifiList(new HashSet<>());
 
@@ -118,7 +119,8 @@ public class ScanDataResources {
 
             // On verifie que l'utilisateur soit admin ou le superviseur du scan
             if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {
-                if (!(securityContext.getUserPrincipal() == scanData.getSuperviseur()))
+                Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
+                if (!(superviseur.getId() == scanData.getSuperviseur().getId()))
                     throw new IllegalArgumentException();
             }
 
@@ -265,7 +267,9 @@ public class ScanDataResources {
     public Map<Long, ScanData> getScanDataBySupByPiece(@PathParam("id") long id,
                                                   @QueryParam("idPiece") long idPiece) throws NotFoundException {
 
-        return getScanDataBySupByPieceEF(id, idPiece).stream()
+        List<ScanData> lscans = getScanDataBySupByPieceEF(id, idPiece);
+        //log.info("wifiList:" + lscans.get(0).getWifiList());
+        return lscans.stream()
                     .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
     }
 
@@ -334,11 +338,25 @@ public class ScanDataResources {
 
             // On verifie que l'utilisateur soit admin ou le superviseur du scan
             if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {
-                if (!(securityContext.getUserPrincipal() == scanData.getSuperviseur()))
+                Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
+                if (!(superviseur.getId() == scanData.getSuperviseur().getId()))
                     throw new IllegalArgumentException();
             }
 
-            EntityTransaction transaction = scanDataDAO.getTransaction();
+            EntityTransaction transaction;
+
+            try (WifiDataDAO wDAO = WifiDataDAO.of()) {
+                transaction = wDAO.getTransaction();
+
+                transaction.begin();
+
+                for (WifiData wifi : scanData.getWifiList())
+                     wDAO.remove(wDAO.find(wifi.getId()));
+
+                transaction.commit();
+            }
+
+            transaction = scanDataDAO.getTransaction();
 
             transaction.begin();
 

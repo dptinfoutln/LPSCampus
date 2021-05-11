@@ -53,7 +53,7 @@ public class CampusResources {
     @RolesAllowed({"ADMIN"})
     @JWTAuth
     public void addCampus(Campus camp) throws IllegalArgumentException {
-        try (CampusDAO campDao = CampusDAO.of()){
+        try (CampusDAO campDao = CampusDAO.of()) {
             if(camp.getId() != 0 || !campDao.findByName(camp.getName()).isEmpty())
                 throw new IllegalArgumentException();
 
