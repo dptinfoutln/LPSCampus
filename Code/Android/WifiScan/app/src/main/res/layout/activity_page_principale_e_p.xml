@@ -17,23 +17,31 @@
         android:layout_height="wrap_content"
         android:onClick="onClickAjouterDonnees"
         android:layout_above="@id/consulterDonnees"
-        android:text="Ajouter données" />
+        android:text="Ajouter des données" />
 
     <Button
         android:id="@+id/consulterDonnees"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickConsulterDonnees"
-        android:layout_alignBottom="@id/frame3"
-        android:text="Consulter donnees" />
+        android:layout_above="@id/voirRapportsBugs"
+        android:text="Consulter les donnees" />
+
+    <Button
+        android:id="@+id/voirRapportsBugs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickVoirRapportsBugs"
+        android:layout_above="@id/voirDemandes"
+        android:text="Rapports de Bugs" />
 
     <Button
         android:id="@+id/voirDemandes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickVoirDemandes"
-        android:layout_above="@id/ajouterdonnees"
-        android:text="Voir les demandes" />
+        android:layout_alignBottom="@id/frame3"
+        android:text="Demandes Superviseur" />
 
     <Button
         android:id="@+id/parametres"

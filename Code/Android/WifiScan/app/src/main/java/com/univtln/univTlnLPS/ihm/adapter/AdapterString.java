@@ -13,13 +13,13 @@ import com.univtln.univTlnLPS.R;
 
 import java.util.List;
 
-public class AdapterSalles extends BaseAdapter {
+public class AdapterString extends BaseAdapter {
     private List<String> stringList;
     private LayoutInflater inflater;
 
     private int itemSelected;
 
-    public AdapterSalles (Context context, List<String> stringList){
+    public AdapterString(Context context, List<String> stringList){
         this.stringList = stringList;
         inflater = LayoutInflater.from(context);
         itemSelected = -1;
@@ -55,16 +55,16 @@ public class AdapterSalles extends BaseAdapter {
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AdapterSalles.ViewHolder holder;
+        AdapterString.ViewHolder holder;
 
         if (convertView == null){
             convertView = inflater.inflate(R.layout.string_list, null);
-            holder = new AdapterSalles.ViewHolder();
+            holder = new AdapterString.ViewHolder();
             holder.textView1 = convertView.findViewById(R.id.stringtext1);
 
             convertView.setTag(holder);
         } else{
-            holder = (AdapterSalles.ViewHolder)convertView.getTag();
+            holder = (AdapterString.ViewHolder)convertView.getTag();
         }
 
         String str = stringList.get(position);

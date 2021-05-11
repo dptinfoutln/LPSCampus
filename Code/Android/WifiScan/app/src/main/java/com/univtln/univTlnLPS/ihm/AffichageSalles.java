@@ -4,18 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +26,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     private SSGBDControleur ssgbdControleur;
     private ListView ListeViewSalles;
     private List<String> ListeSalles;
-    private AdapterSalles ListeAdapter;
+    private AdapterString ListeAdapter;
     private Spinner spinnerUser;
 
 
@@ -68,7 +65,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
 
 
     public void affichageSalle() {
-        ListeAdapter = new AdapterSalles(this, new ArrayList<>());
+        ListeAdapter = new AdapterString(this, new ArrayList<>());
         ListeViewSalles = (ListView) findViewById(R.id.listedonneessalle);
         ListeSalles = new ArrayList<>();
 
@@ -140,7 +137,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
                         name += ":" + ((JSONObject)jchaine.get(name)).getString("name"); // on récupère le nom associé
                         ListeSalles.add(name);
                     }
-                    ListeAdapter = new AdapterSalles(AffichageSalles.this, ListeSalles);
+                    ListeAdapter = new AdapterString(AffichageSalles.this, ListeSalles);
 
                     AffichageSalles.this.runOnUiThread(new Runnable() {
                         @Override

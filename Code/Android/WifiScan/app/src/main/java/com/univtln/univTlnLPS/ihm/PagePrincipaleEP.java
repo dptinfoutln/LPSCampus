@@ -41,6 +41,12 @@ public class PagePrincipaleEP extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void onClickVoirRapportsBugs(View v) {
+        Intent i = new Intent(this, VoirRapportsBugs.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
+    }
+
 
     public void onClickParametres(View v) {
         Intent i = new Intent(this, GestionCompte.class);

@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,7 +52,7 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
 
 
     private void affichageDemandes() {
-        ListeAdapter = new AdapterSalles(this, new ArrayList<>());
+        ListeAdapter = new AdapterString(this, new ArrayList<>());
         ListeViewDemandes = (ListView) findViewById(R.id.listedonneessalle);
         ListeDemandes = new ArrayList<>();
 
@@ -72,7 +72,7 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
                         name += ":" + ((JSONObject) jchaine.get(name)).getString("name"); // on récupère le nom associé
                         ListeDemandes.add(name);
                     }
-                    ListeAdapter = new AdapterSalles(VoirDemandes.this, ListeDemandes);
+                    ListeAdapter = new AdapterString(VoirDemandes.this, ListeDemandes);
 
                     VoirDemandes.this.runOnUiThread(new Runnable() {
                         @Override

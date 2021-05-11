@@ -12,6 +12,7 @@ import lombok.extern.java.Log;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 @Log
 @AllArgsConstructor
@@ -28,7 +29,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
         @NamedQuery(name = "bugReport.findByCat",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.category=:cat")})
+                        " where bugReport.category=:cat"),
+        @NamedQuery(name = "bugReport.findByDate",
+                query = "select bugReport from BugReport bugReport" +
+                        " where bugReport.date=:date"),
+        @NamedQuery(name = "bugReport.findByDateBelow",
+                query = "select bugReport from BugReport bugReport" +
+                        " where bugReport.date<:date"),
+        @NamedQuery(name = "bugReport.findByDateAbove",
+                query = "select bugReport from BugReport bugReport" +
+                        " where bugReport.date >: date"),
+        @NamedQuery(name = "bugReport.findByDateBetween",
+                query = "select bugReport from BugReport bugReport" +
+                        " where bugReport.date >: dateDeb and bugReport.date <: dateFin")})
+
 public class BugReport implements SimpleEntity {
     @XmlAttribute
     @EqualsAndHashCode.Include
@@ -49,8 +63,18 @@ public class BugReport implements SimpleEntity {
     //@Size(min = 2, max = 10)
     private String caracteristiquesMachine;
 
-    /*@JsonIgnore
-    @ManyToOne
-    private Utilisateur utilisateur;*/
+    /*@XmlElement
+    private int year;
+
+    @XmlElement
+    private int month;
+
+    @XmlElement
+    private int day;*/
+
+    @XmlElement
+    @Temporal(TemporalType.DATE)
+    Date date;
+
 
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -61,7 +61,7 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
 
 
     public void affichageDonneesSalle() throws JSONException {
-        listeAdapter = new AdapterSalles(this, new ArrayList<>());
+        listeAdapter = new AdapterString(this, new ArrayList<>());
         ListeDonneesSalle = (ListView) findViewById(R.id.listedonneessalle);
 
         new Thread(new Runnable() {
@@ -82,7 +82,7 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
                         name = name + ":" + tmp.get("infoScan").toString(); // on récupère le nom associé
                         liste.add(name);
                     }
-                    listeAdapter = new AdapterSalles(AffichageDonneesSalle.this, liste);
+                    listeAdapter = new AdapterString(AffichageDonneesSalle.this, liste);
 
                     AffichageDonneesSalle.this.runOnUiThread(new Runnable() {
                         @Override
