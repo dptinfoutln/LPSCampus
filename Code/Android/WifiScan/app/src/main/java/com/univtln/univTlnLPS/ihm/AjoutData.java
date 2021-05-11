@@ -24,6 +24,7 @@ import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -179,7 +180,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
     public void error(){
         if (btn != null) {
-            Toast.makeText(AjoutData.this, "An error occured! Please retry! Activate Localisation!", Toast.LENGTH_LONG).show();
+            Toast.makeText(AjoutData.this, "Une erreur est survenue! S'il vous plait réessayer! Activer la localisation!", Toast.LENGTH_LONG).show();
             btn.setEnabled(true);
         }
     }
@@ -214,8 +215,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
             try {
 
                 JSONObject j = new JSONObject();
-                List<JSONObject> wifisJson = new ArrayList<>();
-
+                JSONArray wifisJson = new JSONArray();
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
                 String currentDateandTime = sdf.format(new Date());
@@ -243,7 +243,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     wifi.put("timestamp", scanRes.timestamp);
                     wifi.put("venueName", scanRes.venueName);
 
-                    wifisJson.add(wifi);
+                    wifisJson.put(wifi);
 
                     data.append("BSSID:").append(scanRes.BSSID).append("\n");
                     data.append("Capabilities:").append(scanRes.capabilities).append("\n");
@@ -290,10 +290,10 @@ public class AjoutData extends AppCompatActivity implements Runnable{
             public void run() {
                 adapter.notifyDataSetChanged();
                 if (scanResults.size() == 0){
-                    Toast.makeText(AjoutData.this, "Activate Localisation", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AjoutData.this, "Activer la localisation", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(AjoutData.this, "success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AjoutData.this, "succès", Toast.LENGTH_LONG).show();
                     //Toast.makeText(MainActivity.this, "Scan success", Toast.LENGTH_LONG).show();
                 }
 
