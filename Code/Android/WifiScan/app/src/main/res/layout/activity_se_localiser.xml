@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/rlSeLocaliser"
+    tools:context=".ihm.SeLocaliser">
+
+
+    <FrameLayout
+        android:id="@+id/frameSL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/reporterProbleme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reporter un problème"
+        android:layout_alignEnd="@id/frameSL"
+        android:onClick="probleme" />
+
+
+    <RadioGroup
+        android:id="@+id/groupTexteGraphique"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignEnd="@id/frameSL"
+        android:layout_above="@id/seLocaliser">
+
+        <RadioButton
+            android:id="@+id/graphique"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="false"
+            android:text="graphique"
+            android:textColor="#030304"
+            android:layout_marginRight="20sp" />
+
+        <RadioButton
+            android:id="@+id/texte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#673AB7"
+            android:checked="true"
+            android:text="texte"
+            android:textColor="#0E0E0E"
+            android:layout_marginRight="20sp"/>
+
+    </RadioGroup>
+
+
+    <Button
+        android:id="@+id/seLocaliser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Se Localiser"
+        android:layout_alignBottom="@+id/connexion"
+        android:onClick="seLocaliser" />
+
+    <TextView
+        android:id="@+id/connexion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:layout_below="@id/reporterProbleme"/>
+
+
+</RelativeLayout>

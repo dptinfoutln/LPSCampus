@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.CreerEtage">
+
+    <EditText
+    android:id="@+id/nomEtage"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Nom de l'étage" />
+
+
+    <EditText
+        android:id="@+id/plan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="URL du plan"
+        android:layout_below="@id/nomEtage"/>
+
+    <TextView
+        android:id="@+id/batiments"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Choisir un batiment :"
+        android:textSize="20sp"
+        android:layout_below="@id/plan" />
+
+    <Spinner
+        android:id="@+id/spinnerBatiments"
+        android:layout_width="match_parent"
+        android:layout_below="@id/batiments"
+        android:layout_height="40dp" />
+
+    <Button
+        android:id="@+id/creerBatiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plan"
+        android:layout_alignEnd="@id/batiments"
+        android:onClick="createBatiment"
+        android:text="Créer Batiment" />
+
+    <Button
+        android:id="@+id/creerEtage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerBatiments"
+        android:onClick="createEtage"
+        android:text="Créer Etage" />
+
+</RelativeLayout>

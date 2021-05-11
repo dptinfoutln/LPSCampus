@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
 
+import java.util.Date;
 import java.util.List;
 
 @Log
@@ -20,6 +21,31 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
     public List<BugReport> findByCat(String cat) {
         return getEntityManager().createNamedQuery("bugReport.findByCat")
                 .setParameter("cat", cat)
+                .getResultList();
+    }
+
+    public List<BugReport> findByDate(Date date) {
+        return getEntityManager().createNamedQuery("bugReport.findByDate")
+                .setParameter("date", date)
+                .getResultList();
+    }
+
+    public List<BugReport> findByDateBelow(Date date) {
+        return getEntityManager().createNamedQuery("bugReport.findByDateBelow")
+                .setParameter("date", date)
+                .getResultList();
+    }
+
+    public List<BugReport> findByDateAbove(Date date) {
+        return getEntityManager().createNamedQuery("bugReport.findByDateAbove")
+                .setParameter("date", date)
+                .getResultList();
+    }
+
+    public List<BugReport> findByDateBetween(Date dateDeb, Date dateFin) {
+        return getEntityManager().createNamedQuery("bugReport.findByDateBetween")
+                .setParameter("dateDeb", dateDeb)
+                .setParameter("dateFin", dateFin)
                 .getResultList();
     }
 }

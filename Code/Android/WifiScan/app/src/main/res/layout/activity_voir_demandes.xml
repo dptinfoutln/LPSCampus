@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.VoirDemandes">
+
+    <FrameLayout
+        android:id="@+id/frameDemandes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/texteDemandes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Demandes"
+        android:textAlignment="center"
+        android:textColor="#070707"
+        android:textSize="18sp" />
+
+    <ListView
+        android:id="@+id/ListeDemandes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/texteDemandes"
+        android:layout_above="@+id/refuser"/>
+
+    <Button
+        android:id="@+id/refuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refuser"
+        android:layout_alignBottom="@id/frameDemandes"
+        android:onClick="refuser" />
+
+    <Button
+        android:id="@+id/accepter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/frameDemandes"
+        android:text="Accepter"
+        android:layout_alignEnd="@id/frameDemandes"
+        android:onClick="accepter" />
+
+</RelativeLayout>
