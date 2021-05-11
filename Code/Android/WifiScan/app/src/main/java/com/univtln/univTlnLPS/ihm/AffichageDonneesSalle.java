@@ -25,11 +25,11 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
 
     private SSGBDControleur ssgbdControleur;
     private ListView ListeDonneesSalle;
-    private ListAdapter listeAdapter;
+    private AdapterSalles listeAdapter;
     private List<String> liste;
     private TextView nomSalle;
 
-    private String lastId, salleId, nom, role;
+    private String lastId, salleId, nom, role, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
         salleId = i.getStringExtra("salleId");
         nom = i.getStringExtra("piece");
+        role = i.getStringExtra("role");
+        id = i.getStringExtra("id");
 
         nomSalle.setText(nom);
 
@@ -55,6 +57,8 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        listeAdapter.setItemSelected(position);
+        listeAdapter.notifyDataSetChanged();
         String resultat = (String)parent.getItemAtPosition(position);
         lastId = resultat.split(":")[0];
     }
@@ -69,7 +73,12 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
             public void run() {
                 String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("GET", "pieces/" + salleId + "/scans", null, !true);
+                    if (role.equals("ADMIN")) {
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + id + "/scans" + "?idPiece=" + salleId, null, !true);
+                    }
+                    else if (role.equals("SUPER")) {
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/scans" + "?idPiece=" + salleId, null, !true);
+                    }
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     liste = new ArrayList<>();
@@ -114,25 +123,13 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
             @Override
             public void run() {
                 try {
-                    role = ssgbdControleur.doRequest("GET", "superviseurs/me/role", null, !true);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                role = role.substring(0, role.length()-1);
-                try {
-                    if (role.equals("SUPER")) {
-                        // path : superviseurs/id/scans/pieces
-                        ssgbdControleur.doRequest("DELETE", "superviseurs/me/scans/pieces/" + nom, null, !true);
-                    }
-                    else {
-                        // admin
-                        ssgbdControleur.doRequest("DELETE", "superviseurs/" + lastId + "/scans/pieces/" + nom, null, !true);
-                    }
+                    ssgbdControleur.doRequest("DELETE", "scans/" + lastId, null, !true);
+                    affichageDonneesSalle();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        });
+        }).start();
     }
 
 

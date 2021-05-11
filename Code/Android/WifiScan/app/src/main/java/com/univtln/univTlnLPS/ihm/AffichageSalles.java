@@ -74,7 +74,6 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
     public void affichageSuper() {
         ListeAdapter = new AdapterSalles(this, new ArrayList<>());
         ListeViewSalles = (ListView) findViewById(R.id.listedonneessalle);
-        ListeSalles = new ArrayList<>();
 
         // récupération de la liste des users pour l'admin sinon du nom du superviseur
         new Thread(new Runnable() {
@@ -153,6 +152,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
         new Thread(new Runnable() {
             @Override
             public void run() {
+                ListeSalles = new ArrayList<>();
 
                 // à reprendre : affichage de la liste des pièces selon l'item sélectionné du spinner
                 try {
@@ -200,6 +200,7 @@ public class AffichageSalles extends AppCompatActivity implements AdapterView.On
             i.putExtra("ssgbdC", ssgbdControleur);
             i.putExtra("salleId", lastId);
             i.putExtra("piece", nom);
+            i.putExtra("role", role);
             i.putExtra("id", lastId2);
             startActivity(i);
         }

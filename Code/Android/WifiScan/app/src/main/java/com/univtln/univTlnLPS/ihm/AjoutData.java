@@ -289,7 +289,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
-                if (scanResults.size() == 0){
+                if (scanResults.size() == 0) {
                     Toast.makeText(AjoutData.this, "Activer la localisation", Toast.LENGTH_LONG).show();
                 }
                 else{
