@@ -25,7 +25,7 @@
         android:layout_marginTop="30dp"
         android:onClick="onClickSeConnecter"
         android:text="Se Connecter"
-        android:layout_alignBottom="@id/frame2"
+        android:layout_below="@id/motDePasse"
         android:textSize="18sp" />
 
     <EditText
@@ -58,6 +58,15 @@
         android:layout_below="@id/imgTln"
         android:textColor="#040303"
         android:textSize="24sp" />
+
+
+    <Button
+        android:id="@+id/devenirSuperviseur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickDevenirSuperviseur"
+        android:text="Demander à devenir Superviseur"
+        android:layout_alignBottom="@id/frame2" />
 
 
 </RelativeLayout>

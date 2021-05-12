@@ -23,21 +23,21 @@
         android:id="@+id/ancien"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Saisir l'ancien mot de passe"
+        android:hint="Saisir l'ancien mot de passe"
         android:layout_below="@+id/texteModifierMDP" />
 
     <EditText
         android:id="@+id/nouveau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Saisir le nouveau mot de passe"
+        android:hint="Saisir le nouveau mot de passe"
         android:layout_below="@+id/ancien" />
 
     <EditText
         android:id="@+id/confirmation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ressaisir le nouveau mot de passe"
+        android:hint="Ressaisir le nouveau mot de passe"
         android:layout_below="@id/nouveau"/>
 
     <Button

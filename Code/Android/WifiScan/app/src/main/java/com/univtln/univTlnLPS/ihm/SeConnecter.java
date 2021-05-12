@@ -65,4 +65,13 @@ public class SeConnecter extends AppCompatActivity {
             }
         }).start();
     }
+
+
+    public void onClickDevenirSuperviseur(View V) {
+        Intent i = new Intent(this, DevenirSuperviseur.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
+    }
+
+
 }

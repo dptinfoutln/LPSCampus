@@ -57,13 +57,13 @@ public class AdapterString extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         AdapterString.ViewHolder holder;
 
-        if (convertView == null){
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.string_list, null);
             holder = new AdapterString.ViewHolder();
             holder.textView1 = convertView.findViewById(R.id.stringtext1);
 
             convertView.setTag(holder);
-        } else{
+        } else {
             holder = (AdapterString.ViewHolder)convertView.getTag();
         }
 

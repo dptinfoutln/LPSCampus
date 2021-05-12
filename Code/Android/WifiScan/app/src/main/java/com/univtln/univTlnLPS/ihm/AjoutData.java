@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -18,9 +18,11 @@ import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.Position;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.common.WriteFile;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -38,10 +40,10 @@ public class AjoutData extends AppCompatActivity implements Runnable{
     private WifiScan wifiScan;
     private ScanListAdapter adapter;
     private Button btn;
-    private EditText editTxt, editTxtInfo;
+    private EditText editTxt;
     private Spinner spinner;
 
-    private String role;
+    private String role, lastId, nom;
 
     @SuppressLint("WrongConstant")
     @Override
@@ -96,6 +98,8 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
     }
 
+
+
     public void addItemsOnSpinner() throws JSONException {
         spinner = findViewById(R.id.spinner);
         List<String> list = new ArrayList<>();
@@ -108,17 +112,33 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
                     Iterator<String> it = jsonObj.keys();
                     while (it.hasNext()) {
-                        list.add( ((JSONObject)jsonObj.get(it.next())).getString("name") );
+                        String key = it.next();
+                        list.add( key + ":" + ((JSONObject)jsonObj.get(key)).getString("name") );
                     }
 
 
                     AjoutData.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(AjoutData.this,
-                                    android.R.layout.simple_spinner_item, list);
-                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            AdapterString dataAdapter = new AdapterString(AjoutData.this, list);
+                            //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(dataAdapter);
+                            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    String resultat = (String) parent.getItemAtPosition(position);
+                                    lastId = resultat.split(":")[0];
+                                    nom = resultat.split(":")[1];
+
+                                    dataAdapter.setItemSelected(position);
+                                    dataAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
 
                         }
                     });
@@ -158,7 +178,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
     public void error(){
         if (btn != null) {
-            Toast.makeText(AjoutData.this, "An error occured! Please retry! Activate Localisation!", Toast.LENGTH_LONG).show();
+            Toast.makeText(AjoutData.this, "Une erreur est survenue! S'il vous plait réessayer! Activer la localisation!", Toast.LENGTH_LONG).show();
             btn.setEnabled(true);
         }
     }
@@ -188,20 +208,41 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
         adapter.setScanList(scanResults);
 
-        String salle = editTxt.getText().toString();
+        String salle = nom;
         if(!"".equals(salle)){
             try {
+
+                JSONObject j = new JSONObject();
+                JSONArray wifisJson = new JSONArray();
+
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
                 String currentDateandTime = sdf.format(new Date());
 
-                String infoScan = editTxtInfo.getText().toString();
+                String infoScan = editTxt.getText().toString();
                 String directory = "scanData";
                 String fileName = salle + ".txt";
+
+                j.put("infoScan", infoScan);
 
                 StringBuilder data = new StringBuilder();
                 data.append("scan:").append(currentDateandTime).append("\n");
                 data.append("infos:").append(infoScan).append("\n");
                 for(ScanResult scanRes : scanResults){
+                    JSONObject wifi = new JSONObject();
+                    wifi.put("BSSID", scanRes.BSSID);
+                    wifi.put("Capabilities", scanRes.capabilities);
+                    wifi.put("centerFreq0", scanRes.centerFreq0);
+                    wifi.put("centerFreq1", scanRes.centerFreq1);
+                    wifi.put("channelWidth", scanRes.channelWidth);
+                    wifi.put("frequency", scanRes.frequency);
+                    wifi.put("level", scanRes.level);
+                    wifi.put("operatorFriendlyName", scanRes.operatorFriendlyName);
+                    wifi.put("SSID", scanRes.SSID);
+                    wifi.put("timestamp", scanRes.timestamp);
+                    wifi.put("venueName", scanRes.venueName);
+
+                    wifisJson.put(wifi);
+
                     data.append("BSSID:").append(scanRes.BSSID).append("\n");
                     data.append("Capabilities:").append(scanRes.capabilities).append("\n");
                     data.append("CenterFreq0:").append(scanRes.centerFreq0).append("\n");
@@ -216,11 +257,17 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     data.append("\n");
                 }
 
+                j.put("wifiList", wifisJson);
+
+                ssgbdControleur.doRequest("PUT", "scans" + "?piece=" + lastId, j, true);
+
                 data.append('\n');
+
 
                 WriteFile.createFile(directory, fileName);
                 WriteFile.writeToFile(data.toString(), directory, fileName, 'A');
-            } catch (IOException e) {
+
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
         }
@@ -240,11 +287,11 @@ public class AjoutData extends AppCompatActivity implements Runnable{
             @Override
             public void run() {
                 adapter.notifyDataSetChanged();
-                if (scanResults.size() == 0){
-                    Toast.makeText(AjoutData.this, "Activate Localisation", Toast.LENGTH_LONG).show();
+                if (scanResults.size() == 0) {
+                    Toast.makeText(AjoutData.this, "Activer la localisation", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(AjoutData.this, "success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AjoutData.this, "succès", Toast.LENGTH_LONG).show();
                     //Toast.makeText(MainActivity.this, "Scan success", Toast.LENGTH_LONG).show();
                 }
 
