@@ -23,7 +23,7 @@
         android:id="@+id/nouveau"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Saisir le nouveau login"
+        android:hint="Saisir le nouveau login"
         android:layout_below="@+id/texteModifierLogin" />
 
     <Button

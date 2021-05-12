@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
@@ -39,13 +40,25 @@ public class ModifierMDP extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            ssgbdControleur.doRequest("POST", "superviseurs/mdp/" + nouveau, null, !true);
+                            ssgbdControleur.doRequestStr("POST", "superviseurs/me/mdp", nouveau.getText().toString(), !true);
+                            ModifierMDP.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(ModifierMDP.this, "Votre mot de passe a été modifié", Toast.LENGTH_LONG).show();
+                                }
+                            });
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 }).start();
             }
+            else {
+                Toast.makeText(ModifierMDP.this, "Les nouveaux mots de passe rentrés sont différents", Toast.LENGTH_LONG).show();
+            }
+        }
+        else {
+            Toast.makeText(ModifierMDP.this, "Votre mot de passe est incorrect", Toast.LENGTH_LONG).show();
         }
 
     }
