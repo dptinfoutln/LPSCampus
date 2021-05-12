@@ -6,10 +6,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
-import android.util.JsonToken;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,7 +18,7 @@ import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.Position;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.common.WriteFile;
-import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 import com.univtln.univTlnLPS.scan.ScanListAdapter;
 import com.univtln.univTlnLPS.scan.WifiScan;
 
@@ -122,7 +120,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
                     AjoutData.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AdapterSalles dataAdapter = new AdapterSalles(AjoutData.this, list);
+                            AdapterString dataAdapter = new AdapterString(AjoutData.this, list);
                             //dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(dataAdapter);
                             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
