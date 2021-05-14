@@ -12,6 +12,7 @@ import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DevenirSuperviseur extends AppCompatActivity {
 
@@ -35,21 +36,42 @@ public class DevenirSuperviseur extends AppCompatActivity {
         String login = loginTxt.getText().toString();
         String mdp = mdpTxt.getText().toString();
 
+        JSONObject form = new JSONObject();
+
         // Verifions que le mail ait ete renseigne
-        if (! login.contains("@") && (! login.contains("univ-tln.fr"))){
+        if (! login.contains("@") && (! login.contains("univ-tln.fr"))) {
             // Affichage d'un probleme et l'utilisateur reste sur la page
             Toast.makeText(this, "Adresse email non reconnue", Toast.LENGTH_LONG).show();
             return;
         }
         // Verifions que le mot de passe a plus de 5 caracteres
-        if(mdp.length() > 4){
-            ssgbdControleur.doRequest("PUT", "/forms", null, !true);
-            Toast.makeText(this, "Demande envoyée", Toast.LENGTH_LONG).show();
-            // Retour a la page principale
-            finish();
+        if (mdp.length() > 4) {
+
+            form.put("id", 0);
+            form.put("email", login);
+            form.put("passwordHash", mdp);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ssgbdControleur.doRequest("PUT", "forms", form, !true);
+                        DevenirSuperviseur.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(DevenirSuperviseur.this, "Demande envoyée", Toast.LENGTH_LONG).show();
+                                // Retour a la page principale
+                                finish();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
 
-        else{
+        else {
             // Affichage temporaire mot de passe incorrect
             Toast.makeText(this, "Mot de passe incorrect", Toast.LENGTH_LONG).show();
         }

@@ -79,7 +79,6 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
                         public void run() {
                             ListeViewDemandes.setAdapter(ListeAdapter);
                             ListeViewDemandes.setOnItemClickListener(VoirDemandes.this);
-
                         }
                     });
 
