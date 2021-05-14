@@ -78,6 +78,7 @@ public class CreerEtage extends AppCompatActivity {
     public void createEtage(View v) throws JSONException {
         String nom = nomEt.getText().toString();
         JSONObject eid = new JSONObject();
+        JSONObject batimentId = new JSONObject();
         Batiment bat = null;
         if (batiments.getSelectedItem() != null) {
             String batiment = (String) batiments.getSelectedItem();
@@ -87,10 +88,18 @@ public class CreerEtage extends AppCompatActivity {
         }
 
         eid.put("name", nom);
-        eid.put("bat", bat);
         eid.put("plan", planBat.getText().toString());
         eid.put("id", 0);
         eid.put("pieceList", null);
+
+        String item = (String)batiments.getSelectedItem();
+        if (item == null)
+            return;
+
+        batimentId.put("id", (item.split(":")[0]));
+
+        eid.put("batiment", batimentId);
+
 
         new Thread(new Runnable() {
             @Override
