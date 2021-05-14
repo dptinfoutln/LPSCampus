@@ -12,6 +12,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
+import lombok.extern.java.Log;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
 import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
+@Log
 public class BatimentResources {
 
     public static void init() throws IllegalArgumentException {
@@ -48,18 +50,24 @@ public class BatimentResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public Batiment addBatiment(Batiment batiment) throws IllegalArgumentException {
+    public void addBatiment(Batiment batiment) throws IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
+
+        if (batiment.getCampus() == null) throw new IllegalArgumentException();
+        Campus camp = CampusDAO.of().find(batiment.getCampus().getId());
+
+        if (camp == null) throw new IllegalArgumentException();
 
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
             EntityTransaction transaction = batimentDAO.getTransaction();
 
             transaction.begin();
+
+            batiment.setCampus(camp);
             batimentDAO.persist(batiment);
 
             transaction.commit();
         }
-        return batiment;
     }
 
     @POST

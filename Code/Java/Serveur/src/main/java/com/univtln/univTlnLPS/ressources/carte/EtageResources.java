@@ -1,9 +1,11 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
+import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.model.carte.Batiment;
+import com.univtln.univTlnLPS.model.carte.Campus;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
@@ -53,10 +55,17 @@ public class EtageResources {
     public Etage addEtage(Etage etage) throws IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
 
+        if (etage.getBatiment() == null) throw new IllegalArgumentException();
+        Batiment bat = BatimentDAO.of().find(etage.getBatiment().getId());
+
+        if (bat == null) throw new IllegalArgumentException();
+
         try (EtageDAO etageDAO = EtageDAO.of()) {
             EntityTransaction transaction = etageDAO.getTransaction();
 
             transaction.begin();
+
+            etage.setBatiment(bat);
             etageDAO.persist(etage);
 
             transaction.commit();

@@ -38,8 +38,7 @@ public class Campus implements SimpleEntity {
     @XmlElement
     private String plan;
 
-    @XmlElement(name = "Batiment")
-    @XmlElementWrapper(name = "Batiments")
+    @JsonIgnore
     @OneToMany(mappedBy = "campus")
     private Set<Batiment> batimentList;
 
@@ -49,7 +48,7 @@ public class Campus implements SimpleEntity {
     @GeneratedValue
     private long id;
 
-    @XmlElement
-    @OneToOne
+    @JsonIgnore
+    @ManyToOne
     private Administrateur administrateur;
 }

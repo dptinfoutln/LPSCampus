@@ -48,12 +48,11 @@ public class Etage implements SimpleEntity {
     @GeneratedValue
     private long id;
 
-    @JsonIgnore
     @ManyToOne
+    @XmlElement
     private Batiment batiment;
 
-    @XmlElement(name = "piece")
-    @XmlElementWrapper(name = "pieces")
+    @JsonIgnore
     @OneToMany(mappedBy="etage")
     private Set<Piece> pieceList;
 }

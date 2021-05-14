@@ -10,7 +10,7 @@
         <class>com.univtln.univTlnLPS.model.administration.Superviseur</class>
         <class>com.univtln.univTlnLPS.model.administration.Administrateur</class>
         <class>com.univtln.univTlnLPS.model.administration.FormDevenirSuper</class>
-        <class>com.univtln.univTlnLPS.model.administration.BugReport</class>
+        <!-- <class>com.univtln.univTlnLPS.model.administration.BugReport</class> -->
 
 
         <class>com.univtln.univTlnLPS.model.carte.Batiment</class>
@@ -25,7 +25,7 @@
             <!-- Les paramètres de connexions -->
             <property name="jakarta.persistence.target-database" value="mybb"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://10.21.74.229:3306/mybb"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://127.0.0.1:3306/mybb"/>
             <property name="jakarta.persistence.jdbc.user" value="mybb"/>
             <property name="jakarta.persistence.jdbc.password" value="changeme"/>
 

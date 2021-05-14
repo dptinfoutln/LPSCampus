@@ -46,7 +46,7 @@ public class Piece implements SimpleEntity {
     @GeneratedValue
     private long id;
 
-    @JsonIgnore
+    @XmlElement
     @ManyToOne
     private Etage etage;
 

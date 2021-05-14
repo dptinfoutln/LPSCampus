@@ -40,13 +40,12 @@ public class Batiment implements SimpleEntity {
     @XmlElement
     private String name;
 
-    @XmlElement(name = "Etage")
-    @XmlElementWrapper(name = "Etages")
+    @JsonIgnore
     @OneToMany(mappedBy="batiment")
     private Set<Etage> etageList;
 
-    @JsonIgnore
     @ManyToOne
+    @XmlElement
     private Campus campus;
 
     @XmlAttribute
