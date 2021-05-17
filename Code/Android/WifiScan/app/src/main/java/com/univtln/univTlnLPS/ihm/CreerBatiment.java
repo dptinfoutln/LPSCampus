@@ -89,6 +89,7 @@ public class CreerBatiment extends AppCompatActivity {
         y = Integer.parseInt(pos_y.getText().toString());
 
         JSONObject bid = new JSONObject();
+        JSONObject campusId = new JSONObject();
 
         Campus camp = null;
         if (campus.getSelectedItem() != null) {
@@ -103,6 +104,14 @@ public class CreerBatiment extends AppCompatActivity {
         bid.put("position_x", x);
         bid.put("position_y", y);
         bid.put("id", 0);
+
+        String item = (String)campus.getSelectedItem();
+        if (item == null)
+            return;
+
+        campusId.put("id", (item.split(":")[0]));
+
+        bid.put("campus", campusId);
 
         new Thread(new Runnable() {
             @Override

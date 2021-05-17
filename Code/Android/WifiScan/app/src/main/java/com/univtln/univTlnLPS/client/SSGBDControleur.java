@@ -49,7 +49,7 @@ public class SSGBDControleur implements Serializable {
             urlConnection = (HttpURLConnection) url.openConnection();
 
             // si on veut envoyer quelque chose (impossible pour GET/DELETE)
-            // note: utiliser GET avec param == null va exécuter un POST
+            // note: utiliser GET avec param != null va exécuter un POST
             urlConnection.setDoOutput(param != null);
 
             if (secured) {
