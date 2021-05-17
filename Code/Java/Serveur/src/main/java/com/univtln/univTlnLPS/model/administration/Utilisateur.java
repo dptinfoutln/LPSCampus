@@ -53,10 +53,6 @@ public class Utilisateur implements SimpleEntity {
     @OneToOne
     private ScanData lastScan;
 
-    @XmlElement
-    @OneToOne
-    private FormDevenirSuper form;
-
     /*@XmlElement(name = "bugReport")
     @XmlElementWrapper(name = "bugReports")
     @OneToMany(mappedBy="utilisateur")

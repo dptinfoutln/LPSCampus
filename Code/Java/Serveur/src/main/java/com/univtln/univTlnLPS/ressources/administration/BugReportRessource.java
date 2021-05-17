@@ -29,7 +29,7 @@ public class BugReportRessource {
     @PUT
     @Path("bugReports")
     @Consumes(MediaType.APPLICATION_JSON)
-    public BugReport addBugReport(BugReport report) throws IllegalArgumentException {
+    public String addBugReport(BugReport report) throws IllegalArgumentException {
         if (report.getId() != 0) throw new IllegalArgumentException();
 
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {
@@ -40,7 +40,7 @@ public class BugReportRessource {
 
             transaction.commit();
         }
-        return report;
+        return "success";
     }
 
     public static List<BugReport> getBugReportsByCatEF(String category){
@@ -88,7 +88,7 @@ public class BugReportRessource {
     @Path("bugReports/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void removeBugReport(@PathParam("id") long id) throws NotFoundException {
+    public String removeBugReport(@PathParam("id") long id) throws NotFoundException {
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {
             EntityTransaction transaction = bugReportDAO.getTransaction();
 
@@ -99,15 +99,18 @@ public class BugReportRessource {
 
             transaction.commit();
         }
+        return "success";
     }
 
     @DELETE
     @Path("bugReports")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deleteBugReports() {
+    public String deleteBugReports() {
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {
             bugReportDAO.deleteAll();
         }
+
+        return "success";
     }
 }

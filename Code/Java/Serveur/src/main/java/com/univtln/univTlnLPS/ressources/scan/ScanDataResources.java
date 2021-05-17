@@ -36,7 +36,7 @@ public class ScanDataResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN", "SUPER"})
     @JWTAuth
-    public void addScanData(ScanData scanData,
+    public String addScanData(ScanData scanData,
                                 @QueryParam("piece") long idPiece,
                                 @Context SecurityContext securityContext) throws IllegalArgumentException {
         if (scanData.getId() != 0) throw new IllegalArgumentException();
@@ -77,6 +77,7 @@ public class ScanDataResources {
             }
         }
 
+        return "success";
     }
 
     @POST
@@ -306,29 +307,33 @@ public class ScanDataResources {
     @Path("superviseurs/{id}/scans")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public  void removeScanDataBySupByPiece(@PathParam("id") long id,
+    public String removeScanDataBySupByPiece(@PathParam("id") long id,
                                                        @QueryParam("idPiece") long idPiece) throws NotFoundException {
 
         List<ScanData>  liste = getScanDataBySupByPieceEF(id, idPiece);
         removeScanEF(liste);
+
+        return "success";
     }
 
     @DELETE
     @Path("superviseurs/me/scans")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
-    public void removeOwnScanDataByPiece(@Context SecurityContext securityContext,
+    public String removeOwnScanDataByPiece(@Context SecurityContext securityContext,
                                                      @QueryParam("idPiece") long idPiece) throws NotFoundException {
 
         List<ScanData> liste =  getOwnScanDataByPieceEF(securityContext, idPiece);
         removeScanEF(liste);
+
+        return "success";
     }
 
     @DELETE
     @Path("scans/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
-    public void removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
+    public String removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
 
             if(id == 0) throw new IllegalArgumentException();
@@ -364,15 +369,19 @@ public class ScanDataResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @DELETE
     @Path("scans")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deleteScanDatas() {
+    public String deleteScanDatas() {
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
             scanDataDAO.deleteAll();
         }
+
+        return "success";
     }
 }

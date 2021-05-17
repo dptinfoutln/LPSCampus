@@ -48,7 +48,7 @@ public class CampusResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void addCampus(Campus camp, @Context SecurityContext context) throws IllegalArgumentException {
+    public String addCampus(Campus camp, @Context SecurityContext context) throws IllegalArgumentException {
         try (CampusDAO campDao = CampusDAO.of()) {
             if(camp.getId() != 0 || !campDao.findByName(camp.getName()).isEmpty())
                 throw new IllegalArgumentException();
@@ -62,6 +62,8 @@ public class CampusResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @GET
@@ -77,7 +79,7 @@ public class CampusResources {
     @Path("campus/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void delCampus(@PathParam("id") long id) {
+    public String delCampus(@PathParam("id") long id) {
         try (CampusDAO campusDAO = CampusDAO.of()) {
             EntityTransaction transaction = campusDAO.getTransaction();
 
@@ -88,6 +90,8 @@ public class CampusResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
 }

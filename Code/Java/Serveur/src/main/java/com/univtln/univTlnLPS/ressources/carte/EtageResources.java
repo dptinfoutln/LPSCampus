@@ -141,7 +141,7 @@ public class EtageResources {
     @Path("etages/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void removeEtage(@PathParam("id") long id) throws NotFoundException {
+    public String removeEtage(@PathParam("id") long id) throws NotFoundException {
         try (EtageDAO etageDAO = EtageDAO.of()) {
             EntityTransaction transaction = etageDAO.getTransaction();
 
@@ -152,16 +152,20 @@ public class EtageResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @DELETE
     @Path("etages")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deleteEtages() {
+    public String deleteEtages() {
         try (EtageDAO etageDAO = EtageDAO.of()) {
             etageDAO.deleteAll();
         }
+
+        return "success";
     }
 
 }

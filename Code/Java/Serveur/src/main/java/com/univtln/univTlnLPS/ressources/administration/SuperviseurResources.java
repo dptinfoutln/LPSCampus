@@ -1,7 +1,9 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
+import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
+import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.net.server.LPSServer;
@@ -83,23 +85,40 @@ public class SuperviseurResources {
     // add delete update
 
     @PUT
-    @Path("superviseurs")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public Superviseur addSuperviseur(Superviseur superviseur) throws IllegalArgumentException {
-        if (superviseur.getId() != 0) throw new IllegalArgumentException();
+    public void addSuperviseur(@PathParam("id") long id) throws IllegalArgumentException {
+        FormDevenirSuper form;
+        EntityTransaction transaction;
 
-        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
-            EntityTransaction transaction = superDAO.getTransaction();
+        try (FormDevenirSuperDAO formDAO = FormDevenirSuperDAO.of()){
+            form = formDAO.find(id);
+            if (form == null)
+                throw new NotFoundException();
+
+            Superviseur superviseur = Superviseur.builder().email(form.getEmail())
+                    .passwordHash(form.getPasswordHash())
+                    .id(0)
+                    .random(form.getRandom())
+                    .salt(form.getSalt()).build();
+
+            try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+                transaction = superDAO.getTransaction();
+                transaction.begin();
+
+                superDAO.persist(superviseur);
+
+                transaction.commit();
+            }
+
+            transaction = formDAO.getTransaction();
             transaction.begin();
 
-            superDAO.persist(superviseur);
+            formDAO.remove(form);
 
             transaction.commit();
         }
-
-        return superviseur;
     }
 
     @POST
@@ -199,7 +218,7 @@ public class SuperviseurResources {
             et.begin();
 
             superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
-            superviseur.setEmail(newLogin);
+            superviseur.setEmail(newLogin.replace("\n", "").replace(" ", ""));
             superDAO.persist(superviseur);
 
             et.commit();
@@ -220,7 +239,7 @@ public class SuperviseurResources {
             et.begin();
 
             superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
-            superviseur.setPasswordHash(newMdp);
+            superviseur.setPasswordHash(newMdp.replace("\n", "").replace(" ", ""));
             superDAO.persist(superviseur);
 
             et.commit();

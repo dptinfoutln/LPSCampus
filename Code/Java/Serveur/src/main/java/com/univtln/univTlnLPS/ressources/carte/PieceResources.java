@@ -158,7 +158,7 @@ public class PieceResources {
     @Path("pieces/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void removePiece(@PathParam("id") long id) throws NotFoundException {
+    public String removePiece(@PathParam("id") long id) throws NotFoundException {
         try (PieceDAO pieceDAO = PieceDAO.of()) {
             EntityTransaction transaction = pieceDAO.getTransaction();
 
@@ -169,15 +169,19 @@ public class PieceResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @DELETE
     @Path("pieces")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deletePieces() {
+    public String deletePieces() {
         try (PieceDAO pieceDAO = PieceDAO.of()) {
             pieceDAO.deleteAll();
         }
+
+        return "success";
     }
 }

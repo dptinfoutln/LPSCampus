@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.common;
 
 import com.univtln.univTlnLPS.dao.DAO;
+import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
 import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
 import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
@@ -9,6 +10,7 @@ import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
 import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
 import com.univtln.univTlnLPS.model.SimpleEntity;
+import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.ressources.administration.AdministrateurResources;
 import com.univtln.univTlnLPS.ressources.administration.SuperviseurResources;
@@ -37,6 +39,7 @@ public class LPSModele {
 
     public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
 
+        deleteAll(FormDevenirSuperDAO.of());
         deleteAll(WifiDataDAO.of());
         deleteAll(ScanDataDAO.of());
         deleteAll(PieceDAO.of());

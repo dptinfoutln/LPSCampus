@@ -42,7 +42,7 @@ public class AdministrateurResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @BasicAuth
-    public void updateAdmin(Administrateur admin){
+    public String updateAdmin(Administrateur admin){
         try (AdministrateurDAO adminDAO = AdministrateurDAO.of()){
             EntityTransaction transaction = adminDAO.getTransaction();
             transaction.begin();
@@ -51,6 +51,8 @@ public class AdministrateurResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
 }

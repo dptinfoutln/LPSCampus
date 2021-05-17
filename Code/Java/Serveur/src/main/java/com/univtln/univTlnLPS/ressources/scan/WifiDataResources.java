@@ -109,7 +109,7 @@ public class WifiDataResources {
     @Path("wifis/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
-    public void removeWifiData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
+    public String removeWifiData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
 
         try (WifiDataDAO wifiDataDAO = WifiDataDAO.of()) {
 
@@ -140,15 +140,19 @@ public class WifiDataResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @DELETE
     @Path("wifis")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deleteWifiData() {
+    public String deleteWifiData() {
         try (WifiDataDAO wifiDataDAO = WifiDataDAO.of()) {
             wifiDataDAO.deleteAll();
         }
+
+        return "success";
     }
 }

@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.model.administration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -52,14 +53,10 @@ public class FormDevenirSuper implements SimpleEntity {
     private byte[] passwordHash;
 
     @XmlElement
-    @OneToOne(mappedBy = "form")
-    private Utilisateur user;
-
-    @XmlElement
-    @NotNull
     private byte[] salt = new byte[16];
 
     @Builder.Default
+    @JsonIgnore
     private SecureRandom random = new SecureRandom();
 
 

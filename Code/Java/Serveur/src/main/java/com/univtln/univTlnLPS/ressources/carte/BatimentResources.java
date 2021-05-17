@@ -50,7 +50,7 @@ public class BatimentResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void addBatiment(Batiment batiment) throws IllegalArgumentException {
+    public String addBatiment(Batiment batiment) throws IllegalArgumentException {
         if (batiment.getId() != 0) throw new IllegalArgumentException();
 
         if (batiment.getCampus() == null) throw new IllegalArgumentException();
@@ -68,6 +68,8 @@ public class BatimentResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @POST
@@ -136,7 +138,7 @@ public class BatimentResources {
     @Path("batiments/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void removeBatiment(@PathParam("id") long id) throws NotFoundException {
+    public String removeBatiment(@PathParam("id") long id) throws NotFoundException {
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
             EntityTransaction transaction = batimentDAO.getTransaction();
 
@@ -147,16 +149,19 @@ public class BatimentResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
     @DELETE
     @Path("batiments")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deleteBatiments() {
+    public String deleteBatiments() {
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
             batimentDAO.deleteAll();
         }
+        return "success";
     }
 
 }

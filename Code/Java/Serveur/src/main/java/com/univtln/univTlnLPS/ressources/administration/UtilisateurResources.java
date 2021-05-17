@@ -1,8 +1,10 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
+import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
@@ -14,12 +16,8 @@ import jakarta.ws.rs.*;
 @Path("LaGarde")
 public class UtilisateurResources {
 
-    private static long lastId = 0;
-
-    final MutableLongObjectMap<Utilisateur> utilisateurs = LongObjectMaps.mutable.empty();
-
     public static void init() throws IllegalArgumentException {
-        Utilisateur.builder().caracteristiquesMachine("").build();
+
     }
 
 
@@ -28,31 +26,39 @@ public class UtilisateurResources {
     @PUT
     @Path("utilisateurs")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Utilisateur addUtilisateur(Utilisateur utilisateur) throws IllegalArgumentException {
+    public String addUtilisateur(Utilisateur utilisateur) throws IllegalArgumentException {
         if (utilisateur.getId() != 0) throw new IllegalArgumentException();
-        utilisateur.setId(++lastId);
-        utilisateurs.put(utilisateur.getId(), utilisateur);
-        return utilisateur;
-    }
 
-    @POST
-    @Path("utilisateurs/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Utilisateur updateUtilisateur(@PathParam("id") long id, Utilisateur utilisateur) throws NotFoundException, IllegalArgumentException {
-        if (utilisateur.getId() != 0) throw new IllegalArgumentException();
-        utilisateur.setId(id);
-        if (!utilisateurs.containsKey(id)) throw new NotFoundException();
-        utilisateurs.put(id, utilisateur);
-        return utilisateur;
+        try (UtilisateurDAO userDAO = UtilisateurDAO.of()){
+            EntityTransaction transaction = userDAO.getTransaction();
+            transaction.begin();
+
+            userDAO.persist(utilisateur);
+
+            transaction.commit();
+        }
+        return "success";
     }
 
     @DELETE
     @Path("utilisateurs/{id}")
     @RolesAllowed({"ADMIN"})
     @BasicAuth
-    public void removeUtilisateur(@PathParam("id") long id) throws NotFoundException {
-        if (!utilisateurs.containsKey(id)) throw new NotFoundException();
-        utilisateurs.remove(id);
+    public String removeUtilisateur(@PathParam("id") long id) throws NotFoundException {
+        try (UtilisateurDAO userDAO = UtilisateurDAO.of()){
+            Utilisateur user = userDAO.find(id);
+            if (user == null)
+                throw new NotFoundException();
+
+            EntityTransaction transaction = userDAO.getTransaction();
+            transaction.begin();
+
+            userDAO.persist(user);
+
+            transaction.commit();
+        }
+
+        return "success";
     }
 
 }
