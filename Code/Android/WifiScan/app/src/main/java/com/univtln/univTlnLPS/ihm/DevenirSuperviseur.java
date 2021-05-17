@@ -47,23 +47,31 @@ public class DevenirSuperviseur extends AppCompatActivity {
         // Verifions que le mot de passe a plus de 5 caracteres
         if (mdp.length() > 4) {
 
-            form.put("id", 0);
             form.put("email", login);
-            form.put("passwordHash", mdp);
+            form.put("password", mdp);
 
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ssgbdControleur.doRequest("PUT", "forms", form, !true);
-                        DevenirSuperviseur.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(DevenirSuperviseur.this, "Demande envoyée", Toast.LENGTH_LONG).show();
-                                // Retour a la page principale
-                                finish();
-                            }
-                        });
+                        if (ssgbdControleur.doRequest("PUT", "forms", form, !true).equals("")) {
+                            DevenirSuperviseur.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(DevenirSuperviseur.this, "Email déjà utilisé", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                        else {
+                            DevenirSuperviseur.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(DevenirSuperviseur.this, "Demande envoyée", Toast.LENGTH_LONG).show();
+                                    // Retour a la page principale
+                                    finish();
+                                }
+                            });
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
