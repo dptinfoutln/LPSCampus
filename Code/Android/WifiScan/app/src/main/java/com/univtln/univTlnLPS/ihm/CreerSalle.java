@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -119,6 +120,12 @@ public class CreerSalle extends AppCompatActivity {
             public void run() {
                 try {
                     ssgbdControleur.doRequest("PUT", "pieces", pid, !true);
+                    CreerSalle.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerSalle.this, "Création de la salle", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();

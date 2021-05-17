@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.carte.model.Batiment;
@@ -118,12 +119,19 @@ public class CreerBatiment extends AppCompatActivity {
             public void run() {
                 try {
                     ssgbdControleur.doRequest("PUT", "batiments", bid, !true);
+                    CreerBatiment.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerBatiment.this, "Création du batiment", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
     }
 
     public void createCampus(View v) {

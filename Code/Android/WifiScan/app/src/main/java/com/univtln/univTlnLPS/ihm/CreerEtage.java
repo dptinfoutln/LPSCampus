@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.carte.model.Batiment;
@@ -106,13 +107,18 @@ public class CreerEtage extends AppCompatActivity {
             public void run() {
                 try {
                     ssgbdControleur.doRequest("PUT", "etages", eid, !true);
+                    CreerEtage.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerEtage.this, "Création de l'étage", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
     }
 
     public void createBatiment(View v) {
