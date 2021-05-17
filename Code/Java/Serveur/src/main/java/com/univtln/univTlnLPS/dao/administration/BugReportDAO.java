@@ -24,6 +24,11 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
                 .getResultList();
     }
 
+    public List<String> findAllCat() {
+        return getEntityManager().createNamedQuery("bugReport.findCategories")
+                .getResultList();
+    }
+
     public List<BugReport> findByDate(Date date) {
         return getEntityManager().createNamedQuery("bugReport.findByDate")
                 .setParameter("date", date)
@@ -42,10 +47,11 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
                 .getResultList();
     }
 
-    public List<BugReport> findByDateBetween(Date dateDeb, Date dateFin) {
-        return getEntityManager().createNamedQuery("bugReport.findByDateBetween")
+    public List<BugReport> findByDateBetweenByCat(Date dateDeb, Date dateFin, String cat) {
+        return getEntityManager().createNamedQuery("bugReport.findByDateBetweenByCat")
                 .setParameter("dateDeb", dateDeb)
                 .setParameter("dateFin", dateFin)
+                .setParameter("cat", cat)
                 .getResultList();
     }
 }

@@ -18,6 +18,11 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,6 +36,8 @@ public class BugReportRessource {
     @Consumes(MediaType.APPLICATION_JSON)
     public String addBugReport(BugReport report) throws IllegalArgumentException {
         if (report.getId() != 0) throw new IllegalArgumentException();
+
+        report.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {
             EntityTransaction transaction = bugReportDAO.getTransaction();
@@ -52,10 +59,31 @@ public class BugReportRessource {
     }
 
     @GET
-    @Path("cat/bugReports")
+    @Path("cat")
+    public List<String> getBugReportsCat() throws NotFoundException {
+        return BugReportDAO.of().findAllCat();
+    }
+
+    @GET
+    @Path("bugReports")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public Map<Long, BugReport> getBugReportsByCat(@QueryParam("category") String category) throws NotFoundException {
+    public Map<Long, BugReport> getBugReportsByCat(@QueryParam("category") String category,
+                                                   @QueryParam("debut") String debut,
+                                                   @QueryParam("fin") String fin) throws NotFoundException, ParseException {
+        if (category == null)
+            return BugReportDAO.of().findAll().stream()
+                    .collect(Collectors.toMap(BugReport::getId, bugReport -> bugReport));
+
+        if (debut != null && fin != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            Date dateDebut = sdf.parse(debut);
+            Date dateFin = sdf.parse(fin);
+
+            return BugReportDAO.of().findByDateBetweenByCat(dateDebut, dateFin, category).stream()
+                    .collect(Collectors.toMap(BugReport::getId, bugReport -> bugReport));
+        }
+
         return getBugReportsByCatEF(category).stream()
                 .collect(Collectors.toMap(BugReport::getId, bugReport -> bugReport));
     }
@@ -69,7 +97,7 @@ public class BugReportRessource {
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {
 
             report = bugReportDAO.find(id);
-            if( report == null) throw new NotFoundException();
+            if(report == null) throw new NotFoundException();
         }
         return report;
     }

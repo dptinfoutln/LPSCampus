@@ -1,6 +1,7 @@
 package com.univtln.univTlnLPS.common;
 
 import com.univtln.univTlnLPS.dao.DAO;
+import com.univtln.univTlnLPS.dao.administration.BugReportDAO;
 import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
 import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
 import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
@@ -40,6 +41,7 @@ public class LPSModele {
     public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
 
         deleteAll(FormDevenirSuperDAO.of());
+        deleteAll(BugReportDAO.of());
         deleteAll(WifiDataDAO.of());
         deleteAll(ScanDataDAO.of());
         deleteAll(PieceDAO.of());

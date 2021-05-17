@@ -29,19 +29,22 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "bugReport.findByCat",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.category=:cat"),
+                        " where bugReport.category = :cat"),
         @NamedQuery(name = "bugReport.findByDate",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date=:date"),
+                        " where bugReport.date = :date"),
         @NamedQuery(name = "bugReport.findByDateBelow",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date<:date"),
+                        " where bugReport.date < :date"),
         @NamedQuery(name = "bugReport.findByDateAbove",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date >: date"),
-        @NamedQuery(name = "bugReport.findByDateBetween",
+                        " where bugReport.date > :date"),
+        @NamedQuery(name = "bugReport.findByDateBetweenByCat",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date >: dateDeb and bugReport.date <: dateFin")})
+                        " where bugReport.category = :cat and " +
+                        " bugReport.date >= :dateDeb and bugReport.date <= :dateFin"),
+        @NamedQuery(name = "bugReport.findCategories",
+                query = "select distinct bugReport.category from BugReport bugReport")})
 
 public class BugReport implements SimpleEntity {
     @XmlAttribute
@@ -56,21 +59,12 @@ public class BugReport implements SimpleEntity {
 
     @XmlElement
     @NotNull
-    private String Content;
+    private String content;
 
     @XmlElement
     @NotNull
     //@Size(min = 2, max = 10)
     private String caracteristiquesMachine;
-
-    /*@XmlElement
-    private int year;
-
-    @XmlElement
-    private int month;
-
-    @XmlElement
-    private int day;*/
 
     @XmlElement
     @Temporal(TemporalType.DATE)

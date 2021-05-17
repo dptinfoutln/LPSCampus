@@ -88,53 +88,6 @@ public class FormDevenirSuperRessource {
     }
 
     @DELETE
-    @Path("forms/{id}/choice")
-    @RolesAllowed("Admin")
-    @JWTAuth
-    public Superviseur answeredForm(@PathParam("id") long id,
-                             @QueryParam("choice") String choice) throws NotFoundException {
-
-        Superviseur superviseur = null;
-
-        try (FormDevenirSuperDAO formDevenirSuperDAO = FormDevenirSuperDAO.of()) {
-
-
-            FormDevenirSuper form = formDevenirSuperDAO.find(id);
-
-            if (form == null) throw new NotFoundException();
-
-            if (choice.equals("accepted")) {
-                superviseur = Superviseur.builder()
-                        .email(form.getEmail())
-                        .salt(form.getSalt())
-                        .passwordHash(form.getPasswordHash())
-                        .build();
-
-                if (superviseur.getId() != 0) throw new IllegalArgumentException();
-
-                try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
-                    EntityTransaction transactionSup = superDAO.getTransaction();
-                    transactionSup.begin();
-
-                    superDAO.persist(superviseur);
-
-                    transactionSup.commit();
-                }
-            }
-
-            EntityTransaction transaction = formDevenirSuperDAO.getTransaction();
-            transaction.begin();
-
-            formDevenirSuperDAO.remove(form);
-
-            transaction.commit();
-
-            return superviseur;
-
-        }
-    }
-
-    @DELETE
     @Path("forms/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
