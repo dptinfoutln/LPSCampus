@@ -26,8 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.CompteUser"></activity>
-        <activity android:name=".ihm.CompteSuperviseur" />
+        <activity android:name=".ihm.AffichageDetailRapport"></activity>
         <activity android:name=".ihm.SupprimerCompte" />
         <activity android:name=".ihm.ModifierMDP" />
         <activity android:name=".ihm.ModifierLogin" />
@@ -44,7 +43,7 @@
         <activity android:name=".ihm.DevenirSuperviseur" />
         <activity android:name=".ihm.PagePrincipaleEP" />
         <activity android:name=".ihm.SeConnecter" />
-        <activity android:name=".ihm.AjoutDataPourSalle" />
+        <activity android:name=".ihm.VoirRapportsBugs" />
         <activity
             android:name=".ihm.HomeActivity"
             android:label="@string/title_activity_main">

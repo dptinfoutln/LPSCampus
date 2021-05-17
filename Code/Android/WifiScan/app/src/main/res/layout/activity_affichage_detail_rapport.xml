@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".ihm.AffichageDetailRapport">
 
     <TextView
+        android:id="@+id/detailRapport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Rapport de Bug"
+        android:text="Detail du rapport de bug"
         android:textAlignment="center"
-        android:textSize="20dp"/>
+        android:textColor="#0B0202"
+        android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/dateTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/affichageDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/detailRapport"
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="20sp" />
 
-    <TextView
-        android:id="@+id/contentTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/deleteRapport"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="effacer"
-        android:text="Effacer" />
-
-</LinearLayout>
+</RelativeLayout>
