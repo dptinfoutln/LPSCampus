@@ -73,8 +73,8 @@ package Interface {
     class AffichageSalleActivity
     class AffichageDonneesSalleActivity
     class AffichageDetailDonneesActivity
-    class AjoutDataouConsulterActivity
-    class ConsulterDemandesActivity
+    class PagePrincipaleEPActivity
+    class VoirDemandesActivity
     class DevenirSuperviseurActivity
     class SeConnecterActivity
     class SeLocaliserActivity
@@ -85,6 +85,13 @@ package Interface {
     class CreerEtageActivity
     class CreerBatimentActivity
     class CreerCampusActivity
+    class VoirRapportsBugsActivity
+    class GestionCompteActivity
+    class ModifierInfoActivity
+    class ModifierLoginActivity
+    class ModifierMDPActivity
+    class SupprimerCompteActivity
+    class AffichageDetailRapportActivity
 }
 
 
@@ -94,26 +101,22 @@ Position -- ModeleControleur
 Superviseur -- SeConnecterActivity
 HomeActivity -- SeConnecterActivity
 HomeActivity -- SeLocaliserActivity
-HomeActivity -- DevenirSuperviseurActivity
 
-SeConnecterActivity -- AjoutDataouConsulterActivity
+SeConnecterActivity -- PagePrincipaleEPActivity
+SeConnecterActivity -- DevenirSuperviseurActivity
 
-AjoutDataouConsulterActivity -- AffichageSalleActivity
-AjoutDataouConsulterActivity -- AjoutDataActivity
-AjoutDataouConsulterActivity -- ConsulterDemandesActivity
+PagePrincipaleEPActivity -- AffichageSalleActivity
+PagePrincipaleEPActivity -- AjoutDataActivity
+PagePrincipaleEPActivity -- VoirDemandesActivity
+PagePrincipaleEPActivity -- VoirRapportsBugsActivity
+PagePrincipaleEPActivity -- GestionCompteActivity
 
-ConsulterDemandesActivity -- Administrateur
+VoirDemandesActivity -- Administrateur
 
 AffichageSalleActivity -- AffichageDonneesSalleActivity
 AffichageDonneesSalleActivity -- AffichageDetailDonneesActivity
 
 Utilisateur -- HomeActivity
-
-ScanData -- AjoutDataActivity
-
-SeLocaliserActivity -- ScanData
-SeLocaliserActivity -- ReporterProblemeActivity
-ReporterProblemeActivity -- DescriptionProblemeActivity
 
 AjoutDataActivity -- CreerSalleActivity
 CreerSalleActivity -- Piece
@@ -123,6 +126,21 @@ CreerEtageActivity -- CreerBatimentActivity
 CreerBatimentActivity -- Batiment
 CreerBatimentActivity -- CreerCampusActivity
 CreerCampusActivity -- Campus
+
+VoirRapportsBugsActivity -- AffichageDetailRapportActivity
+
+GestionCompteActivity -- SupprimerCompteActivity
+GestionCompteActivity -- ModifierInfoActivity
+ModifierInfoActivity -- ModifierLoginActivity
+ModifierInfoActivity -- ModifierMDPActivity
+
+SupprimerCompteActivity -- Superviseur
+
+ScanData -- AjoutDataActivity
+
+SeLocaliserActivity -- ScanData
+SeLocaliserActivity -- ReporterProblemeActivity
+ReporterProblemeActivity -- DescriptionProblemeActivity
 
 
 @enduml
