@@ -37,4 +37,7 @@ User -- (Reporter un problème)
 User -- (Choisir le mode d'affichage)
 (Choisir le mode d'affichage) -- [ServeurSGBD]
 
+User -- (Devenir superviseur)
+(Devenir superviseur) -- [ServeurSGBD]
+
 @enduml
