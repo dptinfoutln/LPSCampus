@@ -2,16 +2,19 @@ package com.univtln.univTlnLPS.ihm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
-import com.univtln.univTlnLPS.client.Client;
+import com.univtln.univTlnLPS.client.Position;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
 import com.univtln.univTlnLPS.scan.WifiScan;
 
 import org.json.JSONException;
@@ -20,18 +23,31 @@ import org.json.JSONObject;
 import java.util.List;
 
 public class SeLocaliser extends AppCompatActivity implements Runnable{
+
+    private SSGBDControleur ssgbdControleur;
+
     private WifiScan wifiScan;
     private Button btn;
+    private TextView tv;
+    private RadioButton texte, graphique;
 
-    private EditText ipTxt;
+    String image = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_se_localiser);
 
+        tv = findViewById(R.id.connexion);
+        texte = findViewById(R.id.texte);
+        graphique = findViewById(R.id.graphique);
+
         wifiScan = new WifiScan(this);
-        ipTxt = findViewById(R.id.ip);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
     public void seLocaliser(View v){
@@ -79,8 +95,8 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         JSONObject res = null;
         String position = "";
         try {
-            res = Client.convertScan(wifiScan.getResults());
-            position = Client.get(Client.uri1 + ipTxt.getText().toString() + Client.uri2, res);
+            res = Position.convertScan(wifiScan.getResults());
+            position = Position.get(Position.uri1 + ssgbdControleur.getIp() + Position.uri2, res);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -90,9 +106,25 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         SeLocaliser.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // graphique si radiobutton graphique coché
-                TextView tv = findViewById(R.id.connexion);
-                tv.setText("Vous êtes sûrement en "+ finalPosition);
+                // on affiche du texte si le radiobutton texte est sélectionné
+                if (texte.isChecked()) {
+                    tv.setText("Vous êtes en "+ finalPosition);
+                }
+                // sinon on affiche un plan de l'étage
+                else if (graphique.isChecked()) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                // afficher l'image correspondant au plan de l'étage
+                                // image = ssgbdControleur.doRequest("GET", "plans" + id, null, !true);;
+                                // tv.setCompoundDrawableWithIntrinsicBounds(R.drawable.image, 0, 0, 0);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
                 if (scanResults.size() == 0){
                     Toast.makeText(SeLocaliser.this, "Activate Localisation", Toast.LENGTH_LONG).show();
                 }
@@ -100,9 +132,15 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
                     Toast.makeText(SeLocaliser.this, "success", Toast.LENGTH_LONG).show();
                     //Toast.makeText(MainActivity.this, "Scan success", Toast.LENGTH_LONG).show();
                 }
-
                 btn.setEnabled(true);
             }
         });
+    }
+
+
+    public void probleme(View v) {
+        Intent i = new Intent(this, ReporterProbleme.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
     }
 }

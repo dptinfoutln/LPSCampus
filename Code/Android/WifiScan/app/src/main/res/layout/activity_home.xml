@@ -23,12 +23,12 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/imgTln"
             android:layout_marginTop="30dp"
             android:text="Application de localisation dans les batiments de l'Université de Toulon - La Garde"
             android:textAlignment="center"
-            android:layout_below="@id/imgTln"
             android:textColor="#0B0808"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -38,34 +38,31 @@
                 android:layout_height="match_parent"
                 android:id="@+id/home"/>
 
-            <Button
-                android:id="@+id/devenirSuperviseur"
+            <EditText
+                android:id="@+id/ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onClickDevenirSuperviseur"
-                android:layout_above="@id/Connexion"
-                android:text="Devenir Superviseur" />
-
-
-            <Button
-                android:id="@+id/Connexion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="onClickSeConnecter"
-                android:layout_above="@id/selocaliserPA"
-
-                android:text="Connexion" />
-
-
+                android:layout_above="@id/AvecConnexion"
+                android:text="10.21.74.229"
+                android:hint="IP"
+                android:textAlignment="viewStart"
+                android:textColor="#5E5A5A" />
 
             <Button
-                android:id="@+id/selocaliserPA"
+                android:id="@+id/AvecConnexion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onClickSeLocaliser"
-                android:layout_alignBottom="@id/home"
-                android:text="Localisation" />
+                android:onClick="onClickAvecConnexion"
+                android:text="Compte Superviseur"
+                android:layout_above="@+id/SansConnexion"/>
 
+            <Button
+                android:id="@+id/SansConnexion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickSansConnexion"
+                android:text="Continuer sans se connecter"
+                android:layout_alignBottom="@+id/home"/>
 
         </RelativeLayout>
 

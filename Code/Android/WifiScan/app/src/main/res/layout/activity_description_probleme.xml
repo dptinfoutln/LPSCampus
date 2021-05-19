@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.DescriptionProbleme">
+
+    <FrameLayout
+        android:id="@+id/framepb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Décrivez le problème rencontré :"
+        android:textAlignment="center"
+        android:textColor="#090808"
+        android:textSize="24sp" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/validerpb"
+        android:layout_below="@id/message" />
+
+    <Button
+        android:id="@+id/validerpb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/framepb"
+        android:onClick="validerpb"
+        android:text="Valider" />
+
+</RelativeLayout>

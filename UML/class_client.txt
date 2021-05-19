@@ -17,8 +17,7 @@ package "Administration" {
     }
 
 
-    
-package Scan{ 
+package Scan { 
     
     class ScanData{
     + InfoScan
@@ -31,6 +30,7 @@ package Scan{
     WifiData "*" -- "1" ScanData
 
     }
+
 
 package "Carte" {
 
@@ -54,7 +54,9 @@ package "Carte" {
     Etage "*" --* "1" Batiment
     Campus "1" *-- "*" Batiment
     Administrateur "*" -- "1" Campus : Gère
+    
 }
+
 
 package Localisation {
     'classe Position = position que l'algo retourne
@@ -65,37 +67,73 @@ package Localisation {
     ScanData "1"--"1" ModeleControleur
 }
 
-Position -- ModeleControleur
 
 package Interface {
     class HomeActivity
-    class AffichageDonneesSalleActivity
     class AffichageSalleActivity
-    class AjoutDataouConsulterActivity
+    class AffichageDonneesSalleActivity
+    class AffichageDetailDonneesActivity
+    class PagePrincipaleEPActivity
+    class GestionCompteActivity
+    class ModifierInfoActivity
+    class ModifierLoginActivity
+    class ModifierMDPActivity
+    class SupprimerCompteActivity
+    class ConsulterDemandesActivity
     class DevenirSuperviseurActivity
     class SeConnecterActivity
     class SeLocaliserActivity
     class AjoutDataActivity
+    class ReporterProblemeActivity
+    class DescriptionProblemeActivity
+    class CreerSalleActivity
+    class CreerEtageActivity
+    class CreerBatimentActivity
+    class CreerCampusActivity
 }
 
+
+
+Position -- ModeleControleur
+
 Superviseur -- SeConnecterActivity
+HomeActivity -- SeConnecterActivity
 HomeActivity -- SeLocaliserActivity
 HomeActivity -- DevenirSuperviseurActivity
 
-SeConnecterActivity -- AjoutDataouConsulterActivity
+SeConnecterActivity -- PagePrincipaleEPActivity
 
-AjoutDataouConsulterActivity -- AffichageSalleActivity
-AjoutDataouConsulterActivity -- AjoutDataActivity
+PagePrincipaleEPActivity -- AffichageSalleActivity
+PagePrincipaleEPActivity -- AjoutDataActivity
+PagePrincipaleEPActivity -- ConsulterDemandesActivity
+PagePrincipaleEPActivity -- GestionCompteActivity
+
+GestionCompteActivity -- ModifierInfoActivity
+ModifierInfoActivity -- ModifierLoginActivity
+ModifierInfoActivity -- ModifierMDPActivity
+GestionCompteActivity -- SupprimerCompteActivity
+
+ConsulterDemandesActivity -- Administrateur
 
 AffichageSalleActivity -- AffichageDonneesSalleActivity
-
+AffichageDonneesSalleActivity -- AffichageDetailDonneesActivity
 
 Utilisateur -- HomeActivity
 
 ScanData -- AjoutDataActivity
 
-
 SeLocaliserActivity -- ScanData
+SeLocaliserActivity -- ReporterProblemeActivity
+ReporterProblemeActivity -- DescriptionProblemeActivity
+
+AjoutDataActivity -- CreerSalleActivity
+CreerSalleActivity -- Piece
+CreerSalleActivity -- CreerEtageActivity
+CreerEtageActivity -- Etage
+CreerEtageActivity -- CreerBatimentActivity
+CreerBatimentActivity -- Batiment
+CreerBatimentActivity -- CreerCampusActivity
+CreerCampusActivity -- Campus
 
 
 @enduml

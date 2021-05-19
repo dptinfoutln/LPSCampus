@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.ModifierLogin">
+
+    <FrameLayout
+        android:id="@+id/frameMDP"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/texteModifierMDP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Modifier mon mot de passe"
+        android:textAlignment="center"
+        android:textColor="#0B0909"
+        android:textSize="22sp" />
+
+    <EditText
+        android:id="@+id/ancien"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Saisir l'ancien mot de passe"
+        android:layout_below="@+id/texteModifierMDP" />
+
+    <EditText
+        android:id="@+id/nouveau"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Saisir le nouveau mot de passe"
+        android:layout_below="@+id/ancien" />
+
+    <EditText
+        android:id="@+id/confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ressaisir le nouveau mot de passe"
+        android:layout_below="@id/nouveau"/>
+
+    <Button
+        android:id="@+id/validerChangement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:layout_alignBottom="@id/frameMDP"
+        android:onClick="valider"/>
+
+</RelativeLayout>

@@ -9,9 +9,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
+import com.univtln.univTlnLPS.client.SSGBDControleur;
+
+import org.json.JSONException;
 
 public class DevenirSuperviseur extends AppCompatActivity {
-    EditText loginTxt, mdpTxt;
+
+    private SSGBDControleur ssgbdControleur;
+    private EditText loginTxt, mdpTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +25,13 @@ public class DevenirSuperviseur extends AppCompatActivity {
 
         loginTxt = findViewById(R.id.loginTxt);
         mdpTxt = findViewById(R.id.mdpTxt);
+
+        Intent i = getIntent();
+        ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
+
     }
 
-    public void checkForm(View v){
+    public void checkForm(View v) throws JSONException {
         String login = loginTxt.getText().toString();
         String mdp = mdpTxt.getText().toString();
 
@@ -34,9 +43,8 @@ public class DevenirSuperviseur extends AppCompatActivity {
         }
         // Verifions que le mot de passe a plus de 5 caracteres
         if(mdp.length() > 4){
-            // Affichage temporaire success
+            ssgbdControleur.doRequest("PUT", "/forms", null, !true);
             Toast.makeText(this, "Demande envoyée", Toast.LENGTH_LONG).show();
-
             // Retour a la page principale
             finish();
         }
