@@ -52,7 +52,7 @@ public class EtageResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public Etage addEtage(Etage etage) throws IllegalArgumentException {
+    public String addEtage(Etage etage) throws IllegalArgumentException {
         if (etage.getId() != 0) throw new IllegalArgumentException();
 
         if (etage.getBatiment() == null) throw new IllegalArgumentException();
@@ -61,6 +61,9 @@ public class EtageResources {
         if (bat == null) throw new IllegalArgumentException();
 
         try (EtageDAO etageDAO = EtageDAO.of()) {
+            if (!etageDAO.findByName(etage.getName()).isEmpty())
+                return "WARNING: Un étage du même nom existe déjà";
+
             EntityTransaction transaction = etageDAO.getTransaction();
 
             transaction.begin();
@@ -70,7 +73,7 @@ public class EtageResources {
 
             transaction.commit();
         }
-        return etage;
+        return "success";
     }
 
     @POST

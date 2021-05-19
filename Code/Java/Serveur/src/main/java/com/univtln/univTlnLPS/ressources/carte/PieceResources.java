@@ -69,7 +69,7 @@ public class PieceResources {
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public Piece addPiece(Piece piece) throws IllegalArgumentException {
+    public String addPiece(Piece piece) throws IllegalArgumentException {
         if (piece.getId() != 0) throw new IllegalArgumentException();
 
         if (piece.getEtage() == null) throw new IllegalArgumentException();
@@ -78,6 +78,9 @@ public class PieceResources {
         if (et == null) throw new IllegalArgumentException();
 
         try (PieceDAO pieceDAO = PieceDAO.of()) {
+            if (!pieceDAO.findByName(piece.getName()).isEmpty())
+                return "WARNING: La piece existe déjà";
+
             EntityTransaction transaction = pieceDAO.getTransaction();
 
             transaction.begin();
@@ -87,7 +90,7 @@ public class PieceResources {
 
             transaction.commit();
         }
-        return piece;
+        return "success";
     }
 
     @POST
@@ -121,6 +124,21 @@ public class PieceResources {
         try (PieceDAO pieceDAO = PieceDAO.of()) {
 
             piece = pieceDAO.find(id);
+            if( piece == null) throw new NotFoundException();
+        }
+        return piece;
+    }
+
+    @GET
+    @Path("pieces/name/{name}")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @JWTAuth
+    public Piece getPieceByName(@PathParam("name") String name) throws NotFoundException {
+        Piece piece;
+        name = name.replace("\n", "").replace(" ", "");
+        try (PieceDAO pieceDAO = PieceDAO.of()) {
+
+            piece = pieceDAO.findByName(name).get(0);
             if( piece == null) throw new NotFoundException();
         }
         return piece;

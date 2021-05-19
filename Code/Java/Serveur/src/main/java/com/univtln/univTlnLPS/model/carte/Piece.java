@@ -50,8 +50,7 @@ public class Piece implements SimpleEntity {
     @ManyToOne
     private Etage etage;
 
-    @XmlElement(name = "scan")
-    @XmlElementWrapper(name = "scans")
+    @JsonIgnore
     @OneToMany(mappedBy="piece")
     private Set<ScanData> scanList;
 }

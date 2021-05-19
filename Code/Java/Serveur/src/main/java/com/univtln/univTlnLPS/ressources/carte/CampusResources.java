@@ -50,8 +50,10 @@ public class CampusResources {
     @JWTAuth
     public String addCampus(Campus camp, @Context SecurityContext context) throws IllegalArgumentException {
         try (CampusDAO campDao = CampusDAO.of()) {
-            if(camp.getId() != 0 || !campDao.findByName(camp.getName()).isEmpty())
-                throw new IllegalArgumentException();
+            if(camp.getId() != 0 ) throw new IllegalArgumentException();
+
+            if (!campDao.findByName(camp.getName()).isEmpty())
+                return "WARNING: Un batiment du même nom existe déjà";
 
             EntityTransaction transaction = campDao.getTransaction();
             transaction.begin();

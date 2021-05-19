@@ -59,6 +59,9 @@ public class BatimentResources {
         if (camp == null) throw new IllegalArgumentException();
 
         try (BatimentDAO batimentDAO = BatimentDAO.of()) {
+            if (!batimentDAO.findByName(batiment.getName()).isEmpty())
+                return "WARNING: Un batiment du même nom existe déjà";
+
             EntityTransaction transaction = batimentDAO.getTransaction();
 
             transaction.begin();

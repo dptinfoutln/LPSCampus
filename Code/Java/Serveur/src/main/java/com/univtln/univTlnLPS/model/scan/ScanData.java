@@ -16,6 +16,7 @@ import lombok.extern.java.Log;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 import java.util.Set;
 
 @Log
@@ -50,7 +51,11 @@ public class ScanData implements SimpleEntity {
     @Size(max = 30)
     private String infoScan;
 
-    @JsonIgnore
+    @XmlElement
+    @Temporal(TemporalType.DATE)
+    Date dateScan;
+
+    @XmlElement
     @ManyToOne
     private Piece piece;
 

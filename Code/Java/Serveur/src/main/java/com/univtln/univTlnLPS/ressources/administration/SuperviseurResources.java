@@ -142,14 +142,22 @@ public class SuperviseurResources {
         return superviseur;
     }
 
-    /*@DELETE
+    @DELETE
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
     public void removeSuperviseur(@PathParam("id") long id) throws NotFoundException {
-        if (!superviseurs.containsKey(id)) throw new NotFoundException();
-        superviseurs.remove(id);
-    }*/
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            Superviseur superviseur = superDAO.find(id);
+
+            EntityTransaction transaction = superDAO.getTransaction();
+            transaction.begin();
+
+            superDAO.remove(superviseur);
+
+            transaction.commit();
+        }
+    }
 
     @GET
     @Path("superviseurs")
@@ -177,7 +185,7 @@ public class SuperviseurResources {
     public void removeSuperviseur(@Context SecurityContext securityContext) throws NotFoundException {
         Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
 
-        log.info(superviseur.toString());
+        log.info(superviseur.toString() + "supprimé");
 
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
 

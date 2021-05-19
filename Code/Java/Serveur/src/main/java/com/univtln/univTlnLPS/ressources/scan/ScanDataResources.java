@@ -19,6 +19,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,7 @@ public class ScanDataResources {
             EntityTransaction transaction;
 
             scanData.setWifiList(new HashSet<>());
+            scanData.setDateScan(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
             try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
                 transaction = scanDataDAO.getTransaction();
@@ -272,6 +275,15 @@ public class ScanDataResources {
         //log.info("wifiList:" + lscans.get(0).getWifiList());
         return lscans.stream()
                     .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+    }
+
+    @GET
+    @Path("scans")
+    public Map<Long, ScanData> getAllScan() throws NotFoundException {
+
+        return ScanDataDAO.of().findAll().stream()
+                .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+
     }
 
     @GET
