@@ -92,6 +92,13 @@ package Interface {
     class ModifierMDPActivity
     class SupprimerCompteActivity
     class AffichageDetailRapportActivity
+    class BDDActivity
+    class MDPOubliActivity
+    class SupprimerCompteSuperviseurActivity
+    class SupprimerCampusActivity
+    class SupprimerBatimentActivity
+    class SupprimerEtageActivity
+    class SupprimerSalleActivity
 }
 
 
@@ -104,14 +111,24 @@ HomeActivity -- SeLocaliserActivity
 
 SeConnecterActivity -- PagePrincipaleEPActivity
 SeConnecterActivity -- DevenirSuperviseurActivity
+SeConnecterActivity -- MDPOubliActivity
 
 PagePrincipaleEPActivity -- AffichageSalleActivity
 PagePrincipaleEPActivity -- AjoutDataActivity
 PagePrincipaleEPActivity -- VoirDemandesActivity
 PagePrincipaleEPActivity -- VoirRapportsBugsActivity
 PagePrincipaleEPActivity -- GestionCompteActivity
+PagePrincipaleEPActivity -- BDDActivity
+
 
 VoirDemandesActivity -- Administrateur
+BDDActivity -- Administrateur
+
+BDDActivity -- SupprimerCompteSuperviseurActivity
+BDDActivity -- SupprimerCampusActivity
+BDDActivity -- SupprimerBatimentActivity
+BDDActivity -- SupprimerEtageActivity
+BDDActivity -- SupprimerSalleActivity
 
 AffichageSalleActivity -- AffichageDonneesSalleActivity
 AffichageDonneesSalleActivity -- AffichageDetailDonneesActivity
