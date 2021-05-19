@@ -220,20 +220,16 @@ scanMan = None
 model = None
 x, y = [], []
 def init():
-    global scanMan, x, y
+    global scanMan, x, y, model
     scanMan = ScanManager()
     scanMan.read()
 
     
     model_data_csv = data_organizer(scanMan)['level']
     x, y = data_separator(model_data_csv)
+       
     
-
-    modelKnn = create_KNeighborsClassifier(x, y)
-    print("Creation Knn done")
-    
-    
-    modelRF = create_RandomForestClassifier(x, y)
+    model = create_RandomForestClassifier(x, y)
     print("Creation random forest done")
     
 
