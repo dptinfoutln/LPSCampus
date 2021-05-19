@@ -86,7 +86,7 @@ public class Permissions extends AppCompatActivity {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     manifestPerm)) {
                 txtView.setText("Afin de pouvoir scanner et garder en mémoire les scans, relancer l'application" +
-                        "puis accepter ou bien manuellement dans les paramètres.");
+                        " puis accepter ou bien manuellement dans les paramètres.");
             } else {
 
                 ActivityCompat.requestPermissions(this,

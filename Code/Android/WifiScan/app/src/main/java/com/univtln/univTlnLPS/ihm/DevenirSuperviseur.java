@@ -58,7 +58,7 @@ public class DevenirSuperviseur extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            if (ssgbdControleur.doRequest("PUT", "forms", form, !true).equals("")) {
+                            if (ssgbdControleur.doRequest("PUT", "forms", form, true).equals("")) {
                                 DevenirSuperviseur.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {

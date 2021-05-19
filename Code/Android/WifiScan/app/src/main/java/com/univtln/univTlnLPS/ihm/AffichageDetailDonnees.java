@@ -47,6 +47,7 @@ public class AffichageDetailDonnees extends AppCompatActivity {
         }
     }
 
+    
     public void affichage() throws JSONException {
         texte.setText("Détail de la donnée : " + lastId);
 

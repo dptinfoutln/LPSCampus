@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.univtln.univTlnLPS">
-
     <!-- todo: ajout demande permission localisation pour l'utilisateur -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -19,7 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.AffichageDetailRapport"></activity>
+        <activity android:name=".ihm.SupprimerSalle"></activity>
+        <activity android:name=".ihm.SupprimerEtage" />
+        <activity android:name=".ihm.SupprimerBatiment" />
+        <activity android:name=".ihm.SupprimerCampus" />
+        <activity android:name=".ihm.SupprimerCompteSuperviseur" />
+        <activity android:name=".ihm.BDD" />
+        <activity android:name=".ihm.MDPOubli" />
+        <activity android:name=".ihm.AffichageDetailRapport" />
         <activity android:name=".ihm.SupprimerCompte" />
         <activity android:name=".common.Permissions" />
         <activity android:name=".ihm.ModifierMDP" />

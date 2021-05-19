@@ -45,7 +45,7 @@ public class DescriptionProbleme extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "bugReports", pid, !true);
+                    ssgbdControleur.doRequest("PUT", "bugReports", pid, true);
 
                     DescriptionProbleme.this.runOnUiThread(new Runnable() {
                         @Override

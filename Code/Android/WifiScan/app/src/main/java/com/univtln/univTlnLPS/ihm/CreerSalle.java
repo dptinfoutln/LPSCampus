@@ -119,7 +119,7 @@ public class CreerSalle extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "pieces", pid, !true);
+                    ssgbdControleur.doRequest("PUT", "pieces", pid, true);
                     CreerSalle.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

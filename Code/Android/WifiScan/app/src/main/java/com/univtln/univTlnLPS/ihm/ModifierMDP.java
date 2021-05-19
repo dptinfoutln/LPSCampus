@@ -40,7 +40,7 @@ public class ModifierMDP extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            ssgbdControleur.doRequestStr("POST", "superviseurs/me/mdp", nouveau.getText().toString(), !true);
+                            ssgbdControleur.doRequestStr("POST", "superviseurs/me/mdp", nouveau.getText().toString(), true);
                             ModifierMDP.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

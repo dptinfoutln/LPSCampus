@@ -59,6 +59,17 @@
         android:textColor="#040303"
         android:textSize="24sp" />
 
+    <TextView
+        android:id="@+id/oubli"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seConnecter"
+        android:clickable="true"
+        android:onClick="oubli"
+        android:text="Mot de passe oublié"
+        android:textAlignment="center"
+        android:textColor="#070505"
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/devenirSuperviseur"

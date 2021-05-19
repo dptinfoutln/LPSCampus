@@ -99,7 +99,7 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("DELETE", "forms/" + lastId, null, !true);
+                    ssgbdControleur.doRequest("DELETE", "forms/" + lastId, null, true);
                     VoirDemandes.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

@@ -118,7 +118,7 @@ public class CreerBatiment extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "batiments", bid, !true);
+                    ssgbdControleur.doRequest("PUT", "batiments", bid, true);
                     CreerBatiment.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

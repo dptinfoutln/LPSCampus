@@ -188,7 +188,7 @@ public class VoirRapportsBugs extends AppCompatActivity implements AdapterView.O
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("DELETE", "bugReports/" + idObj, null, !true);
+                    ssgbdControleur.doRequest("DELETE", "bugReports/" + idObj, null, true);
                     affichageListe();
 
                 } catch (JSONException e) {

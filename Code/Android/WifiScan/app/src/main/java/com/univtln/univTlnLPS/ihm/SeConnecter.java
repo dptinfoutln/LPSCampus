@@ -73,5 +73,11 @@ public class SeConnecter extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void oubli(View V) {
+        Intent i = new Intent(this, MDPOubli.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
+    }
+
 
 }

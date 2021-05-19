@@ -40,8 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickVoirDemandes"
-        android:layout_alignBottom="@id/frame3"
-        android:text="Demandes Superviseur" />
+        android:text="Demandes Superviseur"
+        android:layout_alignBottom="@id/frame3"/>
 
     <Button
         android:id="@+id/parametres"
@@ -50,5 +50,20 @@
         android:onClick="onClickParametres"
         app:icon="@drawable/roue_dentee"
         android:layout_alignEnd="@id/frame3"/>
+
+    <Button
+        android:id="@+id/deconnexion"
+        android:layout_width="56sp"
+        android:layout_height="50sp"
+        android:onClick="onClickDeconnexion"
+        app:icon="@android:drawable/ic_lock_power_off" />
+
+    <Button
+        android:id="@+id/gererBDD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gérer BDD"
+        android:layout_above="@id/ajouterdonnees"
+        android:onClick="onClickBDD" />
 
 </RelativeLayout>

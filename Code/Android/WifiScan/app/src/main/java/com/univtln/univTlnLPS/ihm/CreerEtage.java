@@ -106,7 +106,7 @@ public class CreerEtage extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "etages", eid, !true);
+                    ssgbdControleur.doRequest("PUT", "etages", eid, true);
                     CreerEtage.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
