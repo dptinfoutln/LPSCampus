@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
+import com.univtln.univTlnLPS.common.Permissions;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -22,10 +23,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ipTxt = findViewById(R.id.ip);
 
-        Intent i = new Intent();
-        i.putExtra("ssgbdControleur", ssgbdControleur);
-        i.putExtra("ip", String.valueOf(ipTxt));
-
+        if (!Permissions.isPermGranted(this)) {
+            Intent i = new Intent(this, Permissions.class);
+            startActivity(i);
+        }
     }
 
     private boolean init() {

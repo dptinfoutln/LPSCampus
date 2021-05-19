@@ -86,9 +86,6 @@ public class VoirRapportsBugs extends AppCompatActivity implements AdapterView.O
 
                 // On recupere la liste des categories
                 listeCat = new ArrayList<>();
-                /*listeCat.add("Mauvaise Localisation");
-                listeCat.add("Mauvais Plan");
-                listeCat.add("Dysfonctionnement");*/
 
                 try {
                     jArray = new JSONArray(ssgbdControleur.doRequest("GET", "cat", null, !true));

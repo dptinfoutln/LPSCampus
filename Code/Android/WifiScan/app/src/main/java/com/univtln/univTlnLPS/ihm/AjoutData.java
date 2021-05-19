@@ -178,7 +178,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
 
     public void error(){
         if (btn != null) {
-            Toast.makeText(AjoutData.this, "Une erreur est survenue! S'il vous plait réessayer! Activer la localisation!", Toast.LENGTH_LONG).show();
+            Toast.makeText(AjoutData.this, "Une erreur est survenue! S'il vous plait réessayer!", Toast.LENGTH_LONG).show();
             btn.setEnabled(true);
         }
     }
@@ -288,7 +288,7 @@ public class AjoutData extends AppCompatActivity implements Runnable{
             public void run() {
                 adapter.notifyDataSetChanged();
                 if (scanResults.size() == 0) {
-                    Toast.makeText(AjoutData.this, "Activer la localisation", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AjoutData.this, "Une erreur est survenue", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(AjoutData.this, "succès", Toast.LENGTH_LONG).show();

@@ -2,13 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.univtln.univTlnLPS">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-feature android:name="android.hardware.type.watch" />
-    <!--
-          Permissions requises pour effectuer un scan de wifi,
-          d'après https://developer.android.com/guide/topics/connectivity/wifi-scan
-    -->
     <!-- todo: ajout demande permission localisation pour l'utilisateur -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -28,6 +21,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ihm.AffichageDetailRapport"></activity>
         <activity android:name=".ihm.SupprimerCompte" />
+        <activity android:name=".common.Permissions" />
         <activity android:name=".ihm.ModifierMDP" />
         <activity android:name=".ihm.ModifierLogin" />
         <activity android:name=".ihm.ModifierInfo" />

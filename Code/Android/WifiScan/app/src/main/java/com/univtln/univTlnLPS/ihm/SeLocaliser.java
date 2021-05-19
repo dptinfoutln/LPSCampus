@@ -65,7 +65,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
 
     public void error(){
         if (btn != null) {
-            Toast.makeText(SeLocaliser.this, "An error occured! Please retry! Activate Localisation!", Toast.LENGTH_LONG).show();
+            Toast.makeText(SeLocaliser.this, "An error occured! Please retry!", Toast.LENGTH_LONG).show();
             btn.setEnabled(true);
         }
     }
@@ -126,7 +126,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
                     });
                 }
                 if (scanResults.size() == 0){
-                    Toast.makeText(SeLocaliser.this, "Activate Localisation", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SeLocaliser.this, "An error occured! Please retry!", Toast.LENGTH_LONG).show();
                 }
                 else{
                     Toast.makeText(SeLocaliser.this, "success", Toast.LENGTH_LONG).show();
