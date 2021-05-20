@@ -23,40 +23,49 @@
         android:id="@+id/supprimerCompteSuper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supprimer compte superviseur"
         android:layout_above="@+id/supprimerCampus"
-        android:onClick="supprimerCompteSuper" />
+        android:onClick="supprimerCompteSuper"
+        android:text="Supprimer compte superviseur" />
 
     <Button
         android:id="@+id/supprimerCampus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supprimer campus"
         android:layout_above="@+id/supprimerBatiment"
-        android:onClick="supprimerCampus" />
+        android:onClick="supprimerCampus"
+        android:text="Supprimer campus" />
 
     <Button
         android:id="@+id/supprimerBatiment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supprimer batiment"
         android:layout_above="@+id/supprimerEtage"
-        android:onClick="supprimerBatiment" />
+        android:onClick="supprimerBatiment"
+        android:text="Supprimer batiment" />
 
     <Button
         android:id="@+id/supprimerEtage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supprimer étage"
         android:layout_above="@+id/supprimerSalle"
-        android:onClick="supprimerEtage" />
+        android:onClick="supprimerEtage"
+        android:text="Supprimer étage" />
 
     <Button
         android:id="@+id/supprimerSalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supprimer salle"
         android:layout_alignBottom="@id/bdd"
-        android:onClick="supprimerSalle" />
+        android:onClick="supprimerSalle"
+        android:text="Supprimer salle" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/supprimerCompteSuper"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="flush"
+        android:text="Reinitialiser la BDD" />
+
 
 </RelativeLayout>
