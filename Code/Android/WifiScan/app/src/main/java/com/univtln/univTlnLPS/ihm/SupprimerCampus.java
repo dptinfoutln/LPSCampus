@@ -27,7 +27,7 @@ public class SupprimerCampus extends AppCompatActivity implements AdapterView.On
     private AdapterString ListeAdapter;
     private List<String> list;
 
-    private String role, chaine, lastId, nom;
+    private String lastId, nom;
 
     private JSONObject jsonObj;
 
@@ -41,7 +41,7 @@ public class SupprimerCampus extends AppCompatActivity implements AdapterView.On
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
 
-        affichageSuperviseurs();
+        affichageCampus();
     }
 
     @Override
@@ -55,17 +55,13 @@ public class SupprimerCampus extends AppCompatActivity implements AdapterView.On
         ListeAdapter.notifyDataSetChanged();
     }
 
-    public void affichageSuperviseurs() {
+    public void affichageCampus() {
         ListeAdapter = new AdapterString(this, new ArrayList<>());
-        ListeViewCampus = (ListView) findViewById(R.id.listedonneessalle);
 
         // récupération de la liste des users pour l'admin sinon du nom du superviseur
         new Thread(new Runnable() {
             @Override
             public void run() {
-
-                chaine = null;
-
                 list = new ArrayList<>();
                 jsonObj = null;
                 try {
@@ -75,7 +71,7 @@ public class SupprimerCampus extends AppCompatActivity implements AdapterView.On
                     Iterator<String> it2 = jsonObj.keys();
                     while (it2.hasNext()) {
                         String key = it2.next();
-                        list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("email"));
+                        list.add(key + ":" + ((JSONObject) jsonObj.get(key)).getString("name"));
                     }
                     ListeAdapter = new AdapterString(SupprimerCampus.this, list);
 
@@ -105,7 +101,7 @@ public class SupprimerCampus extends AppCompatActivity implements AdapterView.On
                     SupprimerCampus.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            affichageSuperviseurs();
+                            affichageCampus();
                         }
                     });
                 } catch (JSONException e) {
