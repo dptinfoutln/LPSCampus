@@ -18,16 +18,6 @@ import java.util.HashSet;
 import org.junit.jupiter.api.Test;
 
 public class ScanDataTest {
-    @Test
-    public void testBuilder() {
-        // TODO: This test is incomplete.
-        //   Reason: No meaningful assertions found.
-        //   To help Diffblue Cover to find assertions, please add getters to the
-        //   class under test that return fields written by the method under test.
-        //   See https://diff.blue/R004
-
-        ScanData.builder();
-    }
 
     @Test
     public void testCanEqual() {
@@ -67,8 +57,8 @@ public class ScanDataTest {
                 "ScanData(id=123, infoScan=Info Scan, dateScan=Thu Jan 01 00:00:00 CET 1970, piece=Piece(position_x=0,"
                         + " position_y=0, name=null, id=0, etage=null, scanList=null), wifiList=[], user=Utilisateur(id=0,"
                         + " caracteristiquesMachine=null, lastScan=null), superviseur=Superviseur(email=null, passwordHash=null,"
-                        + " salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], scanList=null, random=NativePRNG))",
-                actualScanData.toString());
+                        + " salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], scanList=null, ",
+                actualScanData.toString().split("random")[0]);
     }
 
     @Test
@@ -82,8 +72,8 @@ public class ScanDataTest {
                 "ScanData(id=123, infoScan=Info Scan, dateScan=Thu Jan 01 01:00:00 CET 1970, piece=Piece(position_x=0,"
                         + " position_y=0, name=null, id=0, etage=null, scanList=null), wifiList=[], user=Utilisateur(id=0,"
                         + " caracteristiquesMachine=null, lastScan=null), superviseur=Superviseur(email=null, passwordHash=null,"
-                        + " salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], scanList=null, random=NativePRNG))",
-                actualScanData.toString());
+                        + " salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], scanList=null, ",
+                actualScanData.toString().split("random")[0]);
         assertEquals(123L, actualScanData.getId());
         assertEquals("Info Scan", actualScanData.getInfoScan());
         assertTrue(actualScanData.getWifiList().isEmpty());
