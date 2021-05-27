@@ -13,11 +13,28 @@ actor :Superviseur: as Super
 Admin -> Super
 Super -> User
 
+
+Admin -- (Création de données)
+(Création de données) -- [ServeurSGBD]
+
+Admin -- (Suppression de données)
+(Suppression de données) -- [ServeurSGBD]
+
 Admin -- (Visualiser une donnée)
 (Visualiser une donnée) -- [ServeurSGBD]
 
+Admin -- (Voir demandes)
+(Voir demandes) -- [ServeurSGBD]
+
+Admin -- (Voir Rapport Bugs)
+(Voir Rapport Bugs) -- [ServeurSGBD]
+
+Admin -- (Suppression compte superviseur)
+(Suppression compte superviseur) -- [ServeurSGBD]
+
 Admin -- (Supprimer une donnée d'un superviseur)
 (Supprimer une donnée d'un superviseur) -- [ServeurSGBD]
+
 
 Super -- (Ajouter une donnée pour une salle)
 (Ajouter une donnée pour une salle) -- [ServeurSGBD]
@@ -27,6 +44,11 @@ Super -- (Supprimer une de ses données)
 
 Super -- (Se connecter)
 (Se connecter) -- [ServeurSGBD]
+
+Super -- (Suppression de son compte)
+(Suppression compte superviseur) -- [ServeurSGBD]
+
+
 
 User -- (Se localiser)
 (Se localiser) -- [ServeurModele]
