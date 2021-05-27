@@ -2,7 +2,7 @@
 
 title Local Positioning System (LPS) - Class Diagram Serveur Modele
 
-package "Administration" {
+package Administration {
     class Utilisateur {
     +CaracteristiquesMachine
     }
@@ -17,7 +17,7 @@ package Scan{
 
 }
 
-package "Carte" {
+package Carte {
 
     class Piece{
     +Position sur la carte

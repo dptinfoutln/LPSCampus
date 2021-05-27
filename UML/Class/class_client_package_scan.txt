@@ -1,0 +1,15 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client package Scan
+
+package Scan { 
+    
+    class ScanData{
+    + InfoScan
+    }
+    
+    WifiData "*" -- "1" ScanData
+
+    }
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client package Administration
+
+package Administration {
+    class Utilisateur {
+    +CaracteristiquesMachine
+    }
+    
+    class Superviseur{
+    +login
+    +password
+    }
+    
+    class Administrateur
+    
+    
+    Superviseur --> Utilisateur 
+    Administrateur --> Superviseur
+
+    }
+    
+@enduml

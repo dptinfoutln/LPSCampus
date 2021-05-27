@@ -1,0 +1,22 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client packages
+
+package Administration {}
+package Scan {}
+package Carte {}
+package Localisation {}
+package Interface {}
+
+Administration -- Carte
+Administration -- Interface
+
+Scan -- Interface
+Scan -- Carte
+Scan -- Localisation
+
+Carte -- Localisation
+Carte -- Interface
+
+
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client package Localisation
+
+package Localisation {
+    'classe Position = position que l'algo retourne
+    class Position {} 
+    class ModeleControleur {}
+    
+    Position -- ModeleControleur
+}
+    
+@enduml
