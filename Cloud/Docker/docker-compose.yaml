@@ -19,9 +19,12 @@ services:
         image: service-localisation
         container_name: service-localisation
         depends_on:
-            - service-db
+            - service-java
+        links: 
+            - "service-java:serveurSGBD"
         build:
-            context: ./service-localisation
+            context: ../../
+            dockerfile: ./Cloud/Docker/service-localisation/Dockerfile
         ports:
             - 5000:5000
         restart: on-failure

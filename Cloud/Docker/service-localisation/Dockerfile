@@ -1,13 +1,11 @@
 FROM python:3.8-slim
 
-WORKDIR /app
-
-COPY requirements.txt .
+COPY Code/Python/requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY . .
+COPY Code/Python /home/app/src
 
 EXPOSE 5000
 
-CMD ["python", "rest_server.py"]
+CMD ["python", "/home/app/src/serveur.py"]
