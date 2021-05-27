@@ -14,6 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+/**
+ * Classe Piece du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor

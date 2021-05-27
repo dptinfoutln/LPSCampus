@@ -15,6 +15,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+/**
+ * Classe des rapports de bugs du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -67,6 +70,9 @@ public class BugReport implements SimpleEntity {
     @Size(min = 2, max = 10)
     private String caracteristiquesMachine;
 
+    /**
+     * The Date.
+     */
     @XmlElement
     @Temporal(TemporalType.DATE)
     Date date;

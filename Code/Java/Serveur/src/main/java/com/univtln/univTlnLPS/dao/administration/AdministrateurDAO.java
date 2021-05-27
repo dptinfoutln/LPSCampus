@@ -11,11 +11,18 @@ import lombok.extern.java.Log;
 
 import java.util.List;
 
+/**
+ * DAO des Administrateurs
+ */
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")
 public class AdministrateurDAO extends AbstractDAO<Administrateur> {
 
+    /**
+     * @param campus
+     * @return liste des superviseurs ayant pour Campus campus
+     */
     public List<Superviseur> findByCampus(Campus campus) {
         return getEntityManager().createNamedQuery("administrateur.findByCampus")
                 .setParameter("campus", campus)
