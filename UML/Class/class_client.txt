@@ -2,7 +2,7 @@
 
 title Local Positioning System (LPS) - Class Diagram Client
 
-package "Administration" {
+package Administration {
     class Utilisateur {
     +CaracteristiquesMachine
     }
@@ -32,7 +32,7 @@ package Scan {
     }
 
 
-package "Carte" {
+package Carte {
 
     class Campus{
     +Plan
