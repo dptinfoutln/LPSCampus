@@ -12,8 +12,8 @@ services:
             - ./service-proxy/:/www/data
             - /etc/letsencrypt:/etc/letsencrypt
         ports:
-            - 80:80
-            - 443:443
+            - 8044:80
+            - 4430:443
 
     service-localisation:
         image: service-localisation
@@ -46,7 +46,7 @@ services:
             MYSQL_USER: mybb
             MYSQL_PASSWORD: changeme
         ports:
-            - 3306:3306
+            - 3366:3306
         restart: on-failure
         volumes:
             - ./service-db/database:/var/lib/mysql

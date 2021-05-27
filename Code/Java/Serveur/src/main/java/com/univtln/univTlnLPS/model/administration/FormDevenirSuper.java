@@ -34,7 +34,10 @@ import java.util.Arrays;
 
 
 @NamedQueries({
-        @NamedQuery(name = "form.findByEmail", query = "select formDevenirSuper from FormDevenirSuper formDevenirSuper where formDevenirSuper.email=:email")})
+        @NamedQuery(name = "form.findByEmail",
+                query = "select formDevenirSuper " +
+                        "from FormDevenirSuper formDevenirSuper " +
+                        "where formDevenirSuper.email=:email")})
 
 public class FormDevenirSuper implements SimpleEntity {
 

@@ -5,21 +5,17 @@ import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
-import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TransactionRequiredException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import javax.naming.AuthenticationException;
@@ -71,9 +67,7 @@ public class SuperviseurResources {
                     superDAO.persist(superviseur);
                 }
 
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (InvalidKeySpecException e) {
+            } catch (NoSuchAlgorithmException|InvalidKeySpecException e) {
                 e.printStackTrace();
             }
 
@@ -251,9 +245,7 @@ public class SuperviseurResources {
             superDAO.persist(superviseur);
 
             et.commit();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException|InvalidKeySpecException e) {
             e.printStackTrace();
         }
     }

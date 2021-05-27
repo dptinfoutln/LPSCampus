@@ -5,7 +5,6 @@ import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.extern.java.Log;
 
@@ -28,7 +27,10 @@ import java.util.Set;
 
 
 @NamedQueries({
-        @NamedQuery(name = "batiment.findByName", query = "select batiment from Batiment batiment where batiment.name=:name")})
+        @NamedQuery(name = "batiment.findByName",
+                query = "select batiment " +
+                        "from Batiment batiment " +
+                        "where batiment.name=:name")})
 
 public class Batiment implements SimpleEntity {
 

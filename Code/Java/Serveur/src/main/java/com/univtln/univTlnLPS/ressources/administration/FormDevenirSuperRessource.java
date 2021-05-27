@@ -4,8 +4,6 @@ import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.model.administration.EmailPass;
 import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
-import com.univtln.univTlnLPS.model.administration.Superviseur;
-import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
@@ -13,11 +11,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import lombok.extern.java.Log;
 
-import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 

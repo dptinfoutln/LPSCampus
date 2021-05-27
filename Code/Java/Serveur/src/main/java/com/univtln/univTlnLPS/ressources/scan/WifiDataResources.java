@@ -48,9 +48,7 @@ public class WifiDataResources {
     @JWTAuth
     public WifiData updateWifiData(@Context SecurityContext securityContext, @PathParam("id") long id, WifiData wifidata) throws NotFoundException, IllegalArgumentException {
 
-        // TODO check super has the rights to modify this wifi
         if (wifidata.getId() != id && id == 0) throw new IllegalArgumentException();
-
 
         // We check that super has the rights to modify this wifi (admin or supers wifiData creator)
         if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {

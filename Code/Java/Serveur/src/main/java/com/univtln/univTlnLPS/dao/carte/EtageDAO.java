@@ -1,7 +1,6 @@
 package com.univtln.univTlnLPS.dao.carte;
 
 import com.univtln.univTlnLPS.dao.AbstractDAO;
-import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

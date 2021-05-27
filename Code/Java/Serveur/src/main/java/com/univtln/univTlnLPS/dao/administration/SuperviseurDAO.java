@@ -2,8 +2,6 @@ package com.univtln.univTlnLPS.dao.administration;
 
 import com.univtln.univTlnLPS.dao.AbstractDAO;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
-import com.univtln.univTlnLPS.model.administration.Utilisateur;
-import com.univtln.univTlnLPS.model.scan.ScanData;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

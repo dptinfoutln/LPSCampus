@@ -6,7 +6,6 @@ import com.univtln.univTlnLPS.model.administration.Administrateur;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.extern.java.Log;
 
@@ -28,7 +27,10 @@ import java.util.Set;
 @Entity
 
 @NamedQueries({
-        @NamedQuery(name = "campus.findByName", query = "select campus from Campus campus where campus.name=:name")})
+        @NamedQuery(name = "campus.findByName",
+                query = "select campus " +
+                        "from Campus campus " +
+                        "where campus.name=:name")})
 
 
 public class Campus implements SimpleEntity {

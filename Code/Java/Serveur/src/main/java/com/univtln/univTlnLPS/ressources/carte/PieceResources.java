@@ -1,19 +1,14 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
-import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
-import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
-import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.HashSet;

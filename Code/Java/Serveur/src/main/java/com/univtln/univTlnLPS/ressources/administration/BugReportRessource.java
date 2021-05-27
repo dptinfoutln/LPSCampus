@@ -1,21 +1,12 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
 import com.univtln.univTlnLPS.dao.administration.BugReportDAO;
-import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
-import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
-import com.univtln.univTlnLPS.dao.carte.PieceDAO;
-import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
 import com.univtln.univTlnLPS.model.administration.BugReport;
-import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
-import com.univtln.univTlnLPS.model.administration.Superviseur;
-import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
 
 import java.text.ParseException;
