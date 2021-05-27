@@ -62,24 +62,6 @@ public class ScanDataTest {
     }
 
     @Test
-    public void testConstructor2() {
-        Date dateScan = new Date(1L);
-        Piece piece = new Piece();
-        HashSet<WifiData> wifiList = new HashSet<WifiData>();
-        Utilisateur user = new Utilisateur();
-        ScanData actualScanData = new ScanData(123L, "Info Scan", dateScan, piece, wifiList, user, new Superviseur());
-        assertEquals(
-                "ScanData(id=123, infoScan=Info Scan, dateScan=Thu Jan 01 01:00:00 UTC 1970, piece=Piece(position_x=0,"
-                        + " position_y=0, name=null, id=0, etage=null, scanList=null), wifiList=[], user=Utilisateur(id=0,"
-                        + " caracteristiquesMachine=null, lastScan=null), superviseur=Superviseur(email=null, passwordHash=null,"
-                        + " salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], scanList=null, ",
-                actualScanData.toString().replace(" CET ", " UTC ").split("random")[0]);
-        assertEquals(123L, actualScanData.getId());
-        assertEquals("Info Scan", actualScanData.getInfoScan());
-        assertTrue(actualScanData.getWifiList().isEmpty());
-    }
-
-    @Test
     public void testEquals() {
         assertFalse((new ScanData()).equals("42"));
     }

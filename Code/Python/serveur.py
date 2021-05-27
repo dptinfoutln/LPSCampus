@@ -15,10 +15,19 @@ class Position(Resource):
         
         res = M.get_predict(content)
         
+        print(res)
+        
         return res[0]
 
 api.add_resource(Position, '/position')
 
 if __name__ == "__main__":
-    M.init()
+    success = False
+    while not success:
+        try :
+            M.init()
+            success = True
+        except Exception:
+            pass
+        
     app.run(host='0.0.0.0', port=5000, debug=True)

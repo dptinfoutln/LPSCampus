@@ -13,7 +13,7 @@ from requests.exceptions import HTTPError
 import json
 
 
-ip = "10.21.74.229" #"serveurSGBD" #"10.21.74.229"
+ip = "serveurSGBD" #"10.21.74.229"
 
 
 class Wifi:

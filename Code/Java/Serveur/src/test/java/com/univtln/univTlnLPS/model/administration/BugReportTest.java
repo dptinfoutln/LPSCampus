@@ -45,18 +45,6 @@ public class BugReportTest {
     }
 
     @Test
-    public void testConstructor2() {
-        BugReport actualBugReport = new BugReport(123L, "Category", "Not all who wander are lost",
-                "Caracteristiques Machine", new Date(1L));
-        assertEquals("Caracteristiques Machine", actualBugReport.getCaracteristiquesMachine());
-        assertEquals("BugReport(id=123, category=Category, content=Not all who wander are lost, caracteristiquesMachine"
-                + "=Caracteristiques Machine, date=Thu Jan 01 01:00:00 UTC 1970)", actualBugReport.toString().replace(" CET ", " UTC "));
-        assertEquals(123L, actualBugReport.getId());
-        assertEquals("Not all who wander are lost", actualBugReport.getContent());
-        assertEquals("Category", actualBugReport.getCategory());
-    }
-
-    @Test
     public void testEquals() {
         assertFalse((new BugReport()).equals("42"));
     }
