@@ -24,15 +24,32 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The type Scan data resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class ScanDataResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
 
     }
 
+    /**
+     * Add scan data string.
+     *
+     * @param scanData        the scan data
+     * @param idPiece         the id piece
+     * @param securityContext the security context
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("scans")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -83,6 +100,16 @@ public class ScanDataResources {
         return "success";
     }
 
+    /**
+     * Update scan data scan data.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @param scandata        the scandata
+     * @return the scan data
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("scans/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -111,6 +138,15 @@ public class ScanDataResources {
         return scandata;
     }
 
+    /**
+     * Gets scan data.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @return the scan data
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @GET
     @Path("scans/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -133,6 +169,11 @@ public class ScanDataResources {
         return scanData;
     }
 
+    /**
+     * Gets scan data size.
+     *
+     * @return the scan data size
+     */
     @GET
     @Path("scans/size")
     @RolesAllowed({"ADMIN"})
@@ -145,6 +186,13 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets scan pieces by super ef.
+     *
+     * @param id the id
+     * @return the scan pieces by super ef
+     * @throws NotFoundException the not found exception
+     */
     public List<Piece> getScanPiecesBySuperEF(long id) throws NotFoundException{
         Superviseur superviseur;
         try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
@@ -158,6 +206,14 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets scan data by sup by piece ef.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the scan data by sup by piece ef
+     * @throws NotFoundException the not found exception
+     */
     public List<ScanData> getScanDataBySupByPieceEF( long id, long idPiece) throws NotFoundException {
         // On recupere le superviseur
         Superviseur superviseur;
@@ -182,6 +238,14 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets own scan data by piece ef.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the own scan data by piece ef
+     * @throws NotFoundException the not found exception
+     */
     public List<ScanData> getOwnScanDataByPieceEF (SecurityContext securityContext,
                                                    long idPiece) throws NotFoundException {
 
@@ -201,6 +265,13 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets own scan pieces by super size.
+     *
+     * @param securityContext the security context
+     * @return the own scan pieces by super size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans/pieces/size")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -212,6 +283,13 @@ public class ScanDataResources {
         return getScanPiecesBySuperEF(superviseur.getId()).size();
     }
 
+    /**
+     * Gets scan pieces by super size.
+     *
+     * @param id the id
+     * @return the scan pieces by super size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans/pieces/size")
     @RolesAllowed({"ADMIN"})
@@ -221,6 +299,14 @@ public class ScanDataResources {
         return getScanPiecesBySuperEF(id).size();
     }
 
+    /**
+     * Gets scan data by sup by piece size.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the scan data by sup by piece size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans/size")
     @RolesAllowed({"ADMIN"})
@@ -231,6 +317,14 @@ public class ScanDataResources {
         return getScanDataBySupByPieceEF(id, idPiece).size();
     }
 
+    /**
+     * Gets own scan data by piece size.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the own scan data by piece size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans/size")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -242,6 +336,13 @@ public class ScanDataResources {
         return getOwnScanDataByPieceEF(securityContext, idPiece).size();
     }
 
+    /**
+     * Gets scan pieces by super.
+     *
+     * @param id the id
+     * @return the scan pieces by super
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans/pieces")
     @RolesAllowed({"ADMIN"})
@@ -252,6 +353,13 @@ public class ScanDataResources {
                 .collect(Collectors.toMap(Piece::getId, piece -> piece));
     }
 
+    /**
+     * Gets own scan pieces by super.
+     *
+     * @param securityContext the security context
+     * @return the own scan pieces by super
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans/pieces")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -264,6 +372,14 @@ public class ScanDataResources {
                 .collect(Collectors.toMap(Piece::getId, piece -> piece));
     }
 
+    /**
+     * Gets scan data by sup by piece.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the scan data by sup by piece
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans")
     @RolesAllowed({"ADMIN"})
@@ -277,6 +393,12 @@ public class ScanDataResources {
                     .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
     }
 
+    /**
+     * Gets all scan.
+     *
+     * @return the all scan
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("scans")
     public Map<Long, ScanData> getAllScan() throws NotFoundException {
@@ -286,6 +408,14 @@ public class ScanDataResources {
 
     }
 
+    /**
+     * Gets own scan data by piece.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the own scan data by piece
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -299,6 +429,11 @@ public class ScanDataResources {
 
     }
 
+    /**
+     * Remove scan ef.
+     *
+     * @param listeScan the liste scan
+     */
     public void removeScanEF(List<ScanData> listeScan){
 
         for (ScanData scanData:
@@ -315,6 +450,14 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Remove scan data by sup by piece string.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/{id}/scans")
     @RolesAllowed({"ADMIN"})
@@ -328,6 +471,14 @@ public class ScanDataResources {
         return "success";
     }
 
+    /**
+     * Remove own scan data by piece string.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/me/scans")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -341,6 +492,15 @@ public class ScanDataResources {
         return "success";
     }
 
+    /**
+     * Remove scan data string.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @return the string
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @DELETE
     @Path("scans/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -385,6 +545,11 @@ public class ScanDataResources {
         return "success";
     }
 
+    /**
+     * Delete scan datas string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("scans")
     @RolesAllowed({"ADMIN"})

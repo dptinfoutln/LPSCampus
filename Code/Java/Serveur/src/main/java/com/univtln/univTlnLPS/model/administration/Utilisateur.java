@@ -4,6 +4,7 @@ import com.univtln.univTlnLPS.model.SimpleEntity;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
@@ -14,6 +15,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Classe Utilisateur du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor
@@ -44,13 +48,16 @@ public class Utilisateur implements SimpleEntity {
 
     @XmlElement
     @NotNull
-    //@Size(min = 2, max = 10)
+    @Size(min = 2, max = 10)
     private String caracteristiquesMachine;
 
     @XmlElement
     @OneToOne
     private ScanData lastScan;
 
+    /**
+     * The enum Role.
+     */
     public enum Role {
         /**
          * Admin role.

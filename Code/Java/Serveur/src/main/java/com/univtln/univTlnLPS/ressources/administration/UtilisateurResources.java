@@ -10,10 +10,18 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.*;
 
 
+/**
+ * The type Utilisateur resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class UtilisateurResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
 
     }
@@ -21,6 +29,13 @@ public class UtilisateurResources {
 
     // add delete update
 
+    /**
+     * Add utilisateur string.
+     *
+     * @param utilisateur the utilisateur
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("utilisateurs")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -38,6 +53,13 @@ public class UtilisateurResources {
         return "success";
     }
 
+    /**
+     * Remove utilisateur string.
+     *
+     * @param id the id
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("utilisateurs/{id}")
     @RolesAllowed({"ADMIN"})

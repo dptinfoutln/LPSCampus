@@ -8,6 +8,9 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
 
 
+/**
+ * DAO des Donnees de Wifi
+ */
 @Log
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor(staticName = "of")

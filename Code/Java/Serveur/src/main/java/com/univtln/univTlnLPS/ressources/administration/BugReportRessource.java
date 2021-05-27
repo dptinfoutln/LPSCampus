@@ -18,10 +18,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Bug report ressource.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class BugReportRessource {
+    /**
+     * Add bug report string.
+     *
+     * @param report the report
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("bugReports")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -41,6 +51,12 @@ public class BugReportRessource {
         return "success";
     }
 
+    /**
+     * Get bug reports by cat ef list.
+     *
+     * @param category the category
+     * @return the list
+     */
     public static List<BugReport> getBugReportsByCatEF(String category){
 
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {
@@ -49,12 +65,28 @@ public class BugReportRessource {
         }
     }
 
+    /**
+     * Gets bug reports cat.
+     *
+     * @return the bug reports cat
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("cat")
     public List<String> getBugReportsCat() throws NotFoundException {
         return BugReportDAO.of().findAllCat();
     }
 
+    /**
+     * Gets bug reports by cat.
+     *
+     * @param category the category
+     * @param debut    the debut
+     * @param fin      the fin
+     * @return the bug reports by cat
+     * @throws NotFoundException the not found exception
+     * @throws ParseException    the parse exception
+     */
     @GET
     @Path("bugReports")
     @RolesAllowed({"ADMIN"})
@@ -79,6 +111,13 @@ public class BugReportRessource {
                 .collect(Collectors.toMap(BugReport::getId, bugReport -> bugReport));
     }
 
+    /**
+     * Gets bug report.
+     *
+     * @param id the id
+     * @return the bug report
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("bugReports/{id}")
     @RolesAllowed({"ADMIN"})
@@ -93,6 +132,11 @@ public class BugReportRessource {
         return report;
     }
 
+    /**
+     * Gets bug reports size.
+     *
+     * @return the bug reports size
+     */
     @GET
     @Path("bugReports/size")
     @RolesAllowed({"ADMIN"})
@@ -103,6 +147,13 @@ public class BugReportRessource {
         }
     }
 
+    /**
+     * Remove bug report string.
+     *
+     * @param id the id
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("bugReports/{id}")
     @RolesAllowed({"ADMIN"})
@@ -121,6 +172,11 @@ public class BugReportRessource {
         return "success";
     }
 
+    /**
+     * Delete bug reports string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("bugReports")
     @RolesAllowed({"ADMIN"})

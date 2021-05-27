@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+/**
+ * Classe Batiment du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

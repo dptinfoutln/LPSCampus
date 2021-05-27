@@ -11,10 +11,20 @@ import jakarta.ws.rs.core.MediaType;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+/**
+ * The type Administrateur resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class AdministrateurResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     * @throws InvalidKeySpecException  the invalid key spec exception
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     */
     public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
         try (AdministrateurDAO adminDAO = AdministrateurDAO.of()) {
             EntityTransaction transaction = adminDAO.getTransaction();
@@ -31,6 +41,12 @@ public class AdministrateurResources {
         }
     }
 
+    /**
+     * Update admin string.
+     *
+     * @param admin the admin
+     * @return the string
+     */
     @POST
     @Path("admin")
     @Consumes(MediaType.APPLICATION_JSON)
