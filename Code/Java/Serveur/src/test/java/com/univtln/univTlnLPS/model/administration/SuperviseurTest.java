@@ -30,14 +30,14 @@ public class SuperviseurTest {
         assertSame(secureRandom, actualSuperviseur.getRandom());
         assertSame(scanDataSet, actualSuperviseur.getScanList());
         assertEquals("Superviseur(email=jane.doe@example.org, passwordHash=null, salt=[65, 65, 65, 65, 65, 65, 65, 65],"
-                + " scanList=[], random=NativePRNG)", actualSuperviseur.toString());
+                + " scanList=[], ", actualSuperviseur.toString().split("random")[0]);
     }
 
     @Test
     public void testConstructor2() {
         Superviseur actualSuperviseur = new Superviseur();
         assertEquals("Superviseur(email=null, passwordHash=null, salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],"
-                + " scanList=null, random=NativePRNG)", actualSuperviseur.toString());
+                + " scanList=null, ", actualSuperviseur.toString().split("random")[0]);
         assertEquals(Short.SIZE, actualSuperviseur.getSalt().length);
     }
 
@@ -51,8 +51,8 @@ public class SuperviseurTest {
         assertEquals(
                 "Superviseur(email=jane.doe@example.org, passwordHash=[65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65,"
                         + " 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65], salt=[65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65,"
-                        + " 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65], scanList=[], random=NativePRNG)",
-                actualSuperviseur.toString());
+                        + " 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65], scanList=[], ",
+                actualSuperviseur.toString().split("random")[0]);
         assertTrue(actualSuperviseur.getScanList().isEmpty());
         assertEquals(24, actualSuperviseur.getSalt().length);
         assertEquals(24, actualSuperviseur.getPasswordHash().length);

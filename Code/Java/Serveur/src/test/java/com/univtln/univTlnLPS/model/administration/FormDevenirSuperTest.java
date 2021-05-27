@@ -45,14 +45,14 @@ public class FormDevenirSuperTest {
         assertNull(actualFormDevenirSuper.getPasswordHash());
         assertSame(secureRandom, actualFormDevenirSuper.getRandom());
         assertEquals("FormDevenirSuper(id=123, email=jane.doe@example.org, passwordHash=null, salt=[65, 65, 65, 65, 65, 65,"
-                + " 65, 65], random=NativePRNG)", actualFormDevenirSuper.toString());
+                + " 65, 65], ", actualFormDevenirSuper.toString().split("random")[0]);
     }
 
     @Test
     public void testConstructor2() {
         FormDevenirSuper actualFormDevenirSuper = new FormDevenirSuper();
         assertEquals("FormDevenirSuper(id=0, email=null, passwordHash=null, salt=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,"
-                + " 0, 0], random=NativePRNG)", actualFormDevenirSuper.toString());
+                + " 0, 0], ", actualFormDevenirSuper.toString().split("random")[0]);
         assertEquals(Short.SIZE, actualFormDevenirSuper.getSalt().length);
     }
 
@@ -66,8 +66,8 @@ public class FormDevenirSuperTest {
         assertEquals(
                 "FormDevenirSuper(id=123, email=jane.doe@example.org, passwordHash=[65, 65, 65, 65, 65, 65, 65, 65, 65,"
                         + " 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65], salt=[65, 65, 65, 65, 65, 65, 65, 65,"
-                        + " 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65], random=NativePRNG)",
-                actualFormDevenirSuper.toString());
+                        + " 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65, 65], ",
+                actualFormDevenirSuper.toString().split("random")[0]);
         assertEquals(24, actualFormDevenirSuper.getSalt().length);
         assertEquals(24, actualFormDevenirSuper.getPasswordHash().length);
         assertEquals(123L, actualFormDevenirSuper.getId());

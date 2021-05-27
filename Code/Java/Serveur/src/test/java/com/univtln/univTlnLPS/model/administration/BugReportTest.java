@@ -41,7 +41,7 @@ public class BugReportTest {
         assertSame(fromResult, actualBugReport.getDate());
         assertEquals(123L, actualBugReport.getId());
         assertEquals("BugReport(id=123, category=Category, content=Not all who wander are lost, caracteristiquesMachine"
-                + "=Caracteristiques Machine, date=Thu Jan 01 00:00:00 CET 1970)", actualBugReport.toString());
+                + "=Caracteristiques Machine, date=Thu Jan 01 00:00:00 UTC 1970)", actualBugReport.toString().replace(" CET ", " UTC "));
     }
 
     @Test
@@ -50,7 +50,7 @@ public class BugReportTest {
                 "Caracteristiques Machine", new Date(1L));
         assertEquals("Caracteristiques Machine", actualBugReport.getCaracteristiquesMachine());
         assertEquals("BugReport(id=123, category=Category, content=Not all who wander are lost, caracteristiquesMachine"
-                + "=Caracteristiques Machine, date=Thu Jan 01 01:00:00 CET 1970)", actualBugReport.toString());
+                + "=Caracteristiques Machine, date=Thu Jan 01 01:00:00 UTC 1970)", actualBugReport.toString().replace(" CET ", " UTC "));
         assertEquals(123L, actualBugReport.getId());
         assertEquals("Not all who wander are lost", actualBugReport.getContent());
         assertEquals("Category", actualBugReport.getCategory());
