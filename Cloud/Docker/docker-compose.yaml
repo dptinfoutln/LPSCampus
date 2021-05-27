@@ -31,11 +31,13 @@ services:
         container_name: service-java
         depends_on:
             - service-db
+        links: 
+            - "service-db:database"
         build:
-            context: ./service-java
+            context: ../../
+            dockerfile: ./Cloud/Docker/service-java/Dockerfile
         ports:
-            - 5020:4444
-            - 5021:443
+            - 9998:9998
  
     service-db:
         image: mariadb:10.4
@@ -46,8 +48,11 @@ services:
             MYSQL_USER: mybb
             MYSQL_PASSWORD: changeme
         ports:
-            - 3366:3306
+            - 3306:3306
         restart: on-failure
         volumes:
             - ./service-db/database:/var/lib/mysql
             - ./service-db/conf:/etc/mysql
+            
+            
+

@@ -25,7 +25,7 @@
             <!-- Les paramètres de connexions -->
             <property name="jakarta.persistence.target-database" value="mybb"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://127.0.0.1:3306/mybb"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://database:3306/mybb"/>
             <property name="jakarta.persistence.jdbc.user" value="mybb"/>
             <property name="jakarta.persistence.jdbc.password" value="changeme"/>
 

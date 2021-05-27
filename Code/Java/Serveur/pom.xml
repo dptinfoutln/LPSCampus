@@ -400,11 +400,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
@@ -420,6 +415,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.3</version>
                 <configuration>
+                	<finalName>LPS</finalName>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <!--minimizeJar>true</minimizeJar-->
                     <!-- The shaded artifact is not the main artifact -->
@@ -478,6 +474,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-merged-coverage-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <main.class>com.univtln.univtlnLPS.net.serveur.LPSServer</main.class>
+        <main.class>com.univtln.univTlnLPS.net.server.LPSServer</main.class>
     </properties>
 </project>
