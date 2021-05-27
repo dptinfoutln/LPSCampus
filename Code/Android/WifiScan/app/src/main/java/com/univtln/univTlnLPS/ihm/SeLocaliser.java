@@ -29,7 +29,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
     private WifiScan wifiScan;
     private Button btn;
     private TextView tv;
-    private RadioButton texte, graphique;
+    //private RadioButton texte, graphique;
 
     String image = null;
 
@@ -40,8 +40,8 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         setContentView(R.layout.activity_se_localiser);
 
         tv = findViewById(R.id.connexion);
-        texte = findViewById(R.id.texte);
-        graphique = findViewById(R.id.graphique);
+        //texte = findViewById(R.id.texte);
+        //graphique = findViewById(R.id.graphique);
 
         wifiScan = new WifiScan(this);
 
@@ -107,9 +107,9 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
             @Override
             public void run() {
                 // on affiche du texte si le radiobutton texte est sélectionné
-                if (texte.isChecked()) {
+                //if (texte.isChecked()) {
                     tv.setText("Vous êtes en "+ finalPosition);
-                }
+                /*}
                 // sinon on affiche un plan de l'étage
                 else if (graphique.isChecked()) {
                     new Thread(new Runnable() {
@@ -124,7 +124,7 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
                             }
                         }
                     });
-                }
+                }*/
                 if (scanResults.size() == 0){
                     Toast.makeText(SeLocaliser.this, "An error occured! Please retry!", Toast.LENGTH_LONG).show();
                 }
