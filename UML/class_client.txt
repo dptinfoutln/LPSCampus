@@ -93,12 +93,14 @@ package Interface {
     class SupprimerCompteActivity
     class AffichageDetailRapportActivity
     class BDDActivity
+    class ReinitialiserBDDActivity
     class MDPOubliActivity
     class SupprimerCompteSuperviseurActivity
     class SupprimerCampusActivity
     class SupprimerBatimentActivity
     class SupprimerEtageActivity
     class SupprimerSalleActivity
+
 }
 
 
@@ -124,6 +126,7 @@ PagePrincipaleEPActivity -- BDDActivity
 VoirDemandesActivity -- Administrateur
 BDDActivity -- Administrateur
 
+BDDActivity -- ReinitialiserBDDActivity
 BDDActivity -- SupprimerCompteSuperviseurActivity
 BDDActivity -- SupprimerCampusActivity
 BDDActivity -- SupprimerBatimentActivity
