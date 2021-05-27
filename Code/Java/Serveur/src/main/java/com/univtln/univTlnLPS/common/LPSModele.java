@@ -11,8 +11,6 @@ import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
 import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
 import com.univtln.univTlnLPS.model.SimpleEntity;
-import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
-import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.ressources.administration.AdministrateurResources;
 import com.univtln.univTlnLPS.ressources.administration.SuperviseurResources;
 import com.univtln.univTlnLPS.ressources.administration.UtilisateurResources;
