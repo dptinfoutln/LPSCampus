@@ -20,7 +20,9 @@ import java.util.List;
 public class BugReportDAO extends AbstractDAO<BugReport> {
 
     /**
-     * @param cat
+     * Find by cat list.
+     *
+     * @param cat the cat
      * @return liste des Rapports de Bug ayant pour categorie cat
      */
     public List<BugReport> findByCat(String cat) {
@@ -30,6 +32,8 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
     }
 
     /**
+     * Find all cat list.
+     *
      * @return la liste des categories des Rapports de Bugs
      */
     public List<String> findAllCat() {
@@ -38,7 +42,9 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
     }
 
     /**
-     * @param date
+     * Find by date list.
+     *
+     * @param date the date
      * @return liste des Rapports de Bug datant du jour date
      */
     public List<BugReport> findByDate(Date date) {
@@ -48,7 +54,9 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
     }
 
     /**
-     * @param date
+     * Find by date below list.
+     *
+     * @param date the date
      * @return liste des Rapports de Bug datant d'avant date
      */
     public List<BugReport> findByDateBelow(Date date) {
@@ -58,7 +66,9 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
     }
 
     /**
-     * @param date
+     * Find by date above list.
+     *
+     * @param date the date
      * @return liste des Rapports de Bug datant d'apres date
      */
     public List<BugReport> findByDateAbove(Date date) {
@@ -68,9 +78,11 @@ public class BugReportDAO extends AbstractDAO<BugReport> {
     }
 
     /**
-     * @param dateDeb
-     * @param dateFin
-     * @param cat
+     * Find by date between by cat list.
+     *
+     * @param dateDeb the date deb
+     * @param dateFin the date fin
+     * @param cat     the cat
      * @return liste des Rapports de Bug envoyes entre dateDeb et dateFin
      */
     public List<BugReport> findByDateBetweenByCat(Date dateDeb, Date dateFin, String cat) {

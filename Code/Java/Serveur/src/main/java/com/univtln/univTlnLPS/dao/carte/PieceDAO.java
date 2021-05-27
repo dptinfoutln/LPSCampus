@@ -18,8 +18,9 @@ import java.util.List;
 public class PieceDAO extends AbstractDAO<Piece> {
     /**
      * Renvoie la liste des Pieces ayant pour nom name
-     * @param name
-     * @return
+     *
+     * @param name the name
+     * @return list
      */
     public List<Piece> findByName(String name) {
         return getEntityManager().createNamedQuery("piece.findByName")

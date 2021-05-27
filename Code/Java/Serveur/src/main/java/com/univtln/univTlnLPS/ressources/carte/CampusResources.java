@@ -20,11 +20,17 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
 
+/**
+ * The type Campus resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class CampusResources {
 
+    /**
+     * Init.
+     */
     public static void init() {
         Administrateur admin;
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
@@ -43,6 +49,14 @@ public class CampusResources {
         }
     }
 
+    /**
+     * Add campus string.
+     *
+     * @param camp    the camp
+     * @param context the context
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("campus")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -68,6 +82,11 @@ public class CampusResources {
         return "success";
     }
 
+    /**
+     * Gets campus.
+     *
+     * @return the campus
+     */
     @GET
     @Path("campus")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -77,6 +96,12 @@ public class CampusResources {
                 .collect(Collectors.toMap(Campus::getId, campus -> campus));
     }
 
+    /**
+     * Del campus string.
+     *
+     * @param id the id
+     * @return the string
+     */
     @DELETE
     @Path("campus/{id}")
     @RolesAllowed({"ADMIN"})

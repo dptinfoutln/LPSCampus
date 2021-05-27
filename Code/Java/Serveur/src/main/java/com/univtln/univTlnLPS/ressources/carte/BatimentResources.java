@@ -16,11 +16,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Batiment resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class BatimentResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
         Campus campus;
         try (CampusDAO campusDAO = CampusDAO.of()) {
@@ -39,6 +47,13 @@ public class BatimentResources {
         }
     }
 
+    /**
+     * Add batiment string.
+     *
+     * @param batiment the batiment
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("batiments")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -69,6 +84,15 @@ public class BatimentResources {
         return "success";
     }
 
+    /**
+     * Update batiment batiment.
+     *
+     * @param id       the id
+     * @param batiment the batiment
+     * @return the batiment
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("batiments/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -91,6 +115,13 @@ public class BatimentResources {
         return batiment;
     }
 
+    /**
+     * Gets batiment.
+     *
+     * @param id the id
+     * @return the batiment
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("batiments/{id}")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -105,6 +136,11 @@ public class BatimentResources {
         return batiment;
     }
 
+    /**
+     * Gets batiment size.
+     *
+     * @return the batiment size
+     */
     @GET
     @Path("batiments/size")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -117,6 +153,11 @@ public class BatimentResources {
         }
     }
 
+    /**
+     * Gets batiments.
+     *
+     * @return the batiments
+     */
     @GET
     @Path("batiments")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -131,6 +172,13 @@ public class BatimentResources {
         return map ;
     }
 
+    /**
+     * Remove batiment string.
+     *
+     * @param id the id
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("batiments/{id}")
     @RolesAllowed({"ADMIN"})
@@ -150,6 +198,11 @@ public class BatimentResources {
         return "success";
     }
 
+    /**
+     * Delete batiments string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("batiments")
     @RolesAllowed({"ADMIN"})

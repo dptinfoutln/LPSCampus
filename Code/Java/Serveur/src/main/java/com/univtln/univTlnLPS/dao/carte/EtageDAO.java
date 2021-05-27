@@ -18,8 +18,9 @@ import java.util.List;
 public class EtageDAO extends AbstractDAO<Etage> {
     /**
      * Renvoie la liste Etages ayant pour nom name (1 etage)
-     * @param name
-     * @return
+     *
+     * @param name the name
+     * @return list
      */
     public List<Etage> findByName(String name) {
         return getEntityManager().createNamedQuery("etage.findByName")

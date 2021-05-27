@@ -13,16 +13,6 @@ import java.util.Date;
 import org.junit.jupiter.api.Test;
 
 public class BugReportTest {
-    @Test
-    public void testBuilder() {
-        // TODO: This test is incomplete.
-        //   Reason: No meaningful assertions found.
-        //   To help Diffblue Cover to find assertions, please add getters to the
-        //   class under test that return fields written by the method under test.
-        //   See https://diff.blue/R004
-
-        BugReport.builder();
-    }
 
     @Test
     public void testCanEqual() {

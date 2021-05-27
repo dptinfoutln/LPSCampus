@@ -18,8 +18,9 @@ import java.util.List;
 public class BatimentDAO extends AbstractDAO<Batiment> {
     /**
      * Renvoie la liste des Pieces ayant pour nom name
-     * @param name
-     * @return
+     *
+     * @param name the name
+     * @return list
      */
     public List<Batiment> findByName(String name) {
         return getEntityManager().createNamedQuery("batiment.findByName")

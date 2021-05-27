@@ -21,8 +21,9 @@ import java.util.List;
 public class ScanDataDAO extends AbstractDAO<ScanData> {
     /**
      * Renvoie la liste des scan pour une piece
-     * @param piece
-     * @return
+     *
+     * @param piece the piece
+     * @return list
      */
     public List<ScanData> findByPiece(Piece piece) {
         return getEntityManager().createNamedQuery("scanData.findByPiece")
@@ -32,8 +33,9 @@ public class ScanDataDAO extends AbstractDAO<ScanData> {
 
     /**
      * Renvoie la liste des scan de l'Utilisateur user
-     * @param user
-     * @return
+     *
+     * @param user the user
+     * @return list
      */
     public List<ScanData> findByUser(Utilisateur user) {
         return getEntityManager().createNamedQuery("scanData.findByUser")

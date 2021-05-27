@@ -18,7 +18,9 @@ import java.util.List;
 public class SuperviseurDAO extends AbstractDAO<Superviseur> {
 
     /**
-     * @param email
+     * Find by email list.
+     *
+     * @param email the email
      * @return liste de Superviseurs ayant pour email email
      */
     public List<Superviseur> findByEmail(String email) {
@@ -28,8 +30,10 @@ public class SuperviseurDAO extends AbstractDAO<Superviseur> {
     }
 
     /**
-     * @param email
-     * @param passwordHash
+     * Find by account list.
+     *
+     * @param email        the email
+     * @param passwordHash the password hash
      * @return liste des Superviseurs (1 element) correspondant a email et passwordHash
      */
     public List<Superviseur> findByAccount(String email, String passwordHash) {

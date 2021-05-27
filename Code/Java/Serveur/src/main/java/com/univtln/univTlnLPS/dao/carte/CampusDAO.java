@@ -18,8 +18,9 @@ import java.util.List;
 public class CampusDAO extends AbstractDAO<Campus> {
     /**
      * Renvoie la liste des Pieces ayant pour nom name
-     * @param name
-     * @return
+     *
+     * @param name the name
+     * @return list
      */
     public List<Campus> findByName(String name) {
         return getEntityManager().createNamedQuery("campus.findByName")

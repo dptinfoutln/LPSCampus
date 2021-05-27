@@ -20,17 +20,21 @@ import java.util.List;
 public class UtilisateurDAO extends AbstractDAO<Utilisateur> {
 
     /**
-     * @param caract
+     * Find by caract  the user list.
+     *
+     * @param caract the caract
      * @return liste d'utilisateurs ayant pour caracteristiques machine caract
      */
-       public List<Utilisateur> findByCaract(String caract) {
+    public List<Utilisateur> findByCaract(String caract) {
         return getEntityManager().createNamedQuery("utilisateur.findByCaract")
                 .setParameter("caract", caract)
                 .getResultList();
     }
 
     /**
-     * @param scan
+     * Find by scan the user list.
+     *
+     * @param scan the scan
      * @return liste d'Utilisateurs ayant pour lastScan scan (1 element)
      */
     public List<Utilisateur> findByScan(ScanData scan) {

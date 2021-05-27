@@ -17,7 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor(staticName = "of")
 public class FormDevenirSuperDAO extends AbstractDAO<FormDevenirSuper> {
     /**
-     * @param email
+     * Find by email list.
+     *
+     * @param email the email
      * @return liste des Formulaires correspondant a email
      */
     public List<FormDevenirSuper> findByEmail(String email) {

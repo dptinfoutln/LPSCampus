@@ -29,11 +29,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Superviseur resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class SuperviseurResources {
 
+    /**
+     * Connexion string.
+     *
+     * @param securityContext the security context
+     * @return the string
+     */
     @POST
     @Path("connexion")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -53,6 +62,11 @@ public class SuperviseurResources {
     }
 
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
             EntityTransaction transaction = superDAO.getTransaction();
@@ -78,6 +92,12 @@ public class SuperviseurResources {
 
     // add delete update
 
+    /**
+     * Add superviseur.
+     *
+     * @param id the id
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
@@ -115,6 +135,15 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Update superviseur superviseur.
+     *
+     * @param id          the id
+     * @param superviseur the superviseur
+     * @return the superviseur
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("superviseurs/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -136,6 +165,12 @@ public class SuperviseurResources {
         return superviseur;
     }
 
+    /**
+     * Remove superviseur.
+     *
+     * @param id the id
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
@@ -153,6 +188,12 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseurs.
+     *
+     * @return the superviseurs
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs")
     @RolesAllowed({"ADMIN"})
@@ -164,6 +205,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseur.
+     *
+     * @param securityContext the security context
+     * @return the superviseur
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me")
     @RolesAllowed({"SUPER"})
@@ -172,6 +220,12 @@ public class SuperviseurResources {
         return (Superviseur)securityContext.getUserPrincipal();
     }
 
+    /**
+     * Remove superviseur.
+     *
+     * @param securityContext the security context
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/me")
     @RolesAllowed({"SUPER"})
@@ -193,6 +247,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseur role.
+     *
+     * @param securityContext the security context
+     * @return the superviseur role
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/role")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -206,6 +267,13 @@ public class SuperviseurResources {
         return "SUPER";
     }
 
+    /**
+     * Change superviseur login.
+     *
+     * @param securityContext the security context
+     * @param newLogin        the new login
+     * @throws NotFoundException the not found exception
+     */
     @POST
     @Path("superviseurs/me/login")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -227,6 +295,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Change superviseur mdp.
+     *
+     * @param securityContext the security context
+     * @param newMdp          the new mdp
+     * @throws NotFoundException the not found exception
+     */
     @POST
     @Path("superviseurs/me/mdp")
     @RolesAllowed({"SUPER", "ADMIN"})

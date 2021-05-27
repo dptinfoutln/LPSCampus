@@ -20,7 +20,9 @@ import java.util.List;
 public class AdministrateurDAO extends AbstractDAO<Administrateur> {
 
     /**
-     * @param campus
+     * Find by campus list.
+     *
+     * @param campus the campus
      * @return liste des superviseurs ayant pour Campus campus
      */
     public List<Superviseur> findByCampus(Campus campus) {
