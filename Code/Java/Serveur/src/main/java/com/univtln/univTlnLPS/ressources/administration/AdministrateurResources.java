@@ -1,5 +1,6 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
+import com.univtln.univTlnLPS.common.LPSModele;
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
@@ -31,14 +32,22 @@ public class AdministrateurResources {
             transaction.begin();
 
             Administrateur admin = Administrateur.builder()
-                    .email("leviathan@univ-tln.fr")
+                    .email("admin@univ-tln.fr")
                     .build();
-            admin.setPasswordHash("trempette");
+            admin.setPasswordHash("univtlnlps");
 
             adminDAO.persist(admin);
 
             transaction.commit();
         }
+    }
+
+    @PUT
+    @Path("flush")
+    public static void flush() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        LPSModele.deleteAll();
+
+        init();
     }
 
     /**
