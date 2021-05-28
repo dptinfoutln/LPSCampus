@@ -2,33 +2,35 @@ package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
-import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
-import com.univtln.univTlnLPS.model.carte.Batiment;
+import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Campus;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.univtln.univTlnLPS.model.carte.Piece;
-import com.univtln.univTlnLPS.model.scan.ScanData;
-import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 
+/**
+ * The type Campus resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
+@Log
 public class CampusResources {
 
+    /**
+     * Init.
+     */
     public static void init() {
         Administrateur admin;
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
@@ -47,25 +49,44 @@ public class CampusResources {
         }
     }
 
+    /**
+     * Add campus string.
+     *
+     * @param camp    the camp
+     * @param context the context
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("campus")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void addCampus(Campus camp) throws IllegalArgumentException {
-        try (CampusDAO campDao = CampusDAO.of()){
-            if(camp.getId() != 0 || !campDao.findByName(camp.getName()).isEmpty())
-                throw new IllegalArgumentException();
+    public String addCampus(Campus camp, @Context SecurityContext context) throws IllegalArgumentException {
+        try (CampusDAO campDao = CampusDAO.of()) {
+            if(camp.getId() != 0 ) throw new IllegalArgumentException();
+
+            if (!campDao.findByName(camp.getName()).isEmpty())
+                return "WARNING: Un batiment du même nom existe déjà";
 
             EntityTransaction transaction = campDao.getTransaction();
             transaction.begin();
 
+            camp.setAdministrateur(AdministrateurDAO.of()
+                    .find( ((Superviseur)context.getUserPrincipal()).getId()) );
             campDao.persist(camp);
 
             transaction.commit();
         }
+
+        return "success";
     }
 
+    /**
+     * Gets campus.
+     *
+     * @return the campus
+     */
     @GET
     @Path("campus")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -75,11 +96,17 @@ public class CampusResources {
                 .collect(Collectors.toMap(Campus::getId, campus -> campus));
     }
 
+    /**
+     * Del campus string.
+     *
+     * @param id the id
+     * @return the string
+     */
     @DELETE
     @Path("campus/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void delCampus(@PathParam("id") long id) {
+    public String delCampus(@PathParam("id") long id) {
         try (CampusDAO campusDAO = CampusDAO.of()) {
             EntityTransaction transaction = campusDAO.getTransaction();
 
@@ -90,6 +117,8 @@ public class CampusResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
 }

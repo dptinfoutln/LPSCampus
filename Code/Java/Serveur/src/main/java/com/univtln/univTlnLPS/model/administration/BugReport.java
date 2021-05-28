@@ -4,6 +4,7 @@ package com.univtln.univTlnLPS.model.administration;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
@@ -14,6 +15,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+/**
+ * Classe des rapports de bugs du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,19 +33,22 @@ import java.util.Date;
 @NamedQueries({
         @NamedQuery(name = "bugReport.findByCat",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.category=:cat"),
+                        " where bugReport.category = :cat"),
         @NamedQuery(name = "bugReport.findByDate",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date=:date"),
+                        " where bugReport.date = :date"),
         @NamedQuery(name = "bugReport.findByDateBelow",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date<:date"),
+                        " where bugReport.date < :date"),
         @NamedQuery(name = "bugReport.findByDateAbove",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date >: date"),
-        @NamedQuery(name = "bugReport.findByDateBetween",
+                        " where bugReport.date > :date"),
+        @NamedQuery(name = "bugReport.findByDateBetweenByCat",
                 query = "select bugReport from BugReport bugReport" +
-                        " where bugReport.date >: dateDeb and bugReport.date <: dateFin")})
+                        " where bugReport.category = :cat and " +
+                        " bugReport.date >= :dateDeb and bugReport.date <= :dateFin"),
+        @NamedQuery(name = "bugReport.findCategories",
+                query = "select distinct bugReport.category from BugReport bugReport")})
 
 public class BugReport implements SimpleEntity {
     @XmlAttribute
@@ -56,22 +63,16 @@ public class BugReport implements SimpleEntity {
 
     @XmlElement
     @NotNull
-    private String Content;
+    private String content;
 
     @XmlElement
     @NotNull
-    //@Size(min = 2, max = 10)
+    @Size(min = 2, max = 10)
     private String caracteristiquesMachine;
 
-    /*@XmlElement
-    private int year;
-
-    @XmlElement
-    private int month;
-
-    @XmlElement
-    private int day;*/
-
+    /**
+     * The Date.
+     */
     @XmlElement
     @Temporal(TemporalType.DATE)
     Date date;

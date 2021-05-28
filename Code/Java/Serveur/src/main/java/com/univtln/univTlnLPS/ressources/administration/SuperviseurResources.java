@@ -1,7 +1,9 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
+import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
+import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
@@ -9,14 +11,11 @@ import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TransactionRequiredException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import javax.naming.AuthenticationException;
@@ -27,12 +26,23 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+/**
+ * The type Superviseur resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class SuperviseurResources {
 
+    /**
+     * Connexion string.
+     *
+     * @param securityContext the security context
+     * @return the string
+     */
     @POST
     @Path("connexion")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -52,6 +62,11 @@ public class SuperviseurResources {
     }
 
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
             EntityTransaction transaction = superDAO.getTransaction();
@@ -66,9 +81,7 @@ public class SuperviseurResources {
                     superDAO.persist(superviseur);
                 }
 
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (InvalidKeySpecException e) {
+            } catch (NoSuchAlgorithmException|InvalidKeySpecException e) {
                 e.printStackTrace();
             }
 
@@ -79,26 +92,58 @@ public class SuperviseurResources {
 
     // add delete update
 
+    /**
+     * Add superviseur.
+     *
+     * @param id the id
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
-    @Path("superviseurs")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public Superviseur addSuperviseur(Superviseur superviseur) throws IllegalArgumentException {
-        if (superviseur.getId() != 0) throw new IllegalArgumentException();
+    public void addSuperviseur(@PathParam("id") long id) throws IllegalArgumentException {
+        FormDevenirSuper form;
+        EntityTransaction transaction;
 
-        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
-            EntityTransaction transaction = superDAO.getTransaction();
+        try (FormDevenirSuperDAO formDAO = FormDevenirSuperDAO.of()){
+            form = formDAO.find(id);
+            if (form == null)
+                throw new NotFoundException();
+
+            Superviseur superviseur = Superviseur.builder().email(form.getEmail())
+                    .passwordHash(form.getPasswordHash())
+                    .id(0)
+                    .random(form.getRandom())
+                    .salt(form.getSalt()).build();
+
+            try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+                transaction = superDAO.getTransaction();
+                transaction.begin();
+
+                superDAO.persist(superviseur);
+
+                transaction.commit();
+            }
+
+            transaction = formDAO.getTransaction();
             transaction.begin();
 
-            superDAO.persist(superviseur);
+            formDAO.remove(form);
 
             transaction.commit();
         }
-
-        return superviseur;
     }
 
+    /**
+     * Update superviseur superviseur.
+     *
+     * @param id          the id
+     * @param superviseur the superviseur
+     * @return the superviseur
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("superviseurs/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -120,15 +165,67 @@ public class SuperviseurResources {
         return superviseur;
     }
 
-    /*@DELETE
+    /**
+     * Remove superviseur.
+     *
+     * @param id the id
+     * @throws NotFoundException the not found exception
+     */
+    @DELETE
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
     public void removeSuperviseur(@PathParam("id") long id) throws NotFoundException {
-        if (!superviseurs.containsKey(id)) throw new NotFoundException();
-        superviseurs.remove(id);
-    }*/
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            Superviseur superviseur = superDAO.find(id);
 
+            EntityTransaction transaction = superDAO.getTransaction();
+            transaction.begin();
+
+            superDAO.remove(superviseur);
+
+            transaction.commit();
+        }
+    }
+
+    /**
+     * Gets superviseurs.
+     *
+     * @return the superviseurs
+     * @throws NotFoundException the not found exception
+     */
+    @GET
+    @Path("superviseurs")
+    @RolesAllowed({"ADMIN"})
+    @JWTAuth
+    public Map<Long, Superviseur> getSuperviseurs() throws NotFoundException {
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            return superDAO.findAll().stream()
+                    .collect(Collectors.toMap(Superviseur::getId, superviseur -> superviseur));
+        }
+    }
+
+    /**
+     * Gets superviseur.
+     *
+     * @param securityContext the security context
+     * @return the superviseur
+     * @throws NotFoundException the not found exception
+     */
+    @GET
+    @Path("superviseurs/me")
+    @RolesAllowed({"SUPER"})
+    @JWTAuth
+    public Superviseur getSuperviseur(@Context SecurityContext securityContext) throws NotFoundException {
+        return (Superviseur)securityContext.getUserPrincipal();
+    }
+
+    /**
+     * Remove superviseur.
+     *
+     * @param securityContext the security context
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/me")
     @RolesAllowed({"SUPER"})
@@ -136,7 +233,7 @@ public class SuperviseurResources {
     public void removeSuperviseur(@Context SecurityContext securityContext) throws NotFoundException {
         Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
 
-        log.info(superviseur.toString());
+        log.info(superviseur.toString() + "supprimé");
 
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
 
@@ -150,6 +247,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseur role.
+     *
+     * @param securityContext the security context
+     * @return the superviseur role
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/role")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -161,5 +265,63 @@ public class SuperviseurResources {
             return "ADMIN";
 
         return "SUPER";
+    }
+
+    /**
+     * Change superviseur login.
+     *
+     * @param securityContext the security context
+     * @param newLogin        the new login
+     * @throws NotFoundException the not found exception
+     */
+    @POST
+    @Path("superviseurs/me/login")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JWTAuth
+    public void changeSuperviseurLogin(@Context SecurityContext securityContext,
+                                         String newLogin) throws NotFoundException {
+        Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
+
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            EntityTransaction et = superDAO.getTransaction();
+            et.begin();
+
+            superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
+            superviseur.setEmail(newLogin.replace("\n", "").replace(" ", ""));
+            superDAO.persist(superviseur);
+
+            et.commit();
+        }
+    }
+
+    /**
+     * Change superviseur mdp.
+     *
+     * @param securityContext the security context
+     * @param newMdp          the new mdp
+     * @throws NotFoundException the not found exception
+     */
+    @POST
+    @Path("superviseurs/me/mdp")
+    @RolesAllowed({"SUPER", "ADMIN"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JWTAuth
+    public void changeSuperviseurMdp(@Context SecurityContext securityContext,
+                                       String newMdp) throws NotFoundException {
+        Superviseur superviseur = (Superviseur)securityContext.getUserPrincipal();
+
+        try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+            EntityTransaction et = superDAO.getTransaction();
+            et.begin();
+
+            superviseur = superDAO.findByEmail(superviseur.getEmail()).get(0);
+            superviseur.setPasswordHash(newMdp.replace("\n", "").replace(" ", ""));
+            superDAO.persist(superviseur);
+
+            et.commit();
+        } catch (NoSuchAlgorithmException|InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
     }
 }

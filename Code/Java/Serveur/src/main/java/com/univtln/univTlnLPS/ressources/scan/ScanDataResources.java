@@ -3,10 +3,12 @@ package com.univtln.univTlnLPS.ressources.scan;
 import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
+import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
+import com.univtln.univTlnLPS.model.scan.WifiData;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
@@ -15,46 +17,99 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.SecurityContext;
+import lombok.extern.java.Log;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The type Scan data resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
+@Log
 public class ScanDataResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
-        ScanData scanData = ScanData.builder().infoScan("").wifiList(new HashSet<>()).build();
 
-        try (ScanDataDAO scanDataDao = ScanDataDAO.of()) {
-            EntityTransaction transaction = scanDataDao.getTransaction();
-
-            transaction.begin();
-            scanDataDao.persist(scanData);
-
-            transaction.commit();
-        }
     }
 
+    /**
+     * Add scan data string.
+     *
+     * @param scanData        the scan data
+     * @param idPiece         the id piece
+     * @param securityContext the security context
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("scans")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN", "SUPER"})
     @JWTAuth
-    public ScanData addScanData(ScanData scandata) throws IllegalArgumentException {
-        if (scandata.getId() != 0) throw new IllegalArgumentException();
+    public String addScanData(ScanData scanData,
+                                @QueryParam("piece") long idPiece,
+                                @Context SecurityContext securityContext) throws IllegalArgumentException {
+        if (scanData.getId() != 0) throw new IllegalArgumentException();
+
+        Set<WifiData> wifiSet = scanData.getWifiList();
+        if (wifiSet.size() == 0) throw new IllegalArgumentException();
+
+        Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
 
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
-            EntityTransaction transaction = scanDataDAO.getTransaction();
+            EntityTransaction transaction;
 
-            transaction.begin();
-            scanDataDAO.persist(scandata);
+            scanData.setWifiList(new HashSet<>());
+            scanData.setDateScan(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-            transaction.commit();
+            try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
+                transaction = scanDataDAO.getTransaction();
+
+                transaction.begin();
+                scanData.setSuperviseur(superDAO.findByEmail(superviseur.getEmail()).get(0));
+                scanData.setPiece(PieceDAO.of().find(idPiece));
+                scanDataDAO.persist(scanData);
+
+                transaction.commit();
+            }
+
+            ScanData sData = scanDataDAO.find(scanData.getId());
+            try (WifiDataDAO wDAO = WifiDataDAO.of()) {
+                transaction = wDAO.getTransaction();
+
+                transaction.begin();
+
+                for (WifiData wData : wifiSet) {
+                    wData.setScanData(sData);
+                    wDAO.persist(wData);
+                }
+
+                transaction.commit();
+            }
         }
-        return scandata;
+
+        return "success";
     }
 
+    /**
+     * Update scan data scan data.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @param scandata        the scandata
+     * @return the scan data
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("scans/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -83,6 +138,15 @@ public class ScanDataResources {
         return scandata;
     }
 
+    /**
+     * Gets scan data.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @return the scan data
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @GET
     @Path("scans/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -95,7 +159,8 @@ public class ScanDataResources {
 
             // On verifie que l'utilisateur soit admin ou le superviseur du scan
             if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {
-                if (!(securityContext.getUserPrincipal() == scanData.getSuperviseur()))
+                Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
+                if (!(superviseur.getId() == scanData.getSuperviseur().getId()))
                     throw new IllegalArgumentException();
             }
 
@@ -104,6 +169,11 @@ public class ScanDataResources {
         return scanData;
     }
 
+    /**
+     * Gets scan data size.
+     *
+     * @return the scan data size
+     */
     @GET
     @Path("scans/size")
     @RolesAllowed({"ADMIN"})
@@ -116,6 +186,13 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets scan pieces by super ef.
+     *
+     * @param id the id
+     * @return the scan pieces by super ef
+     * @throws NotFoundException the not found exception
+     */
     public List<Piece> getScanPiecesBySuperEF(long id) throws NotFoundException{
         Superviseur superviseur;
         try (SuperviseurDAO superviseurDAO = SuperviseurDAO.of()) {
@@ -129,6 +206,14 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets scan data by sup by piece ef.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the scan data by sup by piece ef
+     * @throws NotFoundException the not found exception
+     */
     public List<ScanData> getScanDataBySupByPieceEF( long id, long idPiece) throws NotFoundException {
         // On recupere le superviseur
         Superviseur superviseur;
@@ -153,6 +238,14 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets own scan data by piece ef.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the own scan data by piece ef
+     * @throws NotFoundException the not found exception
+     */
     public List<ScanData> getOwnScanDataByPieceEF (SecurityContext securityContext,
                                                    long idPiece) throws NotFoundException {
 
@@ -172,6 +265,13 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Gets own scan pieces by super size.
+     *
+     * @param securityContext the security context
+     * @return the own scan pieces by super size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans/pieces/size")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -183,6 +283,13 @@ public class ScanDataResources {
         return getScanPiecesBySuperEF(superviseur.getId()).size();
     }
 
+    /**
+     * Gets scan pieces by super size.
+     *
+     * @param id the id
+     * @return the scan pieces by super size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans/pieces/size")
     @RolesAllowed({"ADMIN"})
@@ -192,6 +299,14 @@ public class ScanDataResources {
         return getScanPiecesBySuperEF(id).size();
     }
 
+    /**
+     * Gets scan data by sup by piece size.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the scan data by sup by piece size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans/size")
     @RolesAllowed({"ADMIN"})
@@ -202,6 +317,14 @@ public class ScanDataResources {
         return getScanDataBySupByPieceEF(id, idPiece).size();
     }
 
+    /**
+     * Gets own scan data by piece size.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the own scan data by piece size
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans/size")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -213,6 +336,13 @@ public class ScanDataResources {
         return getOwnScanDataByPieceEF(securityContext, idPiece).size();
     }
 
+    /**
+     * Gets scan pieces by super.
+     *
+     * @param id the id
+     * @return the scan pieces by super
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans/pieces")
     @RolesAllowed({"ADMIN"})
@@ -223,6 +353,13 @@ public class ScanDataResources {
                 .collect(Collectors.toMap(Piece::getId, piece -> piece));
     }
 
+    /**
+     * Gets own scan pieces by super.
+     *
+     * @param securityContext the security context
+     * @return the own scan pieces by super
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans/pieces")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -235,6 +372,14 @@ public class ScanDataResources {
                 .collect(Collectors.toMap(Piece::getId, piece -> piece));
     }
 
+    /**
+     * Gets scan data by sup by piece.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the scan data by sup by piece
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/{id}/scans")
     @RolesAllowed({"ADMIN"})
@@ -242,10 +387,35 @@ public class ScanDataResources {
     public Map<Long, ScanData> getScanDataBySupByPiece(@PathParam("id") long id,
                                                   @QueryParam("idPiece") long idPiece) throws NotFoundException {
 
-        return getScanDataBySupByPieceEF(id, idPiece).stream()
+        List<ScanData> lscans = getScanDataBySupByPieceEF(id, idPiece);
+        //log.info("wifiList:" + lscans.get(0).getWifiList());
+        return lscans.stream()
                     .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
     }
 
+    /**
+     * Gets all scan.
+     *
+     * @return the all scan
+     * @throws NotFoundException the not found exception
+     */
+    @GET
+    @Path("scans")
+    public Map<Long, ScanData> getAllScan() throws NotFoundException {
+
+        return ScanDataDAO.of().findAll().stream()
+                .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+
+    }
+
+    /**
+     * Gets own scan data by piece.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the own scan data by piece
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/scans")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -259,6 +429,11 @@ public class ScanDataResources {
 
     }
 
+    /**
+     * Remove scan ef.
+     *
+     * @param listeScan the liste scan
+     */
     public void removeScanEF(List<ScanData> listeScan){
 
         for (ScanData scanData:
@@ -275,33 +450,62 @@ public class ScanDataResources {
         }
     }
 
+    /**
+     * Remove scan data by sup by piece string.
+     *
+     * @param id      the id
+     * @param idPiece the id piece
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/{id}/scans")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public  void removeScanDataBySupByPiece(@PathParam("id") long id,
+    public String removeScanDataBySupByPiece(@PathParam("id") long id,
                                                        @QueryParam("idPiece") long idPiece) throws NotFoundException {
 
         List<ScanData>  liste = getScanDataBySupByPieceEF(id, idPiece);
         removeScanEF(liste);
+
+        return "success";
     }
 
+    /**
+     * Remove own scan data by piece string.
+     *
+     * @param securityContext the security context
+     * @param idPiece         the id piece
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/me/scans")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
-    public void removeOwnScanDataByPiece(@Context SecurityContext securityContext,
+    public String removeOwnScanDataByPiece(@Context SecurityContext securityContext,
                                                      @QueryParam("idPiece") long idPiece) throws NotFoundException {
 
         List<ScanData> liste =  getOwnScanDataByPieceEF(securityContext, idPiece);
         removeScanEF(liste);
+
+        return "success";
     }
 
+    /**
+     * Remove scan data string.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @return the string
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @DELETE
     @Path("scans/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
     @JWTAuth
-    public void removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
+    public String removeScanData(@Context SecurityContext securityContext, @PathParam("id") long id) throws NotFoundException, IllegalArgumentException {
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
 
             if(id == 0) throw new IllegalArgumentException();
@@ -311,11 +515,25 @@ public class ScanDataResources {
 
             // On verifie que l'utilisateur soit admin ou le superviseur du scan
             if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {
-                if (!(securityContext.getUserPrincipal() == scanData.getSuperviseur()))
+                Superviseur superviseur = (Superviseur) securityContext.getUserPrincipal();
+                if (!(superviseur.getId() == scanData.getSuperviseur().getId()))
                     throw new IllegalArgumentException();
             }
 
-            EntityTransaction transaction = scanDataDAO.getTransaction();
+            EntityTransaction transaction;
+
+            try (WifiDataDAO wDAO = WifiDataDAO.of()) {
+                transaction = wDAO.getTransaction();
+
+                transaction.begin();
+
+                for (WifiData wifi : scanData.getWifiList())
+                     wDAO.remove(wDAO.find(wifi.getId()));
+
+                transaction.commit();
+            }
+
+            transaction = scanDataDAO.getTransaction();
 
             transaction.begin();
 
@@ -323,15 +541,24 @@ public class ScanDataResources {
 
             transaction.commit();
         }
+
+        return "success";
     }
 
+    /**
+     * Delete scan datas string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("scans")
     @RolesAllowed({"ADMIN"})
     @JWTAuth
-    public void deleteScanDatas() {
+    public String deleteScanDatas() {
         try (ScanDataDAO scanDataDAO = ScanDataDAO.of()) {
             scanDataDAO.deleteAll();
         }
+
+        return "success";
     }
 }

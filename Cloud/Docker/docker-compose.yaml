@@ -12,16 +12,19 @@ services:
             - ./service-proxy/:/www/data
             - /etc/letsencrypt:/etc/letsencrypt
         ports:
-            - 80:80
-            - 443:443
+            - 8044:80
+            - 4430:443
 
     service-localisation:
         image: service-localisation
         container_name: service-localisation
         depends_on:
-            - service-db
+            - service-java
+        links: 
+            - "service-java:serveurSGBD"
         build:
-            context: ./service-localisation
+            context: ../../
+            dockerfile: ./Cloud/Docker/service-localisation/Dockerfile
         ports:
             - 5000:5000
         restart: on-failure
@@ -31,11 +34,13 @@ services:
         container_name: service-java
         depends_on:
             - service-db
+        links: 
+            - "service-db:database"
         build:
-            context: ./service-java
+            context: ../../
+            dockerfile: ./Cloud/Docker/service-java/Dockerfile
         ports:
-            - 5020:4444
-            - 5021:443
+            - 9998:9998
  
     service-db:
         image: mariadb:10.4
@@ -51,3 +56,6 @@ services:
         volumes:
             - ./service-db/database:/var/lib/mysql
             - ./service-db/conf:/etc/mysql
+            
+            
+

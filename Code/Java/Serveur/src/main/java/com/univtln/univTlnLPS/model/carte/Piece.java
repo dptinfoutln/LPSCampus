@@ -6,7 +6,6 @@ import com.univtln.univTlnLPS.model.scan.ScanData;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.extern.java.Log;
 
@@ -15,6 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+/**
+ * Classe Piece du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,7 +30,10 @@ import java.util.Set;
 @Entity
 
 @NamedQueries({
-        @NamedQuery(name = "piece.findByName", query = "select piece from Piece piece where piece.name=:name")})
+        @NamedQuery(name = "piece.findByName",
+                query = "select piece " +
+                        "from Piece piece " +
+                        "where piece.name=:name")})
 
 public class Piece implements SimpleEntity {
 
@@ -46,12 +51,11 @@ public class Piece implements SimpleEntity {
     @GeneratedValue
     private long id;
 
-    @JsonIgnore
+    @XmlElement
     @ManyToOne
     private Etage etage;
 
-    @XmlElement(name = "scan")
-    @XmlElementWrapper(name = "scans")
+    @JsonIgnore
     @OneToMany(mappedBy="piece")
     private Set<ScanData> scanList;
 }

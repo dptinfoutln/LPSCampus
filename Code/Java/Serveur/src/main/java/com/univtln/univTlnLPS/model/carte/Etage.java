@@ -5,7 +5,6 @@ import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.java.Log;
@@ -15,6 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
+/**
+ * Classe Etage du modele
+ */
 @Log
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -32,7 +34,10 @@ import java.util.Set;
 
 
 @NamedQueries({
-        @NamedQuery(name = "etage.findByName", query = "select etage from Etage etage where etage.name=:name")})
+        @NamedQuery(name = "etage.findByName",
+                query = "select etage " +
+                        "from Etage etage " +
+                        "where etage.name=:name")})
 
 public class Etage implements SimpleEntity {
 
@@ -48,12 +53,11 @@ public class Etage implements SimpleEntity {
     @GeneratedValue
     private long id;
 
-    @JsonIgnore
     @ManyToOne
+    @XmlElement
     private Batiment batiment;
 
-    @XmlElement(name = "piece")
-    @XmlElementWrapper(name = "pieces")
+    @JsonIgnore
     @OneToMany(mappedBy="etage")
     private Set<Piece> pieceList;
 }
