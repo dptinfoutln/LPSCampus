@@ -17,8 +17,8 @@ import java.util.List;
 
 public class Position {
 
-    public static String uri1 = "http://";
-    public static String uri2 = ":5000/position";
+    public static String uri1 = "https://";
+    public static String uri2 = ":17443/position";
 
     public static String get(String uri, JSONObject obj){
         HttpURLConnection urlConnection = null;

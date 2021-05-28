@@ -11,13 +11,17 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 public class SSGBDControleur implements Serializable {
     private final String baseUrl;
     private final Connexion c;
     private final String ip;
 
     public SSGBDControleur(String ip) {
-        baseUrl = "http://" + ip + ":9998/LPS/LaGarde/";
+        baseUrl = "https://" + ip + ":17443/LPS/LaGarde/";
         c = new Connexion(ip);
         this.ip = ip;
     }
@@ -36,6 +40,15 @@ public class SSGBDControleur implements Serializable {
         if (param == null)
             return doRequestStr(method, path, null, secured);
         return doRequestStr(method, path, param.toString(), secured);
+    }
+
+    static {
+        HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        });
     }
 
     public String doRequestStr(String method, String path, String param, boolean secured) throws JSONException {
