@@ -14,14 +14,29 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.SecurityContext;
 
+/**
+ * The type Wifi data resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class WifiDataResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
 
     }
 
+    /**
+     * Add wifi data wifi data.
+     *
+     * @param wifidata the wifidata
+     * @return the wifi data
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("wifis")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -41,6 +56,16 @@ public class WifiDataResources {
         return wifidata;
     }
 
+    /**
+     * Update wifi data wifi data.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @param wifidata        the wifidata
+     * @return the wifi data
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("wifis/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -48,9 +73,7 @@ public class WifiDataResources {
     @JWTAuth
     public WifiData updateWifiData(@Context SecurityContext securityContext, @PathParam("id") long id, WifiData wifidata) throws NotFoundException, IllegalArgumentException {
 
-        // TODO check super has the rights to modify this wifi
         if (wifidata.getId() != id && id == 0) throw new IllegalArgumentException();
-
 
         // We check that super has the rights to modify this wifi (admin or supers wifiData creator)
         if(!(securityContext.getUserPrincipal() instanceof Administrateur)) {
@@ -79,6 +102,13 @@ public class WifiDataResources {
         return wifidata;
     }
 
+    /**
+     * Gets wifi data.
+     *
+     * @param id the id
+     * @return the wifi data
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("wifis/{id}")
     public WifiData getWifiData(@PathParam("id") long id) throws NotFoundException {
@@ -93,6 +123,11 @@ public class WifiDataResources {
         return wifiData;
     }
 
+    /**
+     * Gets wifi data size.
+     *
+     * @return the wifi data size
+     */
     @GET
     @Path("wifis/size")
     @RolesAllowed({"ADMIN"})
@@ -105,6 +140,15 @@ public class WifiDataResources {
         }
     }
 
+    /**
+     * Remove wifi data string.
+     *
+     * @param securityContext the security context
+     * @param id              the id
+     * @return the string
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @DELETE
     @Path("wifis/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -144,6 +188,11 @@ public class WifiDataResources {
         return "success";
     }
 
+    /**
+     * Delete wifi data string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("wifis")
     @RolesAllowed({"ADMIN"})

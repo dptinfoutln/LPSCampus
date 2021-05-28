@@ -36,7 +36,7 @@ public class SupprimerCompte extends AppCompatActivity {
                 @Override
                 public void run() {
                     try {
-                        ssgbdControleur.doRequest("DELETE", "superviseurs/me", null, !true);
+                        ssgbdControleur.doRequest("DELETE", "superviseurs/me", null, true);
                         SupprimerCompte.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

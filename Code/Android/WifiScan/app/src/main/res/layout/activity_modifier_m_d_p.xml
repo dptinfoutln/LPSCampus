@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Saisir l'ancien mot de passe"
+        android:password="true"
         android:layout_below="@+id/texteModifierMDP" />
 
     <EditText
@@ -31,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Saisir le nouveau mot de passe"
+        android:password="true"
         android:layout_below="@+id/ancien" />
 
     <EditText
@@ -38,6 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ressaisir le nouveau mot de passe"
+        android:password="true"
         android:layout_below="@id/nouveau"/>
 
     <Button

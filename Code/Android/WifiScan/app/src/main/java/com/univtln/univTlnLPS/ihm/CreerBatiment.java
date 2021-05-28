@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.carte.model.Batiment;
@@ -89,6 +90,7 @@ public class CreerBatiment extends AppCompatActivity {
         y = Integer.parseInt(pos_y.getText().toString());
 
         JSONObject bid = new JSONObject();
+        JSONObject campusId = new JSONObject();
 
         Campus camp = null;
         if (campus.getSelectedItem() != null) {
@@ -104,17 +106,32 @@ public class CreerBatiment extends AppCompatActivity {
         bid.put("position_y", y);
         bid.put("id", 0);
 
+        String item = (String)campus.getSelectedItem();
+        if (item == null)
+            return;
+
+        campusId.put("id", (item.split(":")[0]));
+
+        bid.put("campus", campusId);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "batiments", bid, !true);
+                    ssgbdControleur.doRequest("PUT", "batiments", bid, true);
+                    CreerBatiment.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerBatiment.this, "Création du batiment", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
     }
 
     public void createCampus(View v) {

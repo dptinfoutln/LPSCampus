@@ -5,21 +5,17 @@ import com.univtln.univTlnLPS.dao.administration.SuperviseurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.model.administration.FormDevenirSuper;
 import com.univtln.univTlnLPS.model.administration.Superviseur;
-import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.net.server.LPSServer;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TransactionRequiredException;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import lombok.extern.java.Log;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import javax.naming.AuthenticationException;
@@ -33,11 +29,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Superviseur resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 @Log
 public class SuperviseurResources {
 
+    /**
+     * Connexion string.
+     *
+     * @param securityContext the security context
+     * @return the string
+     */
     @POST
     @Path("connexion")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -57,6 +62,11 @@ public class SuperviseurResources {
     }
 
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
             EntityTransaction transaction = superDAO.getTransaction();
@@ -71,9 +81,7 @@ public class SuperviseurResources {
                     superDAO.persist(superviseur);
                 }
 
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            } catch (InvalidKeySpecException e) {
+            } catch (NoSuchAlgorithmException|InvalidKeySpecException e) {
                 e.printStackTrace();
             }
 
@@ -84,6 +92,12 @@ public class SuperviseurResources {
 
     // add delete update
 
+    /**
+     * Add superviseur.
+     *
+     * @param id the id
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
@@ -121,6 +135,15 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Update superviseur superviseur.
+     *
+     * @param id          the id
+     * @param superviseur the superviseur
+     * @return the superviseur
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("superviseurs/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -142,6 +165,12 @@ public class SuperviseurResources {
         return superviseur;
     }
 
+    /**
+     * Remove superviseur.
+     *
+     * @param id the id
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/{id}")
     @RolesAllowed({"ADMIN"})
@@ -159,6 +188,12 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseurs.
+     *
+     * @return the superviseurs
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs")
     @RolesAllowed({"ADMIN"})
@@ -170,6 +205,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseur.
+     *
+     * @param securityContext the security context
+     * @return the superviseur
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me")
     @RolesAllowed({"SUPER"})
@@ -178,6 +220,12 @@ public class SuperviseurResources {
         return (Superviseur)securityContext.getUserPrincipal();
     }
 
+    /**
+     * Remove superviseur.
+     *
+     * @param securityContext the security context
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("superviseurs/me")
     @RolesAllowed({"SUPER"})
@@ -199,6 +247,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Gets superviseur role.
+     *
+     * @param securityContext the security context
+     * @return the superviseur role
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("superviseurs/me/role")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -212,6 +267,13 @@ public class SuperviseurResources {
         return "SUPER";
     }
 
+    /**
+     * Change superviseur login.
+     *
+     * @param securityContext the security context
+     * @param newLogin        the new login
+     * @throws NotFoundException the not found exception
+     */
     @POST
     @Path("superviseurs/me/login")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -233,6 +295,13 @@ public class SuperviseurResources {
         }
     }
 
+    /**
+     * Change superviseur mdp.
+     *
+     * @param securityContext the security context
+     * @param newMdp          the new mdp
+     * @throws NotFoundException the not found exception
+     */
     @POST
     @Path("superviseurs/me/mdp")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -251,9 +320,7 @@ public class SuperviseurResources {
             superDAO.persist(superviseur);
 
             et.commit();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException|InvalidKeySpecException e) {
             e.printStackTrace();
         }
     }

@@ -27,7 +27,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-
 /**
  * Authentication filter is a JAX-RS filter (@Provider with implements ContainerRequestFilter) is applied to every request whose method is annotated with @BasicAuth
  * as it is itself annotated with @BasicAuth (a personal annotation).
@@ -126,6 +125,13 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
         }
     }
 
+    /**
+     * Is user in roles boolean.
+     *
+     * @param rolesSet    the roles set
+     * @param superviseur the superviseur
+     * @return the boolean
+     */
     public static Boolean isUserInRoles(EnumSet<Utilisateur.Role> rolesSet, Superviseur superviseur){
         for (Utilisateur.Role role:
              rolesSet) {
@@ -135,6 +141,13 @@ public class BasicAuthenticationFilter implements ContainerRequestFilter {
         return false;
     }
 
+    /**
+     * Is user in role boolean.
+     *
+     * @param role        the role
+     * @param superviseur the superviseur
+     * @return the boolean
+     */
     public static Boolean isUserInRole(String role, Superviseur superviseur){
         // Tout le monde a les autorisations utilisateurs (guest)
         if (role.equals("USER"))

@@ -19,6 +19,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * Classe des Donnees de scan du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor
@@ -51,6 +54,9 @@ public class ScanData implements SimpleEntity {
     @Size(max = 30)
     private String infoScan;
 
+    /**
+     * The Date scan.
+     */
     @XmlElement
     @Temporal(TemporalType.DATE)
     Date dateScan;
@@ -59,6 +65,9 @@ public class ScanData implements SimpleEntity {
     @ManyToOne
     private Piece piece;
 
+    /**
+     * The Wifi list.
+     */
     @XmlElement(name = "Wifi")
     @XmlElementWrapper(name = "Wifis")
     @OneToMany(mappedBy="scanData")

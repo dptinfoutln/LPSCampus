@@ -12,13 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:id="@+id/imgTln"
-        android:background="@drawable/tln"
-        android:layout_marginBottom="40dp"/>
+        android:background="@drawable/tln" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
         android:text="Cette application est un projet de Machine learning réalisé par des étudiants du M1 info et nécessite de nombreuses données wifi. Pour participer à l'amélioration de l'application vous pouvez nous aider à récupérer des données en devenant Superviseur. Si vous êtes membre de l'université et que cela vous intéresse merci de remplir le formulaire suivant.">
     </TextView>
 
@@ -37,9 +35,8 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:id="@+id/loginTxt"
-            android:hint="Entrez votre Adresse Universitaire">
+            android:hint="Entrez votre Adresse Universitaire" >
         </EditText>
     </LinearLayout>
 
@@ -58,7 +55,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/mdpTxt"
-            android:hint="Entrez votre Mot de passe">
+            android:hint="Entrez votre Mot de passe"
+            android:password="true" >
+        </EditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vérification: ">
+        </TextView>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mdpTxt2"
+            android:hint="Entrez de nouveau votre Mot de passe"
+            android:password="true" >
         </EditText>
     </LinearLayout>
 

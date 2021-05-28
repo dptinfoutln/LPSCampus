@@ -2,7 +2,6 @@ package com.univtln.univTlnLPS.model.scan;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.univtln.univTlnLPS.model.SimpleEntity;
-import com.univtln.univTlnLPS.model.carte.Etage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
@@ -14,6 +13,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Classe des Donnees de Wifi du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor

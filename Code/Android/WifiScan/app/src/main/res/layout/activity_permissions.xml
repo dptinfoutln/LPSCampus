@@ -14,4 +14,11 @@
         android:layout_centerInParent="true"
         android:id="@+id/txtperm"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtperm"
+        android:text="Demander Permissions"
+        android:onClick="acceptPerm" />
+
 </RelativeLayout>

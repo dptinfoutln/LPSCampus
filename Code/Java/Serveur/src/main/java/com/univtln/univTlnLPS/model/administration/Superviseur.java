@@ -22,6 +22,9 @@ import java.security.spec.KeySpec;
 import java.util.Arrays;
 import java.util.Set;
 
+/**
+ * Classe Superviseur du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor
@@ -61,6 +64,13 @@ public class Superviseur extends Utilisateur implements Principal {
     @Builder.Default
     private SecureRandom random = new SecureRandom();
 
+    /**
+     * Defini le hash du password
+     *
+     * @param password the password
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     * @throws InvalidKeySpecException  the invalid key spec exception
+     */
     public void setPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if(random == null)
             random = new SecureRandom();
@@ -73,6 +83,12 @@ public class Superviseur extends Utilisateur implements Principal {
         this.passwordHash = factory.generateSecret(spec).getEncoded();
     }
 
+    /**
+     * Check the password
+     *
+     * @param password the password
+     * @return true if the password is correct
+     */
     @SneakyThrows
     public boolean checkPassword(String password) {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
@@ -81,6 +97,9 @@ public class Superviseur extends Utilisateur implements Principal {
         return Arrays.equals(passwordHash, submittedPasswordHash);
     }
 
+    /**
+     * @return supervisor's email
+     */
     @Override
     public String getName() {
         return email;

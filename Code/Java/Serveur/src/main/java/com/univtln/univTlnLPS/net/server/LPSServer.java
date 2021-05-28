@@ -1,5 +1,7 @@
 package com.univtln.univTlnLPS.net.server;
 
+import com.univtln.univTlnLPS.common.LPSModele;
+import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import lombok.extern.java.Log;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -7,6 +9,8 @@ import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.net.URI;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +44,10 @@ public class LPSServer {
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, InvalidKeySpecException, NoSuchAlgorithmException {
+        if (AdministrateurDAO.of().findAll().isEmpty())
+            LPSModele.init();
+
         log.info("Rest server starting..." + BASE_URI);
         final HttpServer server = startServer();
 

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -81,6 +82,7 @@ public class CreerSalle extends AppCompatActivity {
         Etage et = null;
         int x, y;
         JSONObject pid = new JSONObject();
+        JSONObject etageId = new JSONObject();
 
         // récupérer le nom, la position en x et y et l'étage
         salle = creerSalle.getText().toString();
@@ -105,11 +107,25 @@ public class CreerSalle extends AppCompatActivity {
         pid.put("etage", et);
         pid.put("scanList", null);
 
+        String item = (String)etages.getSelectedItem();
+        if (item == null)
+            return;
+
+        etageId.put("id", (item.split(":")[0]));
+
+        pid.put("etage", etageId);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "pieces", pid, !true);
+                    ssgbdControleur.doRequest("PUT", "pieces", pid, true);
+                    CreerSalle.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerSalle.this, "Création de la salle", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();

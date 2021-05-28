@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.SupprimerEtage">
+
+    <FrameLayout
+        android:id="@+id/frameSupprEtage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/texteSupprEtage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestion des étages"
+        android:textAlignment="center"
+        android:textColor="#020101"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/listSupprEtage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/texteSupprEtage" />
+
+    <Button
+        android:id="@+id/Supprimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/frameSupprEtage"
+        android:onClick="supprimer"
+        android:text="Supprimer" />
+
+</RelativeLayout>

@@ -1,19 +1,14 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
-import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
 import com.univtln.univTlnLPS.dao.carte.EtageDAO;
 import com.univtln.univTlnLPS.dao.carte.PieceDAO;
-import com.univtln.univTlnLPS.model.carte.Batiment;
 import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
-import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.HashSet;
@@ -22,10 +17,18 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
+/**
+ * The type Piece resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class PieceResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
         long i;
 
@@ -64,6 +67,13 @@ public class PieceResources {
         }
     }
 
+    /**
+     * Add piece string.
+     *
+     * @param piece the piece
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("pieces")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -93,6 +103,15 @@ public class PieceResources {
         return "success";
     }
 
+    /**
+     * Update piece piece.
+     *
+     * @param id    the id
+     * @param piece the piece
+     * @return the piece
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("pieces/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -115,6 +134,13 @@ public class PieceResources {
         return piece;
     }
 
+    /**
+     * Gets piece.
+     *
+     * @param id the id
+     * @return the piece
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("pieces/{id}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -129,6 +155,13 @@ public class PieceResources {
         return piece;
     }
 
+    /**
+     * Gets piece by name.
+     *
+     * @param name the name
+     * @return the piece by name
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("pieces/name/{name}")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -144,6 +177,11 @@ public class PieceResources {
         return piece;
     }
 
+    /**
+     * Gets piece size.
+     *
+     * @return the piece size
+     */
     @GET
     @Path("pieces/size")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -156,6 +194,12 @@ public class PieceResources {
         }
     }
 
+    /**
+     * Gets pieces.
+     *
+     * @return the pieces
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("pieces")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -172,6 +216,13 @@ public class PieceResources {
         return map ;
     }
 
+    /**
+     * Remove piece string.
+     *
+     * @param id the id
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("pieces/{id}")
     @RolesAllowed({"ADMIN"})
@@ -191,6 +242,11 @@ public class PieceResources {
         return "success";
     }
 
+    /**
+     * Delete pieces string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("pieces")
     @RolesAllowed({"ADMIN"})

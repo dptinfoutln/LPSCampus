@@ -1,32 +1,32 @@
 package com.univtln.univTlnLPS.ressources.carte;
 
 import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
-import com.univtln.univTlnLPS.dao.carte.CampusDAO;
 import com.univtln.univTlnLPS.dao.carte.EtageDAO;
-import com.univtln.univTlnLPS.dao.carte.PieceDAO;
 import com.univtln.univTlnLPS.model.carte.Batiment;
-import com.univtln.univTlnLPS.model.carte.Campus;
 import com.univtln.univTlnLPS.model.carte.Etage;
-import com.univtln.univTlnLPS.model.carte.Piece;
-import com.univtln.univTlnLPS.security.annotations.BasicAuth;
 import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
-import org.eclipse.collections.api.map.primitive.MutableLongObjectMap;
-import org.eclipse.collections.impl.factory.primitive.LongObjectMaps;
 import jakarta.ws.rs.*;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Etage resources.
+ */
 @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
 @Path("LaGarde")
 public class EtageResources {
 
+    /**
+     * Init.
+     *
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void init() throws IllegalArgumentException {
         Batiment bat;
 
@@ -47,6 +47,13 @@ public class EtageResources {
         }
     }
 
+    /**
+     * Add etage string.
+     *
+     * @param etage the etage
+     * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @PUT
     @Path("etages")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -76,6 +83,15 @@ public class EtageResources {
         return "success";
     }
 
+    /**
+     * Update etage etage.
+     *
+     * @param id    the id
+     * @param etage the etage
+     * @return the etage
+     * @throws NotFoundException        the not found exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     @POST
     @Path("etages/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -98,6 +114,13 @@ public class EtageResources {
         return etage;
     }
 
+    /**
+     * Gets etage.
+     *
+     * @param id the id
+     * @return the etage
+     * @throws NotFoundException the not found exception
+     */
     @GET
     @Path("etages/{id}")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -112,6 +135,11 @@ public class EtageResources {
         return etage;
     }
 
+    /**
+     * Gets etage size.
+     *
+     * @return the etage size
+     */
     @GET
     @Path("etages/size")
     @RolesAllowed({"ADMIN", "SUPER"})
@@ -124,6 +152,11 @@ public class EtageResources {
         }
     }
 
+    /**
+     * Gets etages.
+     *
+     * @return the etages
+     */
     @GET
     @Path("etages")
     @RolesAllowed({"SUPER", "ADMIN"})
@@ -140,6 +173,13 @@ public class EtageResources {
         return map ;
     }
 
+    /**
+     * Remove etage string.
+     *
+     * @param id the id
+     * @return the string
+     * @throws NotFoundException the not found exception
+     */
     @DELETE
     @Path("etages/{id}")
     @RolesAllowed({"ADMIN"})
@@ -159,6 +199,11 @@ public class EtageResources {
         return "success";
     }
 
+    /**
+     * Delete etages string.
+     *
+     * @return the string
+     */
     @DELETE
     @Path("etages")
     @RolesAllowed({"ADMIN"})

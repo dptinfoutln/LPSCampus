@@ -4,6 +4,7 @@ package com.univtln.univTlnLPS.model.administration;
 import com.univtln.univTlnLPS.model.SimpleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import lombok.*;
@@ -14,6 +15,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+/**
+ * Classe des rapports de bugs du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -63,9 +67,12 @@ public class BugReport implements SimpleEntity {
 
     @XmlElement
     @NotNull
-    //@Size(min = 2, max = 10)
+    @Size(min = 2, max = 10)
     private String caracteristiquesMachine;
 
+    /**
+     * The Date.
+     */
     @XmlElement
     @Temporal(TemporalType.DATE)
     Date date;

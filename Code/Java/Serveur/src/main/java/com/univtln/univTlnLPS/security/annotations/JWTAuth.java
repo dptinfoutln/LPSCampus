@@ -13,6 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * A annotation for method to be secured with Java Web Token (JWT)
+ *
  * @see JsonWebTokenFilter
  */
 @NameBinding

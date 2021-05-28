@@ -20,6 +20,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
 
+/**
+ * Classe Formulaire de demande a devenir Superviseur du modele
+ */
 @Log
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,7 +37,10 @@ import java.util.Arrays;
 
 
 @NamedQueries({
-        @NamedQuery(name = "form.findByEmail", query = "select formDevenirSuper from FormDevenirSuper formDevenirSuper where formDevenirSuper.email=:email")})
+        @NamedQuery(name = "form.findByEmail",
+                query = "select formDevenirSuper " +
+                        "from FormDevenirSuper formDevenirSuper " +
+                        "where formDevenirSuper.email=:email")})
 
 public class FormDevenirSuper implements SimpleEntity {
 
@@ -60,6 +66,13 @@ public class FormDevenirSuper implements SimpleEntity {
     private SecureRandom random = new SecureRandom();
 
 
+    /**
+     * Defini le hash du password
+     *
+     * @param password the password
+     * @throws NoSuchAlgorithmException the no such algorithm exception
+     * @throws InvalidKeySpecException  the invalid key spec exception
+     */
     public void setPasswordHash(String password) throws NoSuchAlgorithmException, InvalidKeySpecException {
         if(random == null)
             random = new SecureRandom();
@@ -70,13 +83,5 @@ public class FormDevenirSuper implements SimpleEntity {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         this.passwordHash = factory.generateSecret(spec).getEncoded();
-    }
-
-    @SneakyThrows
-    public boolean checkPassword(String password) {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] submittedPasswordHash = factory.generateSecret(spec).getEncoded();
-        return Arrays.equals(passwordHash, submittedPasswordHash);
     }
 }

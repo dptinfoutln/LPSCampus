@@ -37,7 +37,7 @@
             android:id="@+id/Afficher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/frame"
+            android:layout_alignEnd="@id/frame3"
             android:layout_alignBottom="@id/frame3"
             android:onClick="afficher"
             android:text="Afficher" />
