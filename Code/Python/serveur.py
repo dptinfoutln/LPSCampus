@@ -4,6 +4,7 @@ from flask_restful import Resource, Api
 import json
 
 import model as M
+from time import sleep
 
 app = Flask(__name__)
 api = Api(app)
@@ -28,6 +29,6 @@ if __name__ == "__main__":
             M.init()
             success = True
         except Exception:
-            pass
+            sleep(60)
         
     app.run(host='0.0.0.0', port=5000, debug=True)
