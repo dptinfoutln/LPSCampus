@@ -11,7 +11,7 @@ api = Api(app)
 
 
 class Position(Resource):
-    def post(self):
+    def put(self):
         content = request.get_json(silent=True)
         
         res = M.get_predict(content)
@@ -19,6 +19,9 @@ class Position(Resource):
         print(res)
         
         return res[0]
+    
+    def post(self):
+        M.init()
 
 api.add_resource(Position, '/position')
 

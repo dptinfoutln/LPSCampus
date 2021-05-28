@@ -165,6 +165,8 @@ public class ScanDataResources {
             }
 
             if( scanData == null) throw new NotFoundException();
+
+            scanData.setWifiList(new HashSet<>(WifiDataDAO.of().findByScanData(scanData)));
         }
         return scanData;
     }
@@ -401,10 +403,21 @@ public class ScanDataResources {
      */
     @GET
     @Path("scans")
-    public Map<Long, ScanData> getAllScan() throws NotFoundException {
-
+    public Map<Long, ScanData> getAllScan(@QueryParam("getWifiList") String getWifiList) throws NotFoundException {
+        log.info("HEREEEE");
+        if (getWifiList != null){
+            WifiDataDAO wifiDataDAO = WifiDataDAO.of();
+            return ScanDataDAO.of().findAll().stream()
+                    .collect(Collectors.toMap(ScanData::getId, scanData -> {
+                        scanData.setWifiList(new HashSet<>(wifiDataDAO.findByScanData(scanData)));
+                        return scanData;
+                    }));
+        }
         return ScanDataDAO.of().findAll().stream()
-                .collect(Collectors.toMap(ScanData::getId, scanData -> scanData));
+                .collect(Collectors.toMap(ScanData::getId, scanData -> {
+                    scanData.setWifiList(new HashSet<>());
+                    return scanData;
+                }));
 
     }
 

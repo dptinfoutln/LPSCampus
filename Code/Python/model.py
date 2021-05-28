@@ -48,7 +48,7 @@ class ScanManager:
     
     def read(self, directory="./data/res/"):
         
-        url = "http://" + ip + ":9998/LPS/LaGarde/" + "scans"
+        url = "http://" + ip + ":9998/LPS/LaGarde/" + "scans?getWifiList=true"
         response = requests.get(url)
         response.raise_for_status()
         
