@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -46,6 +47,9 @@ public class VoirRapportsBugs extends AppCompatActivity implements AdapterView.O
     private JSONArray jArray = null;
 
     private String cat = "";
+    private String role;
+
+    private Button supprimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,34 @@ public class VoirRapportsBugs extends AppCompatActivity implements AdapterView.O
         spinnerCat = findViewById(R.id.spinnerCat);
         DateDeb = findViewById(R.id.DateDeb);
         DateFin = findViewById(R.id.DateFin);
+        supprimer = findViewById(R.id.Suppr);
 
+        supprimer.setVisibility(View.INVISIBLE);
+        supprimer.setEnabled(false);
+        supprimer.refreshDrawableState();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    role = ssgbdControleur.doRequest("GET", "superviseurs/me/role", null, !true);
+                    role = role.substring(0, role.length()-1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                VoirRapportsBugs.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (role.equals("ADMIN")) {
+                            supprimer.setVisibility(View.VISIBLE);
+                            supprimer.setEnabled(true);
+                            supprimer.refreshDrawableState();
+                        }
+                    }
+                });
+            }
+        }).start();
 
         affichageSpinner();
     }

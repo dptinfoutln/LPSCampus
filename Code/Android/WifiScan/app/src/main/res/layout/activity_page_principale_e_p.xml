@@ -67,4 +67,13 @@
         android:onClick="onClickBDD"
         android:text="Gérer BDD" />
 
+    <Button
+        android:id="@+id/entrainerModele"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gererBDD"
+        android:backgroundTint="#269E40"
+        android:onClick="onClickEntrainer"
+        android:text="Entrainer le modèle" />
+
 </RelativeLayout>
