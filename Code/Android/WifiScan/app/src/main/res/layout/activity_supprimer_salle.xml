@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.SupprimerSalle">
+
+    <FrameLayout
+        android:id="@+id/frameSupprSalle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/texteSupprSalle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestion des salles"
+        android:textAlignment="center"
+        android:textColor="#020101"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/listSupprSalle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/texteSupprSalle" />
+
+    <Button
+        android:id="@+id/Supprimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/frameSupprSalle"
+        android:onClick="supprimer"
+        android:text="Supprimer" />
+
+</RelativeLayout>

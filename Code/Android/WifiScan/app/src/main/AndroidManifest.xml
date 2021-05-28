@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.univtln.univTlnLPS">
-
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-feature android:name="android.hardware.type.watch" />
-    <!--
-          Permissions requises pour effectuer un scan de wifi,
-          d'après https://developer.android.com/guide/topics/connectivity/wifi-scan
-    -->
     <!-- todo: ajout demande permission localisation pour l'utilisateur -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -26,9 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetM1GPS"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ihm.CompteUser"></activity>
-        <activity android:name=".ihm.CompteSuperviseur" />
+        <activity android:name=".ihm.SupprimerSalle" />
+        <activity android:name=".ihm.SupprimerEtage" />
+        <activity android:name=".ihm.SupprimerBatiment" />
+        <activity android:name=".ihm.SupprimerCampus" />
+        <activity android:name=".ihm.SupprimerCompteSuperviseur" />
+        <activity android:name=".ihm.BDD" />
+        <activity android:name=".ihm.MDPOubli" />
+        <activity android:name=".ihm.AffichageDetailRapport" />
         <activity android:name=".ihm.SupprimerCompte" />
+        <activity android:name=".common.Permissions" />
         <activity android:name=".ihm.ModifierMDP" />
         <activity android:name=".ihm.ModifierLogin" />
         <activity android:name=".ihm.ModifierInfo" />
@@ -44,7 +43,11 @@
         <activity android:name=".ihm.DevenirSuperviseur" />
         <activity android:name=".ihm.PagePrincipaleEP" />
         <activity android:name=".ihm.SeConnecter" />
-        <activity android:name=".ihm.AjoutDataPourSalle" />
+        <activity android:name=".ihm.VoirRapportsBugs" />
+        <activity android:name=".ihm.AffichageDonneesSalle" />
+        <activity android:name=".ihm.SeLocaliser" />
+        <activity android:name=".ihm.AffichageSalles" />
+        <activity android:name=".ihm.AjoutData" />
         <activity
             android:name=".ihm.HomeActivity"
             android:label="@string/title_activity_main">
@@ -54,10 +57,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ihm.AffichageDonneesSalle" />
-        <activity android:name=".ihm.SeLocaliser" />
-        <activity android:name=".ihm.AffichageSalles" />
-        <activity android:name=".ihm.AjoutData" />
+
     </application>
 
 </manifest>

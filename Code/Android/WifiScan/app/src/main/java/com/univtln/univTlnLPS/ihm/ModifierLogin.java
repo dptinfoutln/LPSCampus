@@ -36,7 +36,7 @@ public class ModifierLogin extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequestStr("POST", "superviseurs/me/login", nouveau.getText().toString(), !true);
+                    ssgbdControleur.doRequestStr("POST", "superviseurs/me/login", nouveau.getText().toString(), true);
                     ModifierLogin.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

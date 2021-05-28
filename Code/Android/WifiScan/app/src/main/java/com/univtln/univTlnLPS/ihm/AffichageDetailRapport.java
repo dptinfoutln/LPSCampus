@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
@@ -15,49 +13,47 @@ import com.univtln.univTlnLPS.client.SSGBDControleur;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class DescriptionProbleme extends AppCompatActivity {
+public class AffichageDetailRapport extends AppCompatActivity {
 
-    private EditText description;
-    private String pb;
     private SSGBDControleur ssgbdControleur;
-
+    private TextView aff;
+    private long id;
+    private JSONObject j;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_description_probleme);
+        setContentView(R.layout.activity_affichage_detail_rapport);
 
-        description = findViewById(R.id.description);
+        aff = findViewById(R.id.affichageDetail);
 
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
-        pb = i.getStringExtra("radioGroupId");
-    }
 
-    public void validerpb(View v) throws JSONException {
-        JSONObject pid = new JSONObject();
-
-        pid.put("id", 0);
-        pid.put("category", pb);
-        pid.put("content", description.getText().toString());
+        id = i.getLongExtra("idObj", 0);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "bugReports", pid, true);
-
-                    DescriptionProbleme.this.runOnUiThread(new Runnable() {
+                    j = SSGBDControleur.getJSONFromJSONString(ssgbdControleur.doRequest("GET", "bugReports/" + id, null, !true));
+                    AffichageDetailRapport.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(DescriptionProbleme.this, "Problème reporté", Toast.LENGTH_LONG).show();
-                            finish();
+                            try {
+                                aff.setText(j.getString("content"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
+
     }
 }

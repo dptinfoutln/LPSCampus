@@ -23,7 +23,7 @@
         android:onClick="probleme" />
 
 
-    <RadioGroup
+    <!--RadioGroup
         android:id="@+id/groupTexteGraphique"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:textColor="#0E0E0E"
             android:layout_marginRight="20sp"/>
 
-    </RadioGroup>
+    </RadioGroup-->
 
 
     <Button

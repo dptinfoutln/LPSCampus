@@ -1,5 +1,8 @@
 package com.univtln.univTlnLPS.client;
 
+import android.media.DrmInitData;
+
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,16 +15,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 public class Connexion implements Serializable {
 
     private String login;
     private String mdp;
     private String token;
 
-    public static final String uri1 = "http://";
-    public static final String uri2 = ":9998/LPS/LaGarde/connexion";
+    public static final String uri1 = "https://";
+    public static final String uri2 = ":17443/LPS/LaGarde/connexion";
     private final String uri;
-
 
     public String getToken() {
         return token;
@@ -46,7 +52,6 @@ public class Connexion implements Serializable {
         this.mdp = mdp;
         this.token = null;
     }
-
 
     /**
      * S'authentifie pour récupérer le token

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.carte.model.Batiment;
@@ -78,6 +79,7 @@ public class CreerEtage extends AppCompatActivity {
     public void createEtage(View v) throws JSONException {
         String nom = nomEt.getText().toString();
         JSONObject eid = new JSONObject();
+        JSONObject batimentId = new JSONObject();
         Batiment bat = null;
         if (batiments.getSelectedItem() != null) {
             String batiment = (String) batiments.getSelectedItem();
@@ -87,23 +89,36 @@ public class CreerEtage extends AppCompatActivity {
         }
 
         eid.put("name", nom);
-        eid.put("bat", bat);
         eid.put("plan", planBat.getText().toString());
         eid.put("id", 0);
         eid.put("pieceList", null);
+
+        String item = (String)batiments.getSelectedItem();
+        if (item == null)
+            return;
+
+        batimentId.put("id", (item.split(":")[0]));
+
+        eid.put("batiment", batimentId);
+
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "etages", eid, !true);
+                    ssgbdControleur.doRequest("PUT", "etages", eid, true);
+                    CreerEtage.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerEtage.this, "Création de l'étage", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-
     }
 
     public void createBatiment(View v) {

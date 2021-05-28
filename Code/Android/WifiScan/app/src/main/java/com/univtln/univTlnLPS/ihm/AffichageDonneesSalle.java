@@ -122,7 +122,7 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("DELETE", "scans/" + lastId, null, !true);
+                    ssgbdControleur.doRequest("DELETE", "scans/" + lastId, null, true);
                     affichageDonneesSalle();
                 } catch (JSONException e) {
                     e.printStackTrace();
