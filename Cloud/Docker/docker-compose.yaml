@@ -7,13 +7,17 @@ services:
         depends_on:
             - service-localisation
             - service-java
+        links: 
+            - "service-java:serveurSGBD"
+            - "service-localisation:serveurModele"
         volumes:
             - ./service-proxy/nginx.conf:/etc/nginx/nginx.conf
             - ./service-proxy/:/www/data
-            - /etc/letsencrypt:/etc/letsencrypt
+            - ./service-proxy/certificat:/etc/certificat
         ports:
-            - 8044:80
-            - 4430:443
+            - 17080:80
+            - 17443:443
+        restart: on-failure
 
     service-localisation:
         image: service-localisation
@@ -25,8 +29,6 @@ services:
         build:
             context: ../../
             dockerfile: ./Cloud/Docker/service-localisation/Dockerfile
-        ports:
-            - 5000:5000
         restart: on-failure
 
     service-java:
@@ -39,8 +41,6 @@ services:
         build:
             context: ../../
             dockerfile: ./Cloud/Docker/service-java/Dockerfile
-        ports:
-            - 9998:9998
  
     service-db:
         image: mariadb:10.4
