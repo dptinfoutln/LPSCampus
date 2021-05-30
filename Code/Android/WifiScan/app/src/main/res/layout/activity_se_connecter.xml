@@ -25,7 +25,7 @@
         android:layout_marginTop="30dp"
         android:onClick="onClickSeConnecter"
         android:text="Se Connecter"
-        android:layout_alignBottom="@id/frame2"
+        android:layout_below="@id/motDePasse"
         android:textSize="18sp" />
 
     <EditText
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/connexion"
         android:hint="Login"
-        android:text="leviathan@univ-tln.fr"
+        android:text=""
         android:layout_marginTop="30dp"
         android:textSize="22sp" />
 
@@ -44,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login"
         android:hint="Mot de passe"
-        android:text="trempette"
+        android:text=""
+        android:password="true"
         android:textSize="22sp" />
 
     <TextView
@@ -57,6 +58,26 @@
         android:layout_below="@id/imgTln"
         android:textColor="#040303"
         android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/oubli"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seConnecter"
+        android:clickable="true"
+        android:onClick="oubli"
+        android:text="Mot de passe oublié"
+        android:textAlignment="center"
+        android:textColor="#070505"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/devenirSuperviseur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickDevenirSuperviseur"
+        android:text="Demander à devenir Superviseur"
+        android:layout_alignBottom="@id/frame2" />
 
 
 </RelativeLayout>

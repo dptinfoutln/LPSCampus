@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,11 +24,11 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
 
     private SSGBDControleur ssgbdControleur;
     private ListView ListeDonneesSalle;
-    private ListAdapter listeAdapter;
+    private AdapterString listeAdapter;
     private List<String> liste;
     private TextView nomSalle;
 
-    private String lastId, salleId, nom;
+    private String lastId, salleId, nom, role, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +41,10 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
         salleId = i.getStringExtra("salleId");
         nom = i.getStringExtra("piece");
+        role = i.getStringExtra("role");
+        id = i.getStringExtra("id");
+
+        nomSalle.setText(nom);
 
         try {
             affichageDonneesSalle();
@@ -53,13 +56,15 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        listeAdapter.setItemSelected(position);
+        listeAdapter.notifyDataSetChanged();
         String resultat = (String)parent.getItemAtPosition(position);
         lastId = resultat.split(":")[0];
     }
 
 
     public void affichageDonneesSalle() throws JSONException {
-        listeAdapter = new AdapterSalles(this, new ArrayList<>());
+        listeAdapter = new AdapterString(this, new ArrayList<>());
         ListeDonneesSalle = (ListView) findViewById(R.id.listedonneessalle);
 
         new Thread(new Runnable() {
@@ -67,7 +72,12 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
             public void run() {
                 String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("GET", "pieces/" + salleId + "/scans", null, !true);
+                    if (role.equals("ADMIN")) {
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/" + id + "/scans" + "?idPiece=" + salleId, null, !true);
+                    }
+                    else if (role.equals("SUPER")) {
+                        chaine = ssgbdControleur.doRequest("GET", "superviseurs/me/scans" + "?idPiece=" + salleId, null, !true);
+                    }
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     liste = new ArrayList<>();
@@ -80,14 +90,13 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
                         name = name + ":" + tmp.get("infoScan").toString(); // on récupère le nom associé
                         liste.add(name);
                     }
-                    listeAdapter = new AdapterSalles(AffichageDonneesSalle.this, liste);
+                    listeAdapter = new AdapterString(AffichageDonneesSalle.this, liste);
 
                     AffichageDonneesSalle.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             ListeDonneesSalle.setAdapter(listeAdapter);
                             ListeDonneesSalle.setOnItemClickListener(AffichageDonneesSalle.this);
-                            nomSalle.setText(nom);
                         }
                     });
                 } catch (JSONException e) {
@@ -113,12 +122,13 @@ public class AffichageDonneesSalle extends AppCompatActivity implements AdapterV
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("DELETE", "scans/" + lastId, null, !true);
+                    ssgbdControleur.doRequest("DELETE", "scans/" + lastId, null, true);
+                    affichageDonneesSalle();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        });
+        }).start();
     }
 
 

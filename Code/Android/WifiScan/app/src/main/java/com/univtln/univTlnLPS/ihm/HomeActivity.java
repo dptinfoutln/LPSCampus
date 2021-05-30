@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
+import com.univtln.univTlnLPS.common.Permissions;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -21,6 +22,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ipTxt = findViewById(R.id.ip);
+
+        if (!Permissions.isPermGranted(this)) {
+            Intent i = new Intent(this, Permissions.class);
+            startActivity(i);
+        }
     }
 
     private boolean init() {
@@ -31,7 +37,15 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
-    public void onClickSeLocaliser(View v) {
+    public void onClickAvecConnexion(View v) {
+        if (!init())
+            return;
+        Intent i = new Intent(this, SeConnecter.class);
+        i.putExtra("ssgbdC", ssgbdControleur);
+        startActivity(i);
+    }
+
+    public void onClickSansConnexion(View v) {
         if (!init())
             return;
         Intent i = new Intent(this, SeLocaliser.class);
@@ -39,20 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void onClickSeConnecter(View v) {
-        if (!init())
-            return;
-        //Intent i = new Intent(this, AjoutData.class);
-        Intent i = new Intent(this, SeConnecter.class);
-        i.putExtra("ssgbdC", ssgbdControleur);
-        startActivity(i);
-    }
 
-    public void onClickDevenirSuperviseur(View V) {
-        if (!init())
-            return;
-        Intent i = new Intent(this, DevenirSuperviseur.class);
-        i.putExtra("ssgbdC", ssgbdControleur);
-        startActivity(i);
-    }
+
+
 }

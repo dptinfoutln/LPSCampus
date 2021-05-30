@@ -11,13 +11,17 @@ import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 public class SSGBDControleur implements Serializable {
     private final String baseUrl;
     private final Connexion c;
     private final String ip;
 
     public SSGBDControleur(String ip) {
-        baseUrl = "http://" + ip + ":9998/LPS/LaGarde/";
+        baseUrl = "https://" + ip + ":17443/LPS/LaGarde/";
         c = new Connexion(ip);
         this.ip = ip;
     }
@@ -33,6 +37,21 @@ public class SSGBDControleur implements Serializable {
     }
 
     public String doRequest(String method, String path, JSONObject param, boolean secured) throws JSONException {
+        if (param == null)
+            return doRequestStr(method, path, null, secured);
+        return doRequestStr(method, path, param.toString(), secured);
+    }
+
+    static {
+        HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        });
+    }
+
+    public String doRequestStr(String method, String path, String param, boolean secured) throws JSONException {
 
         HttpURLConnection urlConnection = null;
         String res = "";
@@ -43,7 +62,7 @@ public class SSGBDControleur implements Serializable {
             urlConnection = (HttpURLConnection) url.openConnection();
 
             // si on veut envoyer quelque chose (impossible pour GET/DELETE)
-            // note: utiliser GET avec param == null va exécuter un POST
+            // note: utiliser GET avec param != null va exécuter un POST
             urlConnection.setDoOutput(param != null);
 
             if (secured) {
@@ -65,7 +84,7 @@ public class SSGBDControleur implements Serializable {
 
                 // on envoie param
                 DataOutputStream localDataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
-                localDataOutputStream.writeBytes(param.toString());
+                localDataOutputStream.writeBytes(param+"\n");
                 localDataOutputStream.flush();
                 localDataOutputStream.close();
             }
@@ -98,7 +117,7 @@ public class SSGBDControleur implements Serializable {
                     }
                     else{
                         // sinon on réessaie en envoyant le token
-                        res =  doRequest(method, path, param,true);
+                        res =  doRequestStr(method, path, param,true);
                     }
                     break;
 
@@ -106,7 +125,7 @@ public class SSGBDControleur implements Serializable {
                 case 498:
                     // on récupère un nouveau token et on réessaie
                     c.seConnecter();
-                    res =  doRequest(method, path, param, true);
+                    res =  doRequestStr(method, path, param, true);
                     break;
 
             }

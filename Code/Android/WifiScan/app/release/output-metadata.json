@@ -4,8 +4,8 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.univtln.projetm1gps",
-  "variantName": "processReleaseResources",
+  "applicationId": "com.univtln.univtlnlps",
+  "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",

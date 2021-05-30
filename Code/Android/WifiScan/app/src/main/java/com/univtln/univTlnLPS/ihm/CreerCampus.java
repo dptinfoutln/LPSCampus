@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.carte.model.Campus;
@@ -41,15 +42,21 @@ public class CreerCampus extends AppCompatActivity {
 
 
         cid.put("name", nom);
-        cid.put("listBatiments", null);
         cid.put("plan", urlPlan);
+        cid.put("id", 0);
 
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "campus", cid, !true);
+                    ssgbdControleur.doRequest("PUT", "campus", cid, true);
+                    CreerCampus.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerCampus.this, "Création du campus", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();

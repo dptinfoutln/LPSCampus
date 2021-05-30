@@ -21,10 +21,11 @@
         android:textSize="18sp" />
 
     <ListView
-        android:id="@+id/spinnerDemandes"
+        android:id="@+id/ListeDemandes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/texteDemandes" />
+        android:layout_below="@+id/texteDemandes"
+        android:layout_above="@+id/refuser"/>
 
     <Button
         android:id="@+id/refuser"

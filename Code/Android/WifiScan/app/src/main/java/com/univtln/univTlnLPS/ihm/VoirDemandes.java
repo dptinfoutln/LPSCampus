@@ -8,10 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
-import com.univtln.univTlnLPS.ihm.adapter.AdapterSalles;
+import com.univtln.univTlnLPS.ihm.adapter.AdapterString;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +26,7 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
     private SSGBDControleur ssgbdControleur;
     ListView ListeViewDemandes;
     List<String> ListeDemandes;
-    ListAdapter ListeAdapter;
+    AdapterString ListeAdapter;
 
     private String lastId, nom;
 
@@ -46,14 +47,16 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         String resultat = (String)parent.getItemAtPosition(position);
+        ListeAdapter.setItemSelected(position);
+        ListeAdapter.notifyDataSetChanged();
         lastId = resultat.split(":")[0];
         nom = resultat.split(":")[1];
     }
 
 
     private void affichageDemandes() {
-        ListeAdapter = new AdapterSalles(this, new ArrayList<>());
-        ListeViewDemandes = (ListView) findViewById(R.id.listedonneessalle);
+        ListeAdapter = new AdapterString(this, new ArrayList<>());
+        ListeViewDemandes = (ListView) findViewById(R.id.ListeDemandes);
         ListeDemandes = new ArrayList<>();
 
         // récupération de la liste des pièces
@@ -62,23 +65,24 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
             public void run() {
                 String chaine = null;
                 try {
-                    chaine = ssgbdControleur.doRequest("GET", "demandes", null, !true);
+                    chaine = ssgbdControleur.doRequest("GET", "forms", null, !true);
                     JSONObject jchaine = SSGBDControleur.getJSONFromJSONString(chaine);
 
                     Iterator<String> it = jchaine.keys();
                     String name;
                     while (it.hasNext()) {
                         name = it.next(); // id de l'objet piece
-                        name += ":" + ((JSONObject) jchaine.get(name)).getString("name"); // on récupère le nom associé
+                        name += ":" + ((JSONObject) jchaine.get(name)).getString("email"); // on récupère le nom associé
                         ListeDemandes.add(name);
                     }
-                    ListeAdapter = new AdapterSalles(VoirDemandes.this, ListeDemandes);
+                    ListeAdapter = new AdapterString(VoirDemandes.this, ListeDemandes);
 
                     VoirDemandes.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             ListeViewDemandes.setAdapter(ListeAdapter);
                             ListeViewDemandes.setOnItemClickListener(VoirDemandes.this);
+                            ListeViewDemandes.refreshDrawableState();
                         }
                     });
 
@@ -95,11 +99,13 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("DELETE", "demandes/" + lastId, null, !true);
+                    ssgbdControleur.doRequest("DELETE", "forms/" + lastId, null, true);
                     VoirDemandes.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
                             affichageDemandes();
+                            Toast.makeText(VoirDemandes.this, "Demande refusée", Toast.LENGTH_LONG).show();
                         }
                     });
                 } catch (JSONException e) {
@@ -115,11 +121,12 @@ public class VoirDemandes extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "superviseurs", null, !true);
+                    ssgbdControleur.doRequest("PUT", "superviseurs/" + lastId, null, !true);
                     VoirDemandes.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             affichageDemandes();
+                            Toast.makeText(VoirDemandes.this, "Demande acceptée", Toast.LENGTH_LONG).show();
                         }
                     });
                 } catch (JSONException e) {

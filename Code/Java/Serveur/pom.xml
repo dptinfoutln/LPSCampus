@@ -9,8 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>univTlnLPS</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <!-- url project's website -->
+    <url>http://www.univtlnlps.ml</url>
 
     <dependencyManagement>
         <dependencies>
@@ -28,6 +28,11 @@
                 <version>3.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.4.21.Final</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -190,10 +195,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.200</version>
-            <scope>test</scope>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.1.2</version>
         </dependency>
     </dependencies>
     <build>
@@ -396,11 +400,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
@@ -416,6 +415,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.3</version>
                 <configuration>
+                	<finalName>LPS</finalName>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <!--minimizeJar>true</minimizeJar-->
                     <!-- The shaded artifact is not the main artifact -->
@@ -474,6 +474,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco-merged-coverage-report/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <main.class>com.univtln.univtlnLPS.net.serveur.LPSServer</main.class>
+        <main.class>com.univtln.univTlnLPS.net.server.LPSServer</main.class>
     </properties>
 </project>

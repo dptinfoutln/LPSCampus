@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ihm.VoirRapportsBugs">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rapports de Bugs"
+            android:textAlignment="center"
+            android:textColor="#090707"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Catégorie(s) : "
+                android:textColor="#0C0A0A"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/spinnerCat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/frameAlign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/texteDebut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rapports datant du : "
+                android:textColor="#0C0909"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/DateDeb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:layout_toRightOf="@+id/texteDebut"/>
+
+            <Button
+                android:id="@+id/Debut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/frameAlign"
+                android:text="choisir"
+                android:textSize="11sp"
+                android:onClick="debut" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/frameAlign2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/texteFin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="au : "
+                android:textColor="#100707"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/DateFin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18sp"
+                android:layout_toRightOf="@+id/texteFin"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/Fin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/frameAlign2"
+                android:text="choisir"
+                android:textSize="11sp"
+                android:onClick="fin" />
+
+
+        </RelativeLayout>
+
+        <ListView
+            android:id="@+id/listeRapports"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frameVRB"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/Voir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Afficher"
+        android:layout_alignBottom="@+id/frameVRB"
+        android:layout_alignEnd="@+id/frameVRB"
+        android:onClick="voir" />
+
+    <Button
+        android:id="@+id/Suppr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Supprimer"
+        android:layout_alignBottom="@+id/frameVRB"
+        android:onClick="suppr" />
+
+</RelativeLayout>

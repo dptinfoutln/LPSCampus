@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
@@ -17,7 +18,6 @@ public class ModifierLogin extends AppCompatActivity {
 
     private SSGBDControleur ssgbdControleur;
     private EditText nouveau;
-    private JSONObject id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,13 @@ public class ModifierLogin extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    String text = ssgbdControleur.doRequest("GET", "superviseurs/login/" + ssgbdControleur.getConnexion().getLogin(),
-                            null, !true);
-                    id = SSGBDControleur.getJSONFromJSONString(text);
-                    ssgbdControleur.doRequest("POST", "superviseurs/login/" + nouveau, null, !true);
+                    ssgbdControleur.doRequestStr("POST", "superviseurs/me/login", nouveau.getText().toString(), true);
+                    ModifierLogin.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(ModifierLogin.this, "Votre login a été modifié", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

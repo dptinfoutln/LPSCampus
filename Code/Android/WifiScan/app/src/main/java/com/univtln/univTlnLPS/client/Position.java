@@ -17,8 +17,8 @@ import java.util.List;
 
 public class Position {
 
-    public static String uri1 = "http://";
-    public static String uri2 = ":5000/position";
+    public static String uri1 = "https://";
+    public static String uri2 = ":17443/position";
 
     public static String get(String uri, JSONObject obj){
         HttpURLConnection urlConnection = null;
@@ -29,7 +29,7 @@ public class Position {
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
             urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestMethod("PUT");
 
             DataOutputStream localDataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
             localDataOutputStream.writeBytes(obj.toString());
@@ -52,6 +52,42 @@ public class Position {
                     res = sb.toString();
             }
                     } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(urlConnection != null){
+                urlConnection.disconnect();
+            }
+        }
+        return res;
+    }
+
+    public static String train(String uri){
+        HttpURLConnection urlConnection = null;
+        String res = "";
+        try {
+            URL url = new URL(uri);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
+            urlConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            urlConnection.setRequestMethod("POST");
+
+            urlConnection.connect();
+
+            int status = urlConnection.getResponseCode();
+            switch(status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader((new InputStreamReader(urlConnection.getInputStream())));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+                    res = sb.toString();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             if(urlConnection != null){

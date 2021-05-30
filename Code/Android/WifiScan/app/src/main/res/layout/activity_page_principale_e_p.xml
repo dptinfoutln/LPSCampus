@@ -7,40 +7,73 @@
     tools:context=".ihm.PagePrincipaleEP">
 
     <FrameLayout
+        android:id="@+id/frame3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/frame3" />
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/ajouterdonnees"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onClickAjouterDonnees"
         android:layout_above="@id/consulterDonnees"
-        android:text="Ajouter données" />
+        android:onClick="onClickAjouterDonnees"
+        android:text="Ajouter des données" />
 
     <Button
         android:id="@+id/consulterDonnees"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/voirRapportsBugs"
         android:onClick="onClickConsulterDonnees"
-        android:layout_alignBottom="@id/frame3"
-        android:text="Consulter donnees" />
+        android:text="Consulter les donnees" />
+
+    <Button
+        android:id="@+id/voirRapportsBugs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/voirDemandes"
+        android:onClick="onClickVoirRapportsBugs"
+        android:text="Rapports de Bugs" />
 
     <Button
         android:id="@+id/voirDemandes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/frame3"
         android:onClick="onClickVoirDemandes"
-        android:layout_above="@id/ajouterdonnees"
-        android:text="Voir les demandes" />
+        android:text="Demandes Superviseur" />
 
     <Button
         android:id="@+id/parametres"
         android:layout_width="50sp"
         android:layout_height="50sp"
+        android:layout_alignEnd="@id/frame3"
         android:onClick="onClickParametres"
-        app:icon="@drawable/roue_dentee"
-        android:layout_alignEnd="@id/frame3"/>
+        app:icon="@drawable/roue_dentee" />
+
+    <Button
+        android:id="@+id/deconnexion"
+        android:layout_width="56sp"
+        android:layout_height="50sp"
+        android:onClick="onClickDeconnexion"
+        app:icon="@android:drawable/ic_lock_power_off" />
+
+    <Button
+        android:id="@+id/gererBDD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/ajouterdonnees"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="onClickBDD"
+        android:text="Gérer BDD" />
+
+    <Button
+        android:id="@+id/entrainerModele"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gererBDD"
+        android:backgroundTint="#269E40"
+        android:onClick="onClickEntrainer"
+        android:text="Entrainer le modèle" />
 
 </RelativeLayout>

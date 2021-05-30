@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
@@ -31,23 +32,38 @@ public class ModifierMDP extends AppCompatActivity {
     }
 
     public void valider(View v) {
-        // vérifier que ancien correspond bien au mot de passe
-        if (ancien.getText().toString().equals(ssgbdControleur.getConnexion().getMdp())) {
-            // vérifier que nouveau et confirmation égaux
-            if (nouveau.getText().toString().equals(confirmation.getText().toString())) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            ssgbdControleur.doRequest("POST", "superviseurs/mdp/" + nouveau, null, !true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+        if (nouveau.getText().toString().length() > 4) {
+            // vérifier que ancien correspond bien au mot de passe
+            if (ancien.getText().toString().equals(ssgbdControleur.getConnexion().getMdp())) {
+                // vérifier que nouveau et confirmation égaux
+                if (nouveau.getText().toString().equals(confirmation.getText().toString())) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                ssgbdControleur.doRequestStr("POST", "superviseurs/me/mdp", nouveau.getText().toString(), true);
+                                ModifierMDP.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(ModifierMDP.this, "Votre mot de passe a été modifié", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }).start();
+                    }).start();
+                } else {
+                    Toast.makeText(ModifierMDP.this, "Les nouveaux mots de passe rentrés sont différents", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(ModifierMDP.this, "Votre mot de passe est incorrect", Toast.LENGTH_LONG).show();
             }
-        }
 
+        }
+        else {
+            Toast.makeText(ModifierMDP.this, "Le mot de passe doit avoir au minimum 5 caractères", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.carte.model.Batiment;
@@ -23,9 +24,12 @@ import java.util.List;
 
 public class CreerBatiment extends AppCompatActivity {
 
+    private SSGBDControleur ssgbdControleur;
+
     private EditText nomBat, pos_x, pos_y;
     private Spinner campus;
-    private SSGBDControleur ssgbdControleur;
+
+    private List<String> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class CreerBatiment extends AppCompatActivity {
 
 
     public void getBatiments() {
-        List<String> list = new ArrayList<>();
+        list = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -86,6 +90,7 @@ public class CreerBatiment extends AppCompatActivity {
         y = Integer.parseInt(pos_y.getText().toString());
 
         JSONObject bid = new JSONObject();
+        JSONObject campusId = new JSONObject();
 
         Campus camp = null;
         if (campus.getSelectedItem() != null) {
@@ -99,18 +104,34 @@ public class CreerBatiment extends AppCompatActivity {
         bid.put("listEtages", null);
         bid.put("position_x", x);
         bid.put("position_y", y);
+        bid.put("id", 0);
+
+        String item = (String)campus.getSelectedItem();
+        if (item == null)
+            return;
+
+        campusId.put("id", (item.split(":")[0]));
+
+        bid.put("campus", campusId);
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "batiments", bid, !true);
+                    ssgbdControleur.doRequest("PUT", "batiments", bid, true);
+                    CreerBatiment.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(CreerBatiment.this, "Création du batiment", Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+
     }
 
     public void createCampus(View v) {

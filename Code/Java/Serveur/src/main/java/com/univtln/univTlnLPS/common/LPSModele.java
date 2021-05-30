@@ -1,61 +1,64 @@
 package com.univtln.univTlnLPS.common;
 
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.MediaType;
+import com.univtln.univTlnLPS.dao.DAO;
+import com.univtln.univTlnLPS.dao.administration.BugReportDAO;
+import com.univtln.univTlnLPS.dao.administration.FormDevenirSuperDAO;
+import com.univtln.univTlnLPS.dao.administration.UtilisateurDAO;
+import com.univtln.univTlnLPS.dao.carte.BatimentDAO;
+import com.univtln.univTlnLPS.dao.carte.CampusDAO;
+import com.univtln.univTlnLPS.dao.carte.EtageDAO;
+import com.univtln.univTlnLPS.dao.carte.PieceDAO;
+import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
+import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
+import com.univtln.univTlnLPS.model.SimpleEntity;
+import com.univtln.univTlnLPS.ressources.administration.AdministrateurResources;
+import com.univtln.univTlnLPS.ressources.administration.SuperviseurResources;
+import com.univtln.univTlnLPS.ressources.administration.UtilisateurResources;
+import com.univtln.univTlnLPS.ressources.carte.BatimentResources;
+import com.univtln.univTlnLPS.ressources.carte.CampusResources;
+import com.univtln.univTlnLPS.ressources.carte.EtageResources;
+import com.univtln.univTlnLPS.ressources.carte.PieceResources;
+import com.univtln.univTlnLPS.ressources.scan.ScanDataResources;
+import com.univtln.univTlnLPS.ressources.scan.WifiDataResources;
+import jakarta.persistence.EntityTransaction;
 import lombok.extern.java.Log;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+
 @Log
-@Produces({MediaType.TEXT_XML, MediaType.APPLICATION_JSON})
-@Path("LaGarde")
 public class LPSModele {
 
-    @PUT
-    @Path("init")
-    public void init() throws IllegalArgumentException {
-        Client client = ClientBuilder.newClient();
-        WebTarget webResource = client.target("http://localhost:9998/LPS");
+    public static <T extends SimpleEntity> void deleteAll(DAO<T> dao){
+        EntityTransaction transaction = dao.getTransaction();
+        transaction.begin();
+        dao.deleteAll();
+        transaction.commit();
+    }
 
-        String responseInitAsStringAdmin = webResource.path("LaGarde/admin/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringAdmin);
+    public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
 
-        String responseInitAsStringSuper = webResource.path("LaGarde/superviseurs/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringSuper);
+        deleteAll(FormDevenirSuperDAO.of());
+        deleteAll(BugReportDAO.of());
+        deleteAll(WifiDataDAO.of());
+        deleteAll(ScanDataDAO.of());
+        deleteAll(PieceDAO.of());
+        deleteAll(EtageDAO.of());
+        deleteAll(BatimentDAO.of());
+        deleteAll(CampusDAO.of());
+        deleteAll(UtilisateurDAO.of());
 
-        String responseInitAsStringUser = webResource.path("LaGarde/utilisateurs/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringUser);
+        AdministrateurResources.init();
+        SuperviseurResources.init();
+        UtilisateurResources.init();
 
-        String responseInitAsStringBatiment = webResource.path("LaGarde/batiments/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringBatiment);
+        CampusResources.init();
+        BatimentResources.init();
+        EtageResources.init();
+        PieceResources.init();
 
-        String responseInitAsStringCampus = webResource.path("LaGarde/campus/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringCampus);
-
-        String responseInitAsStringEtage = webResource.path("LaGarde/etages/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringEtage);
-
-        String responseInitAsStringPiece = webResource.path("LaGarde/pieces/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringPiece);
-
-        String responseInitAsStringScan = webResource.path("LaGarde/scans/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringScan);
-
-        String responseInitAsStringWifi = webResource.path("LaGarde/wifis/init")
-                .request().put(Entity.entity("", MediaType.TEXT_PLAIN), String.class);
-        log.info(responseInitAsStringWifi);
+        ScanDataResources.init();
+        WifiDataResources.init();
 
     }
 }

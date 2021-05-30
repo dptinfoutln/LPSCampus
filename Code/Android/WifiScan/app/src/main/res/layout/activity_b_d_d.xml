@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ihm.BDD">
+
+    <FrameLayout
+        android:id="@+id/bdd"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/gestionBDD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestion de la BDD"
+        android:textAlignment="center"
+        android:textColor="#0B0404"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/supprimerCompteSuper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/supprimerCampus"
+        android:onClick="supprimerCompteSuper"
+        android:text="Supprimer compte superviseur" />
+
+    <Button
+        android:id="@+id/supprimerCampus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/supprimerBatiment"
+        android:onClick="supprimerCampus"
+        android:text="Supprimer campus" />
+
+    <Button
+        android:id="@+id/supprimerBatiment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/supprimerEtage"
+        android:onClick="supprimerBatiment"
+        android:text="Supprimer batiment" />
+
+    <Button
+        android:id="@+id/supprimerEtage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/supprimerSalle"
+        android:onClick="supprimerEtage"
+        android:text="Supprimer étage" />
+
+    <Button
+        android:id="@+id/supprimerSalle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bdd"
+        android:onClick="supprimerSalle"
+        android:text="Supprimer salle" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/supprimerCompteSuper"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:onClick="flush"
+        android:text="Reinitialiser la BDD" />
+
+
+</RelativeLayout>

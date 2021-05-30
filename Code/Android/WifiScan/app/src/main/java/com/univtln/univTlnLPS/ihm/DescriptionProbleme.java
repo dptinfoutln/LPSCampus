@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
@@ -30,26 +31,26 @@ public class DescriptionProbleme extends AppCompatActivity {
 
         Intent i = getIntent();
         ssgbdControleur = (SSGBDControleur)i.getSerializableExtra("ssgbdC");
-        String pb = i.getStringExtra("radioGroupId");
+        pb = i.getStringExtra("radioGroupId");
     }
 
     public void validerpb(View v) throws JSONException {
         JSONObject pid = new JSONObject();
 
-        pid.put("nom", pb);
-        pid.put("description", description.getText().toString());
-
-        String desc = description.getText().toString();
+        pid.put("id", 0);
+        pid.put("category", pb);
+        pid.put("content", description.getText().toString());
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    ssgbdControleur.doRequest("PUT", "problemes", pid, !true);
+                    ssgbdControleur.doRequest("PUT", "bugReports", pid, false);
 
                     DescriptionProbleme.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Toast.makeText(DescriptionProbleme.this, "Problème reporté", Toast.LENGTH_LONG).show();
                             finish();
                         }
                     });
