@@ -1,8 +1,10 @@
 package com.univtln.univTlnLPS.ressources.administration;
 
+import com.univtln.univTlnLPS.common.LPSModele;
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
 import com.univtln.univTlnLPS.model.administration.Administrateur;
 import com.univtln.univTlnLPS.security.annotations.BasicAuth;
+import com.univtln.univTlnLPS.security.annotations.JWTAuth;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.persistence.EntityTransaction;
 import jakarta.ws.rs.*;
@@ -45,14 +47,14 @@ public class AdministrateurResources {
      * Update admin string.
      *
      * @param admin the admin
-     * @return the string
+     * @return success
      */
     @POST
     @Path("admin")
     @Consumes(MediaType.APPLICATION_JSON)
     @RolesAllowed({"ADMIN"})
-    @BasicAuth
-    public String updateAdmin(Administrateur admin){
+    @JWTAuth
+    public String updateAdmin(Administrateur admin) {
         try (AdministrateurDAO adminDAO = AdministrateurDAO.of()){
             EntityTransaction transaction = adminDAO.getTransaction();
             transaction.begin();
@@ -65,4 +67,14 @@ public class AdministrateurResources {
         return "success";
     }
 
+    @PUT
+    @Path("flush")
+    @RolesAllowed({"ADMIN"})
+    @JWTAuth
+    public String flush() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        LPSModele.deleteAll();
+        init();
+
+        return "success";
+    }
 }

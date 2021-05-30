@@ -89,7 +89,7 @@ public class BugReportRessource {
      */
     @GET
     @Path("bugReports")
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN", "SUPER"})
     @JWTAuth
     public Map<Long, BugReport> getBugReportsByCat(@QueryParam("category") String category,
                                                    @QueryParam("debut") String debut,
@@ -120,7 +120,7 @@ public class BugReportRessource {
      */
     @GET
     @Path("bugReports/{id}")
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN", "SUPER"})
     @JWTAuth
     public BugReport getBugReport(@PathParam("id") long id) throws NotFoundException {
         BugReport report;
@@ -139,7 +139,7 @@ public class BugReportRessource {
      */
     @GET
     @Path("bugReports/size")
-    @RolesAllowed({"ADMIN"})
+    @RolesAllowed({"ADMIN", "SUPER"})
     @JWTAuth
     public int getBugReportsSize() {
         try (BugReportDAO bugReportDAO = BugReportDAO.of()) {

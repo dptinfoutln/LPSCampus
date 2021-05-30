@@ -43,7 +43,7 @@ public class LPSClient {
         Client client = ClientBuilder.newClient();
         WebTarget webResource = client.target("http://localhost:9998/LPS");
 
-        //String token = auth("leviathan@univ-tln.fr", "trempette");
+        //String token = auth("admin@univ-tln.fr", "univtlnlps");
 
         /*Campus camp = Campus.builder().name("LaGardee").plan("").id(0).build();
         String responseInitAsStringInit = webResource.path("LaGarde/campus")
