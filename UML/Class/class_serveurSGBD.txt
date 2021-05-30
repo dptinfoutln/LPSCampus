@@ -2,7 +2,7 @@
 
 title Local Positioning System (LPS) - Class Diagram Serveur SGBD
 
-package "Administration" {
+package Administration {
     class Utilisateur {
     +CaracteristiquesMachine
     }
@@ -35,7 +35,7 @@ package Scan{
 Utilisateur "1"--"1" ScanData
 
 
-package "Carte" {
+package Carte {
 
     class Campus{
     +Plan

@@ -1,0 +1,28 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client package Carte
+
+package Carte {
+
+    class Campus{
+    +Plan
+    }
+    
+    class Batiment
+    
+    class Etage{
+    +Plan
+    }
+
+    class Piece{
+    +Position sur la carte
+    }
+    
+    Piece "*" --* "1" Etage
+
+    Etage "*" --* "1" Batiment
+    Campus "1" *-- "*" Batiment
+    
+}
+    
+@enduml

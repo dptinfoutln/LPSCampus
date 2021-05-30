@@ -1,6 +1,6 @@
 @startuml
 
-title State Diagram - Superviseur
+title State Diagram - Superviseur - Ajout de données
 
 left to right direction
 

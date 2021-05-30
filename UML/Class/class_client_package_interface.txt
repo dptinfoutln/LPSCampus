@@ -1,0 +1,83 @@
+@startuml
+
+title Local Positioning System (LPS) - Class Diagram Client package Interface
+
+package Interface {
+    class HomeActivity
+    class AffichageSalleActivity
+    class AffichageDonneesSalleActivity
+    class AffichageDetailDonneesActivity
+    class PagePrincipaleEPActivity
+    class VoirDemandesActivity
+    class DevenirSuperviseurActivity
+    class SeConnecterActivity
+    class SeLocaliserActivity
+    class AjoutDataActivity
+    class ReporterProblemeActivity
+    class DescriptionProblemeActivity
+    class CreerSalleActivity
+    class CreerEtageActivity
+    class CreerBatimentActivity
+    class CreerCampusActivity
+    class VoirRapportsBugsActivity
+    class GestionCompteActivity
+    class ModifierInfoActivity
+    class ModifierLoginActivity
+    class ModifierMDPActivity
+    class SupprimerCompteActivity
+    class AffichageDetailRapportActivity
+    class BDDActivity
+    class ReinitialiserBDDActivity
+    class MDPOubliActivity
+    class SupprimerCompteSuperviseurActivity
+    class SupprimerCampusActivity
+    class SupprimerBatimentActivity
+    class SupprimerEtageActivity
+    class SupprimerSalleActivity
+}
+
+HomeActivity -- SeConnecterActivity
+HomeActivity -- SeLocaliserActivity
+
+SeConnecterActivity -- PagePrincipaleEPActivity
+SeConnecterActivity -- DevenirSuperviseurActivity
+SeConnecterActivity -- MDPOubliActivity
+
+PagePrincipaleEPActivity -- AffichageSalleActivity
+PagePrincipaleEPActivity -- AjoutDataActivity
+PagePrincipaleEPActivity -- VoirDemandesActivity
+PagePrincipaleEPActivity -- VoirRapportsBugsActivity
+PagePrincipaleEPActivity -- GestionCompteActivity
+PagePrincipaleEPActivity -- BDDActivity
+
+
+BDDActivity -- ReinitialiserBDDActivity
+BDDActivity -- SupprimerCompteSuperviseurActivity
+BDDActivity -- SupprimerCampusActivity
+BDDActivity -- SupprimerBatimentActivity
+BDDActivity -- SupprimerEtageActivity
+BDDActivity -- SupprimerSalleActivity
+
+AffichageSalleActivity -- AffichageDonneesSalleActivity
+AffichageDonneesSalleActivity -- AffichageDetailDonneesActivity
+
+
+AjoutDataActivity -- CreerSalleActivity
+CreerSalleActivity -- CreerEtageActivity
+CreerEtageActivity -- CreerBatimentActivity
+CreerBatimentActivity -- CreerCampusActivity
+
+VoirRapportsBugsActivity -- AffichageDetailRapportActivity
+
+GestionCompteActivity -- SupprimerCompteActivity
+GestionCompteActivity -- ModifierInfoActivity
+ModifierInfoActivity -- ModifierLoginActivity
+ModifierInfoActivity -- ModifierMDPActivity
+
+
+SeLocaliserActivity -- ReporterProblemeActivity
+ReporterProblemeActivity -- DescriptionProblemeActivity
+
+
+    
+@enduml
