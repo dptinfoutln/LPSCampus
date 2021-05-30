@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.univtln.univTlnLPS.R;
+import com.univtln.univTlnLPS.client.Position;
 import com.univtln.univTlnLPS.client.SSGBDControleur;
 
 import org.json.JSONException;
@@ -99,4 +100,14 @@ public class PagePrincipaleEP extends AppCompatActivity {
         i.putExtra("ssgbdC", ssgbdControleur);
         startActivity(i);
     }
+
+    public void onClickEntrainer(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Position.train(Position.uri1 + ssgbdControleur.getIp() + Position.uri2);
+            }
+        });
+    }
+
 }
