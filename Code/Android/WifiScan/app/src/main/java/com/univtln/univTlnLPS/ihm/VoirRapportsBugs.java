@@ -233,7 +233,7 @@ public class VoirRapportsBugs extends AppCompatActivity implements AdapterView.O
     public static Date txtViewToDate(TextView txt) {
         String[] str = txt.getText().toString().split("-");
         return Date.from(LocalDate.of(Integer.parseInt(str[2]),
-                Integer.parseInt(str[1])-1,
+                Integer.parseInt(str[1]),
                 Integer.parseInt(str[0])).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 

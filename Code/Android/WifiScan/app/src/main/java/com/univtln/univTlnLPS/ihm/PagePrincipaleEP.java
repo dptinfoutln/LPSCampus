@@ -107,7 +107,7 @@ public class PagePrincipaleEP extends AppCompatActivity {
             public void run() {
                 Position.train(Position.uri1 + ssgbdControleur.getIp() + Position.uri2);
             }
-        });
+        }).start();
     }
 
 }
