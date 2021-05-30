@@ -113,7 +113,7 @@ public class CampusResources {
             transaction.begin();
             Campus campus = campusDAO.find(id);
             if( campus == null) throw new NotFoundException();
-            campusDAO.remove(campus);
+            campusDAO.safeRemove(campus);
 
             transaction.commit();
         }

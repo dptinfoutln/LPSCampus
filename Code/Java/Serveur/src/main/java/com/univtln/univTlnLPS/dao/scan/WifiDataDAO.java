@@ -1,7 +1,6 @@
 package com.univtln.univTlnLPS.dao.scan;
 
 import com.univtln.univTlnLPS.dao.AbstractDAO;
-import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
 import com.univtln.univTlnLPS.model.scan.WifiData;
 import lombok.AccessLevel;
@@ -21,7 +20,7 @@ import java.util.List;
 public class WifiDataDAO extends AbstractDAO<WifiData> {
     public List<WifiData> findByScanData(ScanData scanData) {
         return getEntityManager().createNamedQuery("wifiData.findByScanData")
-                .setParameter("scanDataId", scanData.getId())
+                .setParameter("scanData", scanData)
                 .getResultList();
     }
 }

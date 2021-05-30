@@ -404,8 +404,7 @@ public class ScanDataResources {
     @GET
     @Path("scans")
     public Map<Long, ScanData> getAllScan(@QueryParam("getWifiList") String getWifiList) throws NotFoundException {
-        log.info("HEREEEE");
-        if (getWifiList != null){
+        if(getWifiList != null) {
             WifiDataDAO wifiDataDAO = WifiDataDAO.of();
             return ScanDataDAO.of().findAll().stream()
                     .collect(Collectors.toMap(ScanData::getId, scanData -> {
@@ -533,24 +532,11 @@ public class ScanDataResources {
                     throw new IllegalArgumentException();
             }
 
-            EntityTransaction transaction;
-
-            try (WifiDataDAO wDAO = WifiDataDAO.of()) {
-                transaction = wDAO.getTransaction();
-
-                transaction.begin();
-
-                for (WifiData wifi : scanData.getWifiList())
-                     wDAO.remove(wDAO.find(wifi.getId()));
-
-                transaction.commit();
-            }
-
-            transaction = scanDataDAO.getTransaction();
+            EntityTransaction transaction = scanDataDAO.getTransaction();
 
             transaction.begin();
 
-            scanDataDAO.remove(scanData);
+            scanDataDAO.safeRemove(scanData);
 
             transaction.commit();
         }

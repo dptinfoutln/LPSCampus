@@ -11,17 +11,18 @@ api = Api(app)
 
 
 class Position(Resource):
-    def put(self):
-        content = request.get_json(silent=True)
-        
-        res = M.get_predict(content)
-        
-        print(res)
-        
-        return res[0]
+    def post(self):
+        M.init()
     
     def post(self):
         M.init()
+        res = ""
+        for s in predictions[1]:
+            res += s[0] + " : " + str(s[1]) + ","
+  
+        print("res:", res)
+        
+        return res
 
 api.add_resource(Position, '/position')
 

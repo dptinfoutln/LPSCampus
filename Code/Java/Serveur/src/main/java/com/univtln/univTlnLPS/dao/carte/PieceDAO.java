@@ -1,7 +1,12 @@
 package com.univtln.univTlnLPS.dao.carte;
 
 import com.univtln.univTlnLPS.dao.AbstractDAO;
+import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
+import com.univtln.univTlnLPS.model.carte.Batiment;
+import com.univtln.univTlnLPS.model.carte.Etage;
 import com.univtln.univTlnLPS.model.carte.Piece;
+import com.univtln.univTlnLPS.model.scan.ScanData;
+import jakarta.persistence.EntityTransaction;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,6 +30,25 @@ public class PieceDAO extends AbstractDAO<Piece> {
     public List<Piece> findByName(String name) {
         return getEntityManager().createNamedQuery("piece.findByName")
                 .setParameter("name", name)
+                .getResultList();
+    }
+
+    public void safeRemove(Piece piece) {
+        ScanDataDAO scanDataDao = ScanDataDAO.of();
+
+        EntityTransaction transaction = scanDataDao.getTransaction();
+        transaction.begin();
+        for (ScanData scanData : scanDataDao.findByPiece(piece)) {
+            scanDataDao.safeRemove(scanData);
+        }
+        transaction.commit();
+
+        remove(piece);
+    }
+
+    public List<Piece> findByEtage(Etage etage) {
+        return getEntityManager().createNamedQuery("piece.findByEtage")
+                .setParameter("etage", etage)
                 .getResultList();
     }
 }
