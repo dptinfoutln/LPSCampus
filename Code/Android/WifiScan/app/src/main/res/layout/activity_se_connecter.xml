@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/connexion"
         android:hint="Login"
-        android:text="admin@univ-tln.fr"
+        android:text=""
         android:layout_marginTop="30dp"
         android:textSize="22sp" />
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login"
         android:hint="Mot de passe"
-        android:text="univtlnlps"
+        android:text=""
         android:password="true"
         android:textSize="22sp" />
 
