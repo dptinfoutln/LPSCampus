@@ -97,6 +97,8 @@ public class SeLocaliser extends AppCompatActivity implements Runnable{
         try {
             res = Position.convertScan(wifiScan.getResults());
             position = Position.get(Position.uri1 + ssgbdControleur.getIp() + Position.uri2, res);
+            position = "\n" + position.replace(',', '\n')
+                    .replace('"', '\0');
         } catch (JSONException e) {
             e.printStackTrace();
         }
