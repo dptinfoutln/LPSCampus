@@ -234,7 +234,7 @@ public class PieceResources {
             transaction.begin();
             Piece piece = pieceDAO.find(id);
             if( piece == null) throw new NotFoundException();
-            pieceDAO.remove(piece);
+            pieceDAO.safeRemove(piece);
 
             transaction.commit();
         }

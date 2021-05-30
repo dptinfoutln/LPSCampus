@@ -31,9 +31,9 @@ public class AdministrateurResources {
             transaction.begin();
 
             Administrateur admin = Administrateur.builder()
-                    .email("leviathan@univ-tln.fr")
+                    .email("admin@univ-tln.fr")
                     .build();
-            admin.setPasswordHash("trempette");
+            admin.setPasswordHash("univtlnlps");
 
             adminDAO.persist(admin);
 

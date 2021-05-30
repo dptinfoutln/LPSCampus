@@ -33,7 +33,9 @@ import java.util.Set;
         @NamedQuery(name = "batiment.findByName",
                 query = "select batiment " +
                         "from Batiment batiment " +
-                        "where batiment.name=:name")})
+                        "where batiment.name=:name"),
+        @NamedQuery(name = "batiment.findByCampus", query = "select batiment from Batiment batiment where batiment.campus=:campus")
+})
 
 public class Batiment implements SimpleEntity {
 

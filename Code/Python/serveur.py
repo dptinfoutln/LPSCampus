@@ -12,6 +12,9 @@ api = Api(app)
 
 class Position(Resource):
     def post(self):
+        M.init()
+    
+    def put(self):
         content = request.get_json(silent=True)
         
         res = M.get_predict(content)

@@ -190,7 +190,7 @@ public class BatimentResources {
             transaction.begin();
             Batiment batiment = batimentDAO.find(id);
             if( batiment == null) throw new NotFoundException();
-            batimentDAO.remove(batiment);
+            batimentDAO.safeRemove(batiment);
 
             transaction.commit();
         }

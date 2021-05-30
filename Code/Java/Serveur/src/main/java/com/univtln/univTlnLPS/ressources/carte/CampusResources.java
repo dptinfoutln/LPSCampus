@@ -34,7 +34,7 @@ public class CampusResources {
     public static void init() {
         Administrateur admin;
         try (SuperviseurDAO superDAO = SuperviseurDAO.of()) {
-            admin = (Administrateur) superDAO.findByEmail("leviathan@univ-tln.fr").get(0);
+            admin = (Administrateur) superDAO.findByEmail("admin@univ-tln.fr").get(0);
         }
 
         try (CampusDAO campDao = CampusDAO.of()){
@@ -113,7 +113,7 @@ public class CampusResources {
             transaction.begin();
             Campus campus = campusDAO.find(id);
             if( campus == null) throw new NotFoundException();
-            campusDAO.remove(campus);
+            campusDAO.safeRemove(campus);
 
             transaction.commit();
         }
