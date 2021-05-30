@@ -14,8 +14,13 @@ class Position(Resource):
     def post(self):
         M.init()
     
-    def post(self):
-        M.init()
+    def put(self):
+        content = request.get_json(silent=True)
+        
+        print("content:", content)
+        
+        predictions = M.get_predict(content)
+        
         res = ""
         for s in predictions[1]:
             res += s[0] + " : " + str(s[1]) + ","

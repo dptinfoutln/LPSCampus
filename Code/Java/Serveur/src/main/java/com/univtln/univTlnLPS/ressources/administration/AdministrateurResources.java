@@ -43,14 +43,6 @@ public class AdministrateurResources {
         }
     }
 
-    @PUT
-    @Path("flush")
-    public static void flush() throws InvalidKeySpecException, NoSuchAlgorithmException {
-        LPSModele.deleteAll();
-
-        init();
-    }
-
     /**
      * Update admin string.
      *
