@@ -48,7 +48,7 @@ class ScanManager:
     
     def read(self, directory="./data/res/"):
         
-        url = "http://" + ip + ":9998/LPS/LaGarde/" + "scans"
+        url = "http://" + ip + ":9998/LPS/LaGarde/" + "scans?getWifiList=true"
         response = requests.get(url)
         response.raise_for_status()
         
@@ -201,7 +201,7 @@ def get_efficiency(model):
     return precision
     
 
-def get_predict(dico) :
+def get_predict(dico, N=5) :
     global scanMan, model
     x = [0]*len(scanMan.BSSIDOrder)
     for wifi in dico:
@@ -213,7 +213,15 @@ def get_predict(dico) :
 
     prediction = scanMan.pieceInverse[model.predict([x])[0]]
     predict_proba = model.predict_proba([x])
-    return prediction, predict_proba
+    
+    if N > len(predict_proba[0]):
+        N = len(predict_proba[0])
+    indices = predict_proba.argsort()[0][-N:][::-1]
+    
+    l_salles = []
+    for i in indices:
+        l_salles.append([scanMan.pieceInverse[i], predict_proba[0, i]])
+    return prediction, l_salles
 
 
 scanMan = None

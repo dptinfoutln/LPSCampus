@@ -191,7 +191,7 @@ public class EtageResources {
             transaction.begin();
             Etage etage = etageDAO.find(id);
             if( etage == null) throw new NotFoundException();
-            etageDAO.remove(etage);
+            etageDAO.safeRemove(etage);
 
             transaction.commit();
         }

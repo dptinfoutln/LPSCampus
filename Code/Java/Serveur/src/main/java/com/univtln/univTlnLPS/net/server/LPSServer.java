@@ -2,6 +2,9 @@ package com.univtln.univTlnLPS.net.server;
 
 import com.univtln.univTlnLPS.common.LPSModele;
 import com.univtln.univTlnLPS.dao.administration.AdministrateurDAO;
+import com.univtln.univTlnLPS.dao.scan.ScanDataDAO;
+import com.univtln.univTlnLPS.dao.scan.WifiDataDAO;
+import com.univtln.univTlnLPS.model.scan.ScanData;
 import lombok.extern.java.Log;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -11,6 +14,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +22,7 @@ import java.util.logging.Logger;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.util.stream.Collectors;
 
 
 @Log

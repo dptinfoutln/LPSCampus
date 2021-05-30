@@ -29,24 +29,28 @@ import java.security.spec.InvalidKeySpecException;
 @Log
 public class LPSModele {
 
-    public static <T extends SimpleEntity> void deleteAll(DAO<T> dao){
+    public static <T extends SimpleEntity> void delete(DAO<T> dao){
         EntityTransaction transaction = dao.getTransaction();
         transaction.begin();
         dao.deleteAll();
         transaction.commit();
     }
 
+    public static void deleteAll() {
+        delete(FormDevenirSuperDAO.of());
+        delete(BugReportDAO.of());
+        delete(WifiDataDAO.of());
+        delete(ScanDataDAO.of());
+        delete(PieceDAO.of());
+        delete(EtageDAO.of());
+        delete(BatimentDAO.of());
+        delete(CampusDAO.of());
+        delete(UtilisateurDAO.of());
+    }
+
     public static void init() throws IllegalArgumentException, InvalidKeySpecException, NoSuchAlgorithmException {
 
-        deleteAll(FormDevenirSuperDAO.of());
-        deleteAll(BugReportDAO.of());
-        deleteAll(WifiDataDAO.of());
-        deleteAll(ScanDataDAO.of());
-        deleteAll(PieceDAO.of());
-        deleteAll(EtageDAO.of());
-        deleteAll(BatimentDAO.of());
-        deleteAll(CampusDAO.of());
-        deleteAll(UtilisateurDAO.of());
+        deleteAll();
 
         AdministrateurResources.init();
         SuperviseurResources.init();

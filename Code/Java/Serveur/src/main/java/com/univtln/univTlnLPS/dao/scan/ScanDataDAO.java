@@ -5,6 +5,8 @@ import com.univtln.univTlnLPS.model.administration.Superviseur;
 import com.univtln.univTlnLPS.model.administration.Utilisateur;
 import com.univtln.univTlnLPS.model.carte.Piece;
 import com.univtln.univTlnLPS.model.scan.ScanData;
+import com.univtln.univTlnLPS.model.scan.WifiData;
+import jakarta.persistence.EntityTransaction;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -77,5 +79,18 @@ public class ScanDataDAO extends AbstractDAO<ScanData> {
         return getEntityManager().createNamedQuery("scanData.findScanPiecesBySuper")
                 .setParameter("superviseur", superviseur)
                 .getResultList();
+    }
+
+    public void safeRemove(ScanData scanData) {
+        WifiDataDAO wifiDataDAO = WifiDataDAO.of();
+
+        EntityTransaction transaction = wifiDataDAO.getTransaction();
+        transaction.begin();
+        for (WifiData wifiData : scanData.getWifiList()) {
+            wifiDataDAO.remove(wifiDataDAO.find(wifiData.getId()));
+        }
+        transaction.commit();
+
+        remove(scanData);
     }
 }
