@@ -86,8 +86,8 @@ public class ScanDataDAO extends AbstractDAO<ScanData> {
 
         EntityTransaction transaction = wifiDataDAO.getTransaction();
         transaction.begin();
-        for (WifiData wifiData : scanData.getWifiList()) {
-            wifiDataDAO.remove(wifiDataDAO.find(wifiData.getId()));
+        for (WifiData wifiData : wifiDataDAO.findByScanData(scanData)) {
+            wifiDataDAO.remove(wifiData);
         }
         transaction.commit();
 
